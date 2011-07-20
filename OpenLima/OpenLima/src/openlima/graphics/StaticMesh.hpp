@@ -6,27 +6,28 @@
 #include "../util/Vector3.hpp"
 #include "../util/Vector3i.hpp"
 #include "../util/Vector3f.hpp"
-#include "../util/IReader.hpp"
 #include "Mesh.hpp"
-
 
 
 namespace openlima {
 	namespace graphics {
 
 		class StaticMesh : public Mesh {
-			friend class IReader<StaticMesh>;
-		
-		//private:
-			
 		public:
-			Vector3f* pVertices;
+			openlima::util::Vector3f* pVertices;
 			size_t nVertices;
 
-			Vector3i* pFaces;
-			size_t nFaces;
+			openlima::util::Vector3f* pNormals;
+			size_t nNormals;
 
-			L_DLL StaticMesh(Vector3f* pVertices, size_t nVertices, Vector3i* pFaces, size_t nFaces);
+			openlima::util::Vector3i* pVertexIndices;
+			size_t nVertexIndices;
+
+			openlima::util::Vector3i* pNormalIndices;
+			size_t nNormalIndices;
+
+			L_DLL StaticMesh(openlima::util::Vector3f* pVertices, size_t nVertices, openlima::util::Vector3f* pNormals, size_t nNormals,
+				openlima::util::Vector3i* pVertexIndices, size_t nVertexIndices, openlima::util::Vector3i* pNormalIndices, size_t nNormalIndices);
 
 			L_DLL virtual void render();
 

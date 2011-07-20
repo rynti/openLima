@@ -43,6 +43,12 @@
     <Filter Include="Quelldateien\util">
       <UniqueIdentifier>{f94cff8d-9b3c-4f8f-b714-0076211abe7e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headerdateien\input">
+      <UniqueIdentifier>{67a14ba9-c207-4b69-886e-8775e8f32328}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\input">
+      <UniqueIdentifier>{8cf4a2b0-2406-450d-8413-844c32ece608}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\openlima\util\macros.hpp">
@@ -60,9 +66,6 @@
     <ClInclude Include="src\openlima\graphics\StaticMesh.hpp">
       <Filter>Headerdateien\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\openlima\util\IReader.hpp">
-      <Filter>Headerdateien\util</Filter>
-    </ClInclude>
     <ClInclude Include="src\openlima\graphics\WavefrontObjReader.hpp">
       <Filter>Headerdateien\graphics</Filter>
     </ClInclude>
@@ -75,6 +78,18 @@
     <ClInclude Include="src\openlima\util\Vector3i.hpp">
       <Filter>Headerdateien\util</Filter>
     </ClInclude>
+    <ClInclude Include="src\openlima\input\Mouse.hpp">
+      <Filter>Headerdateien\input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\openlima\util\Vector2.hpp">
+      <Filter>Headerdateien\util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\openlima\util\Vector2i.hpp">
+      <Filter>Headerdateien\util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\openlima\util\Vector2f.hpp">
+      <Filter>Headerdateien\util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\openlima\graphics\Window.cpp">
@@ -85,6 +100,9 @@
     </ClCompile>
     <ClCompile Include="src\openlima\graphics\WavefrontObjReader.cpp">
       <Filter>Quelldateien\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\openlima\input\Mouse.cpp">
+      <Filter>Quelldateien\input</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

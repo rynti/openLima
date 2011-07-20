@@ -138,10 +138,13 @@
     <ClInclude Include="src\openlima\graphics\IRenderable.hpp" />
     <ClInclude Include="src\openlima\graphics\Mesh.hpp" />
     <ClInclude Include="src\openlima\graphics\StaticMesh.hpp" />
+    <ClInclude Include="src\openlima\input\Mouse.hpp" />
+    <ClInclude Include="src\openlima\util\Vector2.hpp" />
+    <ClInclude Include="src\openlima\util\Vector2f.hpp" />
+    <ClInclude Include="src\openlima\util\Vector2i.hpp" />
     <ClInclude Include="src\openlima\util\Vector3.hpp" />
     <ClInclude Include="src\openlima\graphics\WavefrontObjReader.hpp" />
     <ClInclude Include="src\openlima\graphics\Window.hpp" />
-    <ClInclude Include="src\openlima\util\IReader.hpp" />
     <ClInclude Include="src\openlima\util\macros.hpp" />
     <ClInclude Include="src\openlima\util\Vector3f.hpp" />
     <ClInclude Include="src\openlima\util\Vector3i.hpp" />
@@ -150,6 +153,7 @@
     <ClCompile Include="src\openlima\graphics\StaticMesh.cpp" />
     <ClCompile Include="src\openlima\graphics\WavefrontObjReader.cpp" />
     <ClCompile Include="src\openlima\graphics\Window.cpp" />
+    <ClCompile Include="src\openlima\input\Mouse.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -5,13 +5,12 @@
 
 #include "../util/macros.hpp"
 #include "StaticMesh.hpp"
-#include "../util/IReader.hpp"
 
 
 namespace openlima {
 	namespace graphics {
 
-		class WavefrontObjReader : public IReader<StaticMesh>
+		class WavefrontObjReader
 		{
 		private:
 			static const size_t LINEBUFFER_SIZE = 512;

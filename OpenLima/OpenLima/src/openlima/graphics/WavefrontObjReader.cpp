@@ -8,6 +8,7 @@
 
 
 using namespace std;
+using namespace openlima::util;
 
 namespace openlima {
 	namespace graphics {
@@ -23,20 +24,32 @@ namespace openlima {
 			char* linebuffer = new char[LINEBUFFER_SIZE];
 
 			vector<Vector3f> vertices;
-			vector<Vector3i> faces;
+			vector<Vector3f> normals;
+			vector<Vector3i> vertexIndices;
+			vector<Vector3i> normalIndices;
+
+			float x, y, z;
+			int v1, v2, v3, n1, n2, n3;
 
 			while(in.good()) {
 				in.getline(linebuffer, LINEBUFFER_SIZE);
 				switch(linebuffer[0]) {
 				case 'v':
-					float x, y, z;
-					sscanf_s(linebuffer, "v %f %f %f", &x, &y, &z);
-					vertices.push_back(Vector3f(x, y, z));
+					switch(linebuffer[1]) {
+					case 'n':
+						sscanf_s(linebuffer, "vn %f %f %f", &x, &y, &z);
+						normals.push_back(Vector3f(x, y, z));
+						break;
+					default:
+						sscanf_s(linebuffer, "v %f %f %f", &x, &y, &z);
+						vertices.push_back(Vector3f(x, y, z));
+						break;
+					}
 					break;
 				case 'f':
-					int v1, v2, v3;
-					sscanf_s(linebuffer, "f %d %d %d", &v1, &v2, &v3);
-					faces.push_back(Vector3i(v1, v2, v3));
+					sscanf_s(linebuffer, "f %d//%d %d//%d %d//%d", &v1, &n1, &v2, &n2, &v3, &n3);
+					vertexIndices.push_back(Vector3i(v1, v2, v3));
+					normalIndices.push_back(Vector3i(n1, n2, n3));
 					break;
 				}
 			}
@@ -45,11 +58,20 @@ namespace openlima {
 			for(size_t i = 0; i < vertices.size(); i++)
 				pVertices[i] = vertices.at(i);
 
-			Vector3i* pFaces = new Vector3i[faces.size()];
-			for(size_t i = 0; i < faces.size(); i++)
-				pFaces[i] = faces.at(i);
+			Vector3f* pNormals = new Vector3f[normals.size()];
+			for(size_t i = 0; i < normals.size(); i++)
+				pNormals[i] = normals.at(i);
 
-			return new StaticMesh(pVertices, vertices.size(), pFaces, faces.size());
+			Vector3i* pVertexIndices = new Vector3i[vertexIndices.size()];
+			for(size_t i = 0; i < vertexIndices.size(); i++)
+				pVertexIndices[i] = vertexIndices.at(i);
+
+			Vector3i* pNormalIndices = new Vector3i[normalIndices.size()];
+			for(size_t i = 0; i < normalIndices.size(); i++)
+				pNormalIndices[i] = normalIndices.at(i);
+
+			return new StaticMesh(pVertices, vertices.size(), pNormals, normals.size(),
+				pVertexIndices, vertexIndices.size(), pNormalIndices, normalIndices.size());
 		}
 
 	}
