@@ -13,6 +13,10 @@
 // L_X86 => Build for 32-Bit
 // L_DLL => Is "__declspec(dllexport)" under windows, else nothing
 // L_MAIN => The main-function for the application. Under windows without explicit L_WIN_SUBSYSTEM_CONSOLE it's WinMain.
+// 
+// Additional defines:
+// GLUT_WHEEL_UP   => If not already defined
+// GLUT_WHEEL_DOWN => If not already defined
 
 //////////////////////////////////////
 // Operating system macros
@@ -50,8 +54,9 @@
 #define L_DLL
 #endif
 
+//////////////////////////////////////
 // L_MAIN-Macro
-#if defined(L_WIN)
+#ifdef L_WIN
 
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
@@ -64,6 +69,18 @@
 
 #define L_MAIN(c, v) int main(c, v)
 #define L_MAIN(c, v) int main(c, v)
+#endif
+
+//////////////////////////////////////
+// GLUT_WHEEL_UP-Macro
+#ifndef GLUT_WHEEL_UP
+#define GLUT_WHEEL_UP 3
+#endif
+
+//////////////////////////////////////
+// GLUT_WHEEL_DOWN-Macro
+#ifndef GLUT_WHEEL_DOWN
+#define GLUT_WHEEL_DOWN 4
 #endif
 
 

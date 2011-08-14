@@ -10,10 +10,7 @@ namespace openlima {
 		public:
 			T x, y;
 
-			Vector2(T x, T y) {
-				this->x = x;
-				this->y = y;
-			}
+			Vector2(T x, T y) : x(x), y(y) {}
 
 		};
 

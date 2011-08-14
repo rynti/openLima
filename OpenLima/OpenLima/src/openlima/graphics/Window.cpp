@@ -49,6 +49,8 @@ namespace openlima {
 			glutCreateWindow(winCaption);
 			glutReshapeFunc(resizeHandler);
 			glutDisplayFunc(drawHandler);
+			glutIdleFunc(drawHandler);
+			glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS);
 		}
 
 		void Window::setDrawFunction(boost::function<void()> func) {

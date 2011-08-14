@@ -1,4 +1,5 @@
 #include <GL\freeglut.h>
+#include <iostream>
 
 #include "Mouse.hpp"
 
@@ -9,32 +10,42 @@ namespace openlima {
 	namespace input {
 
 		Mouse::Mouse() {
-			// TODO
-		}
-
-		Mouse& Mouse::getInstance() {
-			static Mouse mouse;
-			return mouse;
+			sticky = false;
+			visible = true;
+			mouseButtonStates = 0;
 		}
 
 		Vector2i Mouse::getPosition() {
-			return Vector2i(); // TODO
+			return position;
 		}
 
-		void Mouse::setPosition(Vector2i position) {
-			// TODO
+		Vector2i Mouse::getDelta() {
+			return delta;
 		}
 
-		void Mouse::setMouseSticking(bool sticking) {
-			// TODO
+		bool Mouse::isSticky() {
+			return this->sticky;
 		}
 
-		void Mouse::setMouseVisibility(bool visible) {
+		void Mouse::setSticky(bool sticky) {
+			this->sticky = sticky;
+		}
+
+		bool Mouse::isVisible() {
+			return this->visible;
+		}
+
+		void Mouse::setVisible(bool visible) {
+			this->visible = visible;
 			if(visible) {
 				glutSetCursor(GLUT_CURSOR_INHERIT);
 			} else {
 				glutSetCursor(GLUT_CURSOR_NONE);
 			}
+		}
+
+		MouseButtonState Mouse::getButtonState(MouseButton button) {
+			return ((this->mouseButtonStates & (1 << (int)button)) != 0) ? PRESSED : RELEASED;
 		}
 
 	}

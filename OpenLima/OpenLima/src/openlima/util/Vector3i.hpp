@@ -10,7 +10,7 @@ namespace openlima {
 		class Vector3i : public Vector3<int> {
 		public:
 			Vector3i(int x, int y, int z) : Vector3<int>(x, y, z) {}
-			Vector3i() : Vector3(0, 0, 0) {}
+			Vector3i() : Vector3<int>(0, 0, 0) {}
 		};
 
 	}

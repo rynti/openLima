@@ -10,11 +10,8 @@ namespace openlima {
 		public:
 			T x, y, z;
 
-			Vector3(T x, T y, T z) {
-				this->x = x;
-				this->y = y;
-				this->z = z;
-			}
+			Vector3(T x, T y, T z) : x(x), y(y), z(z) {}
+			Vector3(const Vector3& obj) : x(obj.x), y(obj.y), z(obj.z) {}
 
 		};
 
