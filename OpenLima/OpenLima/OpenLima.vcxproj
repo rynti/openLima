@@ -159,9 +159,6 @@
     <ClCompile Include="src\openlima\input\MouseClickEvent.cpp" />
     <ClCompile Include="src\openlima\input\MouseMoveEvent.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="todo.txt" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
