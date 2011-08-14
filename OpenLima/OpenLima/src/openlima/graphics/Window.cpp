@@ -2,7 +2,7 @@
 
 #include "Window.hpp"
 
-#ifdef L_WIN
+#ifdef OPENLIMA_WIN
 #include <windows.h>
 #endif
 
@@ -31,7 +31,7 @@ namespace openlima {
 		}
 
 		void Window::hideConsole() {
-#ifdef L_WIN
+#ifdef OPENLIMA_WIN
 			FreeConsole();
 #endif
 		}

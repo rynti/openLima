@@ -3,21 +3,20 @@
 #include "StaticMesh.hpp"
 
 
+using namespace std;
 using namespace openlima::util;
 
 namespace openlima {
 	namespace graphics {
 
-		StaticMesh::StaticMesh(Vector3f* pVertices, size_t nVertices, Vector3f* pNormals, size_t nNormals,
-				Vector3i* pVertexIndices, size_t nVertexIndices, Vector3i* pNormalIndices, size_t nNormalIndices) {
-			this->pVertices = pVertices;
-			this->nVertices = nVertices;
-			this->pNormals = pNormals;
-			this->nNormals = nNormals;
-			this->pVertexIndices = pVertexIndices;
-			this->nVertexIndices = nVertexIndices;
-			this->pNormalIndices = pNormalIndices;
-			this->nNormalIndices = nNormalIndices;
+		StaticMesh::StaticMesh(vector<openlima::util::Vector3f> vertices,
+			vector<openlima::util::Vector3f> normals,
+			vector<openlima::util::Vector3i> vertexIndices,
+			vector<openlima::util::Vector3i> normalIndices) {
+			this->vertices = vertices;
+			this->normals = normals;
+			this->vertexIndices = vertexIndices;
+			this->normalIndices = normalIndices;
 		}
 
 		void StaticMesh::render() {
@@ -28,23 +27,23 @@ namespace openlima {
 			Vector3i* faceNormal;
 			Vector3f* vertex;
 			Vector3f* normal;
-			for(size_t i = 0; i < nVertexIndices; i++) {
+			for(size_t i = 0; i < vertexIndices.size(); i++) {
 
-				faceVertex = &this->pVertexIndices[i];
-				faceNormal = &this->pNormalIndices[i];
+				faceVertex = &this->vertexIndices.at(i);
+				faceNormal = &this->normalIndices.at(i);
 
-				vertex = &this->pVertices[faceVertex->x - 1];
-				normal = &this->pNormals[faceNormal->x - 1];
+				vertex = &this->vertices.at(faceVertex->x - 1);
+				normal = &this->normals.at(faceNormal->x - 1);
 				glNormal3f(normal->x, normal->y, normal->z);
 				glVertex3f(vertex->x, vertex->y, vertex->z);
 
-				vertex = &this->pVertices[faceVertex->y - 1];
-				normal = &this->pNormals[faceNormal->y - 1];
+				vertex = &this->vertices.at(faceVertex->y - 1);
+				normal = &this->normals.at(faceNormal->y - 1);
 				glNormal3f(normal->x, normal->y, normal->z);
 				glVertex3f(vertex->x, vertex->y, vertex->z);
 
-				vertex = &this->pVertices[faceVertex->z - 1];
-				normal = &this->pNormals[faceNormal->y - 1];
+				vertex = &this->vertices.at(faceVertex->z - 1);
+				normal = &this->normals.at(faceNormal->y - 1);
 				glNormal3f(normal->x, normal->y, normal->z);
 				glVertex3f(vertex->x, vertex->y, vertex->z);
 

@@ -2,8 +2,10 @@
 #define OPENLIMA_GRAPHICS_WAVEFRONTOBJREADER_HPP
 
 #include <iostream>
+#include <vector>
 
 #include "../util/macros.hpp"
+#include "../util/Vector3.hpp"
 #include "StaticMesh.hpp"
 
 
@@ -13,11 +15,38 @@ namespace openlima {
 		class WavefrontObjReader
 		{
 		private:
-			static const size_t LINEBUFFER_SIZE = 512;
+
+			static void readVertex(std::istream &in,
+				std::vector<openlima::util::Vector3f>& vertices);
+
+			static void readNormal(std::istream &in,
+				std::vector<openlima::util::Vector3f>& normals);
+
+			static void readFace(std::istream &in,
+				std::vector<openlima::util::Vector3i>& vertexIndices,
+				std::vector<openlima::util::Vector3i>& normalIndices);
+
+			/**
+			 * Reads a face part.
+			 *
+			 * @param [in,out]	in	   	The input stream.
+			 * @param [in,out]	vertex 	The vertex index.
+			 * @param [in,out]	texture	The texture index.
+			 * @param [in,out]	normal 	The normal index.
+			 *
+			 * @return	A numeric value to determine what values were load. The bitmasks:
+			 * 			01 - Texture index has been loaded.
+			 * 			10 - Normal index has been loaded.
+			 * 			The vertex index gets always loaded.
+			 */
+			static int readFacePart(std::istream &in,
+				int& vertex, int& texture, int& normal);
 
 		public:
-			static L_DLL StaticMesh* readStatic(char* filename);
-			static L_DLL StaticMesh* readStatic(std::istream &in);
+
+			static OPENLIMA_DLL StaticMesh* readStatic(char* filename);
+
+			static OPENLIMA_DLL StaticMesh* readStatic(std::istream &in);
 
 		};
 

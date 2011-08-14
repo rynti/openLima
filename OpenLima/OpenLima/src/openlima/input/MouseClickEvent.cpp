@@ -12,15 +12,15 @@ namespace openlima {
 			this->state = state;
 		}
 
-		Vector2i MouseClickEvent::getPosition() {
+		Vector2i MouseClickEvent::getPosition() const {
 			return this->position;
 		}
 
-		MouseButton MouseClickEvent::getButton() {
+		MouseButton MouseClickEvent::getButton() const {
 			return this->button;
 		}
 
-		MouseButtonState MouseClickEvent::getState() {
+		MouseButtonState MouseClickEvent::getState() const {
 			return this->state;
 		}
 

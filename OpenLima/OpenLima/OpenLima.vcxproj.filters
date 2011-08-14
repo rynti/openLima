@@ -72,41 +72,26 @@
     <ClInclude Include="src\openlima\util\Vector3.hpp">
       <Filter>Headerdateien\util</Filter>
     </ClInclude>
-    <ClInclude Include="src\openlima\util\Vector3f.hpp">
-      <Filter>Headerdateien\util</Filter>
-    </ClInclude>
-    <ClInclude Include="src\openlima\util\Vector3i.hpp">
-      <Filter>Headerdateien\util</Filter>
-    </ClInclude>
     <ClInclude Include="src\openlima\input\Mouse.hpp">
       <Filter>Headerdateien\input</Filter>
     </ClInclude>
     <ClInclude Include="src\openlima\util\Vector2.hpp">
       <Filter>Headerdateien\util</Filter>
     </ClInclude>
-    <ClInclude Include="src\openlima\util\Vector2i.hpp">
-      <Filter>Headerdateien\util</Filter>
-    </ClInclude>
-    <ClInclude Include="src\openlima\util\Vector2f.hpp">
-      <Filter>Headerdateien\util</Filter>
-    </ClInclude>
     <ClInclude Include="src\openlima\input\GlobalMouse.hpp">
       <Filter>Headerdateien\input</Filter>
     </ClInclude>
-    <ClInclude Include="src\openlima\input\MouseMoveEvent.hpp">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\openlima\input\MouseClickEvent.hpp">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="src\openlima\input\MouseButton.hpp">
-      <Filter>Headerdateien</Filter>
+      <Filter>Headerdateien\input</Filter>
     </ClInclude>
     <ClInclude Include="src\openlima\input\MouseButtonState.hpp">
-      <Filter>Headerdateien</Filter>
+      <Filter>Headerdateien\input</Filter>
     </ClInclude>
-    <ClInclude Include="src\openlima\util\Path.hpp">
-      <Filter>Headerdateien</Filter>
+    <ClInclude Include="src\openlima\input\MouseClickEvent.hpp">
+      <Filter>Headerdateien\input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\openlima\input\MouseMoveEvent.hpp">
+      <Filter>Headerdateien\input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -122,17 +107,17 @@
     <ClCompile Include="src\openlima\input\Mouse.cpp">
       <Filter>Quelldateien\input</Filter>
     </ClCompile>
+    <ClCompile Include="src\openlima\input\GlobalMouse.cpp">
+      <Filter>Quelldateien\input</Filter>
+    </ClCompile>
     <ClCompile Include="src\openlima\input\MouseClickEvent.cpp">
-      <Filter>Quelldateien</Filter>
+      <Filter>Quelldateien\input</Filter>
     </ClCompile>
     <ClCompile Include="src\openlima\input\MouseMoveEvent.cpp">
-      <Filter>Quelldateien</Filter>
+      <Filter>Quelldateien\input</Filter>
     </ClCompile>
-    <ClCompile Include="src\openlima\input\GlobalMouse.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\openlima\util\Path.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="todo.txt" />
   </ItemGroup>
 </Project>

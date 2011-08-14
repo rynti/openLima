@@ -144,16 +144,11 @@
     <ClInclude Include="src\openlima\input\MouseClickEvent.hpp" />
     <ClInclude Include="src\openlima\input\MouseButton.hpp" />
     <ClInclude Include="src\openlima\input\MouseButtonState.hpp" />
-    <ClInclude Include="src\openlima\util\Path.hpp" />
     <ClInclude Include="src\openlima\util\Vector2.hpp" />
-    <ClInclude Include="src\openlima\util\Vector2f.hpp" />
-    <ClInclude Include="src\openlima\util\Vector2i.hpp" />
     <ClInclude Include="src\openlima\util\Vector3.hpp" />
     <ClInclude Include="src\openlima\graphics\WavefrontObjReader.hpp" />
     <ClInclude Include="src\openlima\graphics\Window.hpp" />
     <ClInclude Include="src\openlima\util\macros.hpp" />
-    <ClInclude Include="src\openlima\util\Vector3f.hpp" />
-    <ClInclude Include="src\openlima\util\Vector3i.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\openlima\graphics\StaticMesh.cpp" />
@@ -163,7 +158,9 @@
     <ClCompile Include="src\openlima\input\Mouse.cpp" />
     <ClCompile Include="src\openlima\input\MouseClickEvent.cpp" />
     <ClCompile Include="src\openlima\input\MouseMoveEvent.cpp" />
-    <ClCompile Include="src\openlima\util\Path.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="todo.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

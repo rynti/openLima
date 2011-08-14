@@ -12,11 +12,11 @@ namespace openlima {
 
 		class Mesh : public IRenderable {
 		protected:
-			L_DLL Mesh() {}
+			OPENLIMA_DLL Mesh() {}
 
 		public:
-			L_DLL virtual ~Mesh() {}
-			L_DLL virtual void render() = 0;
+			OPENLIMA_DLL virtual ~Mesh() {}
+			OPENLIMA_DLL virtual void render() = 0;
 			//TODO: Modifier
 
 		};

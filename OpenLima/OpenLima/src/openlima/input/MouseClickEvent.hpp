@@ -1,8 +1,8 @@
 #ifndef OPENLIMA_INPUT_MOUSECLICKEVENT_HPP
 #define OPENLIMA_INPUT_MOUSECLICKEVENT_HPP
 
-#include "..\util\macros.hpp"
-#include "..\util\Vector2i.hpp"
+#include "../util/macros.hpp"
+#include "../util/Vector2.hpp"
 #include "MouseButton.hpp"
 #include "MouseButtonState.hpp"
 
@@ -34,7 +34,7 @@ namespace openlima {
 			 * @param	button  	The affected mouse button.
 			 * @param	state   	The state of the affected mouse button.
 			 */
-			L_DLL MouseClickEvent(openlima::util::Vector2i position, MouseButton button, MouseButtonState state);
+			OPENLIMA_DLL MouseClickEvent(openlima::util::Vector2i position, MouseButton button, MouseButtonState state);
 
 
 			/**
@@ -42,21 +42,21 @@ namespace openlima {
 			 *
 			 * @return	The mouse position.
 			 */
-			L_DLL openlima::util::Vector2i getPosition();
+			OPENLIMA_DLL openlima::util::Vector2i getPosition() const;
 
 			/**
 			 * Returns the affected mouse button.
 			 *
 			 * @return	The affected mouse button.
 			 */
-			L_DLL MouseButton getButton();
+			OPENLIMA_DLL MouseButton getButton() const;
 
 			/**
 			 * Returns the state of the affected mouse button.
 			 *
 			 * @return	The state of the affected mouse button.
 			 */
-			L_DLL MouseButtonState getState();
+			OPENLIMA_DLL MouseButtonState getState() const;
 
 		};
 

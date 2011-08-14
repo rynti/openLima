@@ -11,11 +11,11 @@ namespace openlima {
 			this->delta = delta;
 		}
 
-		Vector2i MouseMoveEvent::getPosition() {
+		Vector2i MouseMoveEvent::getPosition() const {
 			return this->position;
 		}
 
-		Vector2i MouseMoveEvent::getDelta() {
+		Vector2i MouseMoveEvent::getDelta() const {
 			return this->delta;
 		}
 

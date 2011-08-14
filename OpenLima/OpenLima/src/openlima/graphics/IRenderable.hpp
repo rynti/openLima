@@ -11,11 +11,11 @@ namespace openlima {
 
 		class IRenderable {
 		protected:
-			L_DLL IRenderable() {}
+			OPENLIMA_DLL IRenderable() {}
 
 		public:
-			L_DLL virtual ~IRenderable() {}
-			L_DLL virtual void render() = 0;
+			OPENLIMA_DLL virtual ~IRenderable() {}
+			OPENLIMA_DLL virtual void render() = 0;
 
 		};
 

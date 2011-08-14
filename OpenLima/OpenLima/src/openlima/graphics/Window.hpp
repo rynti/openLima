@@ -27,13 +27,13 @@ namespace openlima {
 			void draw();
 
 		public:
-			static L_DLL Window& getInstance();
-			static L_DLL void hideConsole();
+			static OPENLIMA_DLL Window& getInstance();
+			static OPENLIMA_DLL void hideConsole();
 
-			L_DLL void setDrawFunction(boost::function<void()> func);
-			L_DLL void setup(int* argcp, char** argv, const char* winCaption, int winWidth = 640,
+			OPENLIMA_DLL void setDrawFunction(boost::function<void()> func);
+			OPENLIMA_DLL void setup(int* argcp, char** argv, const char* winCaption, int winWidth = 640,
 				int winHeight = 480, unsigned int displayMode = GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-			L_DLL void loop();
+			OPENLIMA_DLL void loop();
 
 		};
 

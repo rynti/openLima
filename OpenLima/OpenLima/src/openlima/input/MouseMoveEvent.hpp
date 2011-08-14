@@ -1,8 +1,8 @@
 #ifndef OPENLIMA_INPUT_MOUSEMOVEEVENT_HPP
 #define OPENLIMA_INPUT_MOUSEMOVEEVENT_HPP
 
-#include "..\util\macros.hpp"
-#include "..\util\Vector2i.hpp"
+#include "../util/macros.hpp"
+#include "../util/Vector2.hpp"
 
 
 namespace openlima {
@@ -27,7 +27,7 @@ namespace openlima {
 			 *
 			 * @param	position	The mouse position.
 			 */
-			L_DLL MouseMoveEvent(openlima::util::Vector2i position, openlima::util::Vector2i delta);
+			OPENLIMA_DLL MouseMoveEvent(openlima::util::Vector2i position, openlima::util::Vector2i delta);
 
 
 			/**
@@ -35,14 +35,14 @@ namespace openlima {
 			 *
 			 * @return	The mouse position.
 			 */
-			L_DLL openlima::util::Vector2i getPosition();
+			OPENLIMA_DLL openlima::util::Vector2i getPosition() const;
 
 			/**
 			 * Returns the mouse position delta.
 			 *
 			 * @return	The mouse position delta.
 			 */
-			L_DLL openlima::util::Vector2i getDelta();
+			OPENLIMA_DLL openlima::util::Vector2i getDelta() const;
 
 		};
 

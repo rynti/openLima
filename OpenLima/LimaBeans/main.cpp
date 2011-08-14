@@ -3,7 +3,6 @@
 #include <openlima/graphics/IRenderable.hpp>
 #include <openlima/util/macros.hpp>
 #include <openlima/input/GlobalMouse.hpp>
-#include <openlima/util/Path.hpp>
 
 
 using namespace openlima::graphics;
@@ -13,11 +12,11 @@ IRenderable* myRenderable;
 
 int i = 10000;
 
-void onMouseMoveEvent(Mouse& source, MouseMoveEvent& e) {
+void onMouseMoveEvent(Mouse& source, const MouseMoveEvent& e) {
 	//std::cout << e.getDelta().x << " - " << e.getDelta().y << std::endl;
 }
 
-void onMouseClickEvent(Mouse& source, MouseClickEvent& e) {
+void onMouseClickEvent(Mouse& source, const MouseClickEvent& e) {
 	if(e.getButton() == LEFT) {
 		std::cout << "Left button " << (e.getState() == RELEASED ? "released" : "pressed") <<
 			"!" << std::endl;
@@ -48,7 +47,7 @@ void draw() {
 	glutSwapBuffers();
 }
 
-L_MAIN(int argc, char** argv) {
+OPENLIMA_MAIN(int argc, char** argv) {
 	myRenderable = WavefrontObjReader::readStatic("resources/simpleCube.obj");
 	
 	//Window::hideConsole();
@@ -75,8 +74,6 @@ L_MAIN(int argc, char** argv) {
 	GlobalMouse::getInstance().setVisible(false);
 	GlobalMouse::getInstance().onMouseMove.connect(&onMouseMoveEvent);
 	GlobalMouse::getInstance().onMouseClick.connect(&onMouseClickEvent);
-
-	std::cout << openlima::util::Path("test/sub/dir.txt").getNative() << std::endl;
 
 	Window::getInstance().loop();
 

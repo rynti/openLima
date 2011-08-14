@@ -44,14 +44,14 @@ namespace openlima {
 			 *
 			 * @return	The global mouse.
 			 */
-			L_DLL static GlobalMouse& getInstance();
+			OPENLIMA_DLL static GlobalMouse& getInstance();
 
 			/**
 			 * Sets the position of this mouse.
 			 *
 			 * @param	position	The position, relative to the window.
 			 */
-			L_DLL void setPosition(openlima::util::Vector2i position);
+			OPENLIMA_DLL void setPosition(openlima::util::Vector2i position);
 
 		};
 

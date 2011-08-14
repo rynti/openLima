@@ -2,8 +2,8 @@
 #define OPENLIMA_INPUT_MOUSE_HPP
 
 #include <boost/signal.hpp>
-#include "..\util\macros.hpp"
-#include "..\util\Vector2i.hpp"
+#include "../util/macros.hpp"
+#include "../util/Vector2.hpp"
 #include "MouseButton.hpp"
 #include "MouseButtonState.hpp"
 #include "MouseMoveEvent.hpp"
@@ -43,34 +43,34 @@ namespace openlima {
 			/**
 			 * Default constructor.
 			 */
-			L_DLL Mouse();
+			OPENLIMA_DLL Mouse();
 
 		public:
 
-			boost::signal<void (Mouse&, MouseMoveEvent&)> onMouseMove;
+			boost::signal<void (Mouse&, const MouseMoveEvent&)> onMouseMove;
 
-			boost::signal<void (Mouse&, MouseClickEvent&)> onMouseClick;
+			boost::signal<void (Mouse&, const MouseClickEvent&)> onMouseClick;
 
 			/**
 			 * Returns the current position of this mouse.
 			 *
 			 * @return	The position of this mouse, relative to the window.
 			 */
-			L_DLL openlima::util::Vector2i getPosition();
+			OPENLIMA_DLL openlima::util::Vector2i getPosition();
 
 			/**
 			 * Returns the delta of this mouse from the last movement.
 			 *
 			 * @return	The delta of this mouse from the last movement.
 			 */
-			L_DLL openlima::util::Vector2i getDelta();
+			OPENLIMA_DLL openlima::util::Vector2i getDelta();
 
 			/**
 			 * Determines if this mouse is sticky.
 			 *
 			 * @return	true if it is sticky, false if not.
 			 */
-			L_DLL bool isSticky();
+			OPENLIMA_DLL bool isSticky();
 
 			/**
 			 * Defines if this mouse is sticky. If this mouse is sticky, it will always move back to
@@ -78,21 +78,21 @@ namespace openlima {
 			 *
 			 * @param	sticky	true to make the mouse "sticky".
 			 */
-			L_DLL void setSticky(bool sticky);
+			OPENLIMA_DLL void setSticky(bool sticky);
 
 			/**
 			 * Determines if this mouse is visible.
 			 *
 			 * @return	true if it is visible, false if not.
 			 */
-			L_DLL bool isVisible();
+			OPENLIMA_DLL bool isVisible();
 
 			/**
 			 * Sets the mouse visibility.
 			 *
 			 * @param	visible	true to make it visible, false to hide.
 			 */
-			L_DLL void setVisible(bool visible);
+			OPENLIMA_DLL void setVisible(bool visible);
 
 			/**
 			 * Gets the state of the given mouse button.
@@ -101,7 +101,7 @@ namespace openlima {
 			 *
 			 * @return	The state of the given mouse button.
 			 */
-			L_DLL MouseButtonState getButtonState(MouseButton button);
+			OPENLIMA_DLL MouseButtonState getButtonState(MouseButton button);
 
 		};
 
