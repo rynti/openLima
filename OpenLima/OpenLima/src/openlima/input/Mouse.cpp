@@ -1,4 +1,4 @@
-#include <GL\freeglut.h>
+#include <GL/freeglut.h>
 #include <iostream>
 
 #include "Mouse.hpp"
@@ -45,7 +45,8 @@ namespace openlima {
 		}
 
 		MouseButtonState Mouse::getButtonState(MouseButton button) {
-			return ((this->mouseButtonStates & (1 << (int)button)) != 0) ? PRESSED : RELEASED;
+			return ((this->mouseButtonStates & (1 << (int)button)) != 0) ?
+				MouseButtonState::PRESSED : MouseButtonState::RELEASED;
 		}
 
 	}

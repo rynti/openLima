@@ -1,4 +1,4 @@
-#include <GL\freeglut_std.h>
+#include <GL/freeglut_std.h>
 #include "GlobalMouse.hpp"
 
 using namespace openlima::util;
@@ -31,20 +31,20 @@ namespace openlima {
 		}
 
 		void GlobalMouse::globalMouseClick(int button, int state, int x, int y) {
-			MouseButtonState mouseButtonState = (state == GLUT_UP) ? RELEASED : PRESSED;
+			MouseButtonState mouseButtonState = (state == GLUT_UP) ? MouseButtonState::RELEASED : MouseButtonState::PRESSED;
 			MouseClickEvent* eventArgs;
 
 			if(button == GLUT_LEFT_BUTTON) {
-				eventArgs = new MouseClickEvent(Vector2i(x, y), LEFT, mouseButtonState);
+				eventArgs = new MouseClickEvent(Vector2i(x, y), MouseButton::LEFT, mouseButtonState);
 			} else if(button == GLUT_MIDDLE_BUTTON) {
-				eventArgs = new MouseClickEvent(Vector2i(x, y), MIDDLE, mouseButtonState);
+				eventArgs = new MouseClickEvent(Vector2i(x, y), MouseButton::MIDDLE, mouseButtonState);
 			} else if(button == GLUT_RIGHT_BUTTON) {
-				eventArgs = new MouseClickEvent(Vector2i(x, y), RIGHT, mouseButtonState);
+				eventArgs = new MouseClickEvent(Vector2i(x, y), MouseButton::RIGHT, mouseButtonState);
 			} else {
 				return;
 			}
 
-			if(mouseButtonState == RELEASED) {
+			if(mouseButtonState == MouseButtonState::RELEASED) {
 				GlobalMouse::getInstance().mouseButtonStates &= ~(1 << (int)eventArgs->getButton());
 			} else {
 				GlobalMouse::getInstance().mouseButtonStates |= (1 << (int)eventArgs->getButton());

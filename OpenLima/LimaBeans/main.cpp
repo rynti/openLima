@@ -17,14 +17,14 @@ void onMouseMoveEvent(Mouse& source, const MouseMoveEvent& e) {
 }
 
 void onMouseClickEvent(Mouse& source, const MouseClickEvent& e) {
-	if(e.getButton() == LEFT) {
-		std::cout << "Left button " << (e.getState() == RELEASED ? "released" : "pressed") <<
+	if(e.getButton() == MouseButton::LEFT) {
+		std::cout << "Left button " << (e.getState() == MouseButtonState::RELEASED ? "released" : "pressed") <<
 			"!" << std::endl;
-	} else if(e.getButton() == MIDDLE) {
-		std::cout << "Middle button " << (e.getState() == RELEASED ? "released" : "pressed") <<
+	} else if(e.getButton() == MouseButton::MIDDLE) {
+		std::cout << "Middle button " << (e.getState() == MouseButtonState::RELEASED ? "released" : "pressed") <<
 			"!" << std::endl;
-	} else if(e.getButton() == RIGHT) {
-		std::cout << "Right button " << (e.getState() == RELEASED ? "released" : "pressed") <<
+	} else if(e.getButton() == MouseButton::RIGHT) {
+		std::cout << "Right button " << (e.getState() == MouseButtonState::RELEASED ? "released" : "pressed") <<
 			"!" << std::endl;
 	}
 }
