@@ -52,7 +52,7 @@ namespace openlima {
 
 		MouseButtonState Mouse::getButtonState(MouseButton button) {
 			return ((this->mouseButtonStates & (1 << (int)button)) != 0) ?
-				MouseButtonState::PRESSED : MouseButtonState::RELEASED;
+				MouseButtonStateType::PRESSED : MouseButtonStateType::RELEASED;
 		}
 
 	}

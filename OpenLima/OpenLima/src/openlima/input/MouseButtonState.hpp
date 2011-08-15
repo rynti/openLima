@@ -13,7 +13,7 @@
 namespace openlima {
 	namespace input {
 
-		struct mouse_button_state {
+		struct MouseButtonStateType {
 			enum Enum {
 				/* The button is released.  */
 				RELEASED,
@@ -25,7 +25,7 @@ namespace openlima {
 		/**
 		 * Values that represent the state of a mouse button.
 		 */
-		typedef mouse_button_state::Enum MouseButtonState;
+		typedef MouseButtonStateType::Enum MouseButtonState;
 
 	}
 }

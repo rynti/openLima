@@ -37,20 +37,24 @@ namespace openlima {
 		}
 
 		void GlobalMouse::globalMouseClick(int button, int state, int x, int y) {
-			MouseButtonState mouseButtonState = (state == GLUT_UP) ? MouseButtonState::RELEASED : MouseButtonState::PRESSED;
+			MouseButtonState mouseButtonState = (state == GLUT_UP) ?
+				MouseButtonStateType::RELEASED : MouseButtonStateType::PRESSED;
 			MouseClickEvent* eventArgs;
 
 			if(button == GLUT_LEFT_BUTTON) {
-				eventArgs = new MouseClickEvent(Vector2i(x, y), MouseButton::LEFT, mouseButtonState);
+				eventArgs = new MouseClickEvent(Vector2i(x, y), MouseButtonType::LEFT,
+					mouseButtonState);
 			} else if(button == GLUT_MIDDLE_BUTTON) {
-				eventArgs = new MouseClickEvent(Vector2i(x, y), MouseButton::MIDDLE, mouseButtonState);
+				eventArgs = new MouseClickEvent(Vector2i(x, y), MouseButtonType::MIDDLE,
+					mouseButtonState);
 			} else if(button == GLUT_RIGHT_BUTTON) {
-				eventArgs = new MouseClickEvent(Vector2i(x, y), MouseButton::RIGHT, mouseButtonState);
+				eventArgs = new MouseClickEvent(Vector2i(x, y), MouseButtonType::RIGHT,
+					mouseButtonState);
 			} else {
 				return;
 			}
 
-			if(mouseButtonState == MouseButtonState::RELEASED) {
+			if(mouseButtonState == MouseButtonStateType::RELEASED) {
 				GlobalMouse::getInstance().mouseButtonStates &= ~(1 << (int)eventArgs->getButton());
 			} else {
 				GlobalMouse::getInstance().mouseButtonStates |= (1 << (int)eventArgs->getButton());

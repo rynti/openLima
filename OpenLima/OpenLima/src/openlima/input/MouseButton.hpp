@@ -13,7 +13,7 @@
 namespace openlima {
 	namespace input {
 		
-		struct mouse_button {
+		struct MouseButtonType {
 			enum Enum {
 				/* The left mouse button. */
 				LEFT,
@@ -27,7 +27,7 @@ namespace openlima {
 		/**
 		 * Values that represent a mouse button.
 		 */
-		typedef mouse_button::Enum MouseButton;
+		typedef MouseButtonType::Enum MouseButton;
 
 	}
 }
