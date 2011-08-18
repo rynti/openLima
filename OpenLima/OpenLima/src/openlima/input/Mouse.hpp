@@ -34,16 +34,16 @@ namespace openlima {
 
 		protected:
 
-			/* The position of the mouse. */
+			/** The position of the mouse. */
 			openlima::util::Vector2i position;
 
-			/* The position delta from the last movement. */
+			/** The position delta from the last movement. */
 			openlima::util::Vector2i delta;
 
-			/* Determines if this mouse is sticked. */
+			/** Determines if this mouse is sticked. */
 			bool sticky;
 
-			/* Determines if this mouse is visible. */
+			/** Determines if this mouse is visible. */
 			bool visible;
 
 			/** 
@@ -66,10 +66,10 @@ namespace openlima {
 
 		public:
 
-			/* An event that will be called when this mouse was moved. */
+			/** An event that will be called when this mouse was moved. */
 			boost::signal<void (Mouse&, const MouseMoveEvent&)> onMouseMove;
 
-			/* An event that will be called when this mouse was clicked. */
+			/** An event that will be called when this mouse was clicked. */
 			boost::signal<void (Mouse&, const MouseClickEvent&)> onMouseClick;
 
 

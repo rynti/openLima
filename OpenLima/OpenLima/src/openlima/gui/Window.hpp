@@ -31,29 +31,29 @@ namespace openlima {
 		class Window {
 		private:
 
-			/* The default update time. */
+			/** The default update time. */
 			static const openlima::util::dtime defaultUpdateTime;
 
-			/* The registered windows. */
+			/** The registered windows. */
 			static std::map<openlima::util::GlutHandle, Window*> registeredWindows;
 
 
-			/* Identifier for the glut window. */
+			/** Identifier for the glut window. */
 			openlima::util::GlutHandle glutWindowId;
 
-			/* The time when the previous update happened. */
+			/** The time when the previous update happened. */
 			boost::posix_time::ptime previousUpdate;
 
-			/* Target time per update. */
+			/** Target time per update. */
 			openlima::util::dtime updateTime;
 
-			/* The elapsed time since the last update. */
+			/** The elapsed time since the last update. */
 			openlima::util::dtime updateDelta;
 
-			/* Target time per redraw. */
+			/** Target time per redraw. */
 			openlima::util::dtime redrawTime;
 
-			/* The elapsed time since the last redraw. */
+			/** The elapsed time since the last redraw. */
 			openlima::util::dtime redrawDelta;
 
 			/**
@@ -62,7 +62,7 @@ namespace openlima {
 			 */
 			bool limitRedraw;
 
-			/* The mouse for this window. */
+			/** The mouse for this window. */
 			openlima::input::Mouse* mouse;
 
 
@@ -129,7 +129,7 @@ namespace openlima {
 			 * Initializes all the Window-stuff.
 			 * Should only be called once per program execution, is required for multiple stuff.
 			 *
-			 * @param [in,out]	argcp	A pointer to the argument counter.
+			 * @param [in,out]	argcp	A pointer to the argument count.
 			 * @param [in,out]	argv 	A pointer to the arguments.
 			 */
 			OPENLIMA_DLL static void initialize(int* argcp, char** argv);

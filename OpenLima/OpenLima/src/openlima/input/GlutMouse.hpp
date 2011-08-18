@@ -24,10 +24,10 @@ namespace openlima {
 		class GlutMouse : public Mouse {
 		private:
 
-			/* The registered mouses. */
+			/** The registered mouses. */
 			static std::map<openlima::util::GlutHandle, GlutMouse*> registeredMouses;
 
-			/* Identifier for the glut window. */
+			/** Identifier for the glut window. */
 			openlima::util::GlutHandle glutWindowId;
 
 

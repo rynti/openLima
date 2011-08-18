@@ -15,42 +15,42 @@ namespace openlima {
 		////////////////////////////////
 		// Signed numbers
 		
-		/* A 8-bit signed number. */
+		/** A 8-bit signed number. */
 		typedef boost::int8_t i8;
 		
-		/* A 16-bit signed number. */
+		/** A 16-bit signed number. */
 		typedef boost::int16_t i16;
 
-		/* A 32-bit signed number. */
+		/** A 32-bit signed number. */
 		typedef boost::int32_t i32;
 		
-		/* A 64-bit signed number. */
+		/** A 64-bit signed number. */
 		typedef boost::int64_t i64;
 		
 
 		////////////////////////////////
 		// Unsigned numbers
 
-		/* A 8-bit unsigned number. */
+		/** A 8-bit unsigned number. */
 		typedef boost::uint8_t u8;
 		
-		/* A 16-bit unsigned number. */
+		/** A 16-bit unsigned number. */
 		typedef boost::uint16_t u16;
 		
-		/* A 32-bit unsigned number. */
+		/** A 32-bit unsigned number. */
 		typedef boost::uint32_t u32;
 		
-		/* A 64-bit unsigned number. */
+		/** A 64-bit unsigned number. */
 		typedef boost::uint64_t u64;
 		
 
 		////////////////////////////////
 		// Others
 
-		/* A GLUT-handle, for instance a window. */
+		/** A GLUT-handle, for instance a window. */
 		typedef int GlutHandle;
 
-		/* "Delta time" - A time duration. Will always be given in seconds. */
+		/** "Delta time" - A time duration. Will always be given in seconds. */
 		typedef double dtime;
 
 		/**

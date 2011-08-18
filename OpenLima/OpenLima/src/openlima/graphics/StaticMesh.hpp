@@ -27,16 +27,16 @@ namespace openlima {
 		class StaticMesh : public Mesh {
 		public:
 
-			/* The vertices. */
+			/** The vertices. */
 			std::vector<openlima::util::Vector3f> vertices;
 
-			/* The normals. */
+			/** The normals. */
 			std::vector<openlima::util::Vector3f> normals;
 
-			/* The vertex indices. */
+			/** The vertex indices. */
 			std::vector<openlima::util::Vector3i> vertexIndices;
 
-			/* The normal indices. */
+			/** The normal indices. */
 			std::vector<openlima::util::Vector3i> normalIndices;
 
 			/**

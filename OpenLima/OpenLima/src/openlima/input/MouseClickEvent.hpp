@@ -21,13 +21,13 @@ namespace openlima {
 		class MouseClickEvent {
 		private:
 
-			/* The mouse position. */
+			/** The mouse position. */
 			openlima::util::Vector2i position;
 
-			/* The affected mouse button. */
+			/** The affected mouse button. */
 			MouseButton button;
 
-			/* Determines if the affected mouse button is currently pressed. */
+			/** Determines if the affected mouse button is currently pressed. */
 			bool pressed;
 
 		public:

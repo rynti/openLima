@@ -13,13 +13,19 @@
 namespace openlima {
 	namespace input {
 
+		/**
+		 * A struct that acts like a namespace for all mouse button types. 
+		 */
 		struct MouseButtonType {
+			/**
+			 * Values that represent a mouse button.
+			 */
 			enum Enum {
-				/* The left mouse button. */
+				/** The left mouse button. */
 				LEFT,
-				/* The middle mouse button.  */
+				/** The middle mouse button.  */
 				MIDDLE,
-				/* The right mouse button.  */
+				/** The right mouse button.  */
 				RIGHT
 			};
 		};

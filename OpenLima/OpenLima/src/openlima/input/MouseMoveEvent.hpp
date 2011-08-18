@@ -20,10 +20,10 @@ namespace openlima {
 		class MouseMoveEvent {
 		private:
 
-			/* The mouse position. */
+			/** The mouse position. */
 			openlima::util::Vector2i position;
 
-			/* The mouse position delta. */
+			/** The mouse position delta. */
 			openlima::util::Vector2i delta;
 
 		public:
