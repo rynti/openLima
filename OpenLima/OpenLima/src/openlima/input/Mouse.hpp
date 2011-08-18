@@ -8,10 +8,10 @@
 #define OPENLIMA_INPUT_MOUSE_HPP
 
 #include <boost/signal.hpp>
+
 #include "../util/macros.hpp"
 #include "../util/Vector2.hpp"
 #include "MouseButton.hpp"
-#include "MouseButtonState.hpp"
 #include "MouseMoveEvent.hpp"
 #include "MouseClickEvent.hpp"
 
@@ -19,13 +19,25 @@
 namespace openlima {
 	namespace input {
 
+		/**
+		 * A abstract mouse. Use specializations like GlutMouse instead.
+		 */
 		class Mouse {
+		private:
+
+			/**
+			 * Makes the mouse not copyable.
+			 *
+			 * @param	obj	The other mouse.
+			 */
+			Mouse(const Mouse& obj);
+
 		protected:
 
 			/* The position of the mouse. */
 			openlima::util::Vector2i position;
 
-			/* The delta movement of the last onMouseMove-event. */
+			/* The position delta from the last movement. */
 			openlima::util::Vector2i delta;
 
 			/* Determines if this mouse is sticked. */
@@ -46,23 +58,34 @@ namespace openlima {
 			 */
 			int mouseButtonStates;
 
+
 			/**
-			 * Default constructor.
+			 * Makes this class not instanceable, use specializations instead.
 			 */
 			OPENLIMA_DLL Mouse();
 
 		public:
 
+			/* An event that will be called when this mouse was moved. */
 			boost::signal<void (Mouse&, const MouseMoveEvent&)> onMouseMove;
 
+			/* An event that will be called when this mouse was clicked. */
 			boost::signal<void (Mouse&, const MouseClickEvent&)> onMouseClick;
+
 
 			/**
 			 * Returns the current position of this mouse.
 			 *
-			 * @return	The position of this mouse, relative to the window.
+			 * @return	The position of this mouse.
 			 */
 			OPENLIMA_DLL openlima::util::Vector2i getPosition();
+
+			/**
+			 * Sets the position for this mouse.
+			 *
+			 * @param	position	The new mouse position.
+			 */
+			OPENLIMA_DLL virtual void setPosition(openlima::util::Vector2i position);
 
 			/**
 			 * Returns the delta of this mouse from the last movement.
@@ -74,40 +97,40 @@ namespace openlima {
 			/**
 			 * Determines if this mouse is sticky.
 			 *
-			 * @return	true if it is sticky, false if not.
+			 * @return	True if the mouse is sticky, false if not.
 			 */
 			OPENLIMA_DLL bool isSticky();
 
 			/**
-			 * Defines if this mouse is sticky. If this mouse is sticky, it will always move back to
-			 * the middle of the window.
+			 * Defines if this mouse is sticky. If this mouse is sticky, it will always return to
+			 * it's previous position after movements.
 			 *
-			 * @param	sticky	true to make the mouse "sticky".
+			 * @param	sticky	True to make the mouse "sticky".
 			 */
-			OPENLIMA_DLL void setSticky(bool sticky);
+			OPENLIMA_DLL virtual void setSticky(bool sticky);
 
 			/**
 			 * Determines if this mouse is visible.
 			 *
-			 * @return	true if it is visible, false if not.
+			 * @return	True if the mouse is visible, false if not.
 			 */
 			OPENLIMA_DLL bool isVisible();
 
 			/**
 			 * Sets the mouse visibility.
 			 *
-			 * @param	visible	true to make it visible, false to hide.
+			 * @param	visible	True to make it visible, false to hide.
 			 */
-			OPENLIMA_DLL void setVisible(bool visible);
+			OPENLIMA_DLL virtual void setVisible(bool visible);
 
 			/**
-			 * Gets the state of the given mouse button.
+			 * Determines if the given mouse button is currently pressed.
 			 *
 			 * @param	button	The mouse button.
 			 *
-			 * @return	The state of the given mouse button.
+			 * @return	True if the given button is currently pressed, false if not.
 			 */
-			OPENLIMA_DLL MouseButtonState getButtonState(MouseButton button);
+			OPENLIMA_DLL bool isPressed(MouseButton button);
 
 		};
 

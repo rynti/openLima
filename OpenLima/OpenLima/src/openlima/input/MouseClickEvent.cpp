@@ -12,10 +12,10 @@ using namespace openlima::util;
 namespace openlima {
 	namespace input {
 
-		MouseClickEvent::MouseClickEvent(Vector2i position, MouseButton button, MouseButtonState state) {
+		MouseClickEvent::MouseClickEvent(Vector2i position, MouseButton button, bool pressed) {
 			this->position = position;
 			this->button = button;
-			this->state = state;
+			this->pressed = pressed;
 		}
 
 		Vector2i MouseClickEvent::getPosition() const {
@@ -26,8 +26,8 @@ namespace openlima {
 			return this->button;
 		}
 
-		MouseButtonState MouseClickEvent::getState() const {
-			return this->state;
+		bool MouseClickEvent::isPressed() const {
+			return this->pressed;
 		}
 
 	}

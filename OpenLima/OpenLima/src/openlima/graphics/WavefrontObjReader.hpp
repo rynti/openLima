@@ -18,16 +18,40 @@
 namespace openlima {
 	namespace graphics {
 
-		class WavefrontObjReader
-		{
+		/**
+		 * A Wavefront .obj-reader.
+		 * Can read static meshes.
+		 * 
+		 * @sa	StaticMesh
+		 */
+		class WavefrontObjReader {
 		private:
 
+			/**
+			 * Reads a vertex out of the given input stream.
+			 *
+			 * @param [in,out]	in			The input stream.
+			 * @param [in,out]	vertices	The vertices.
+			 */
 			static void readVertex(std::istream &in,
 				std::vector<openlima::util::Vector3f>& vertices);
-
+			
+			/**
+			 * Reads a normal out of the given input stream.
+			 *
+			 * @param [in,out]	in	   	The input stream.
+			 * @param [in,out]	normals	The normals.
+			 */
 			static void readNormal(std::istream &in,
 				std::vector<openlima::util::Vector3f>& normals);
 
+			/**
+			 * Reads a face out of the given input stream.
+			 *
+			 * @param [in,out]	in			 	The input stream.
+			 * @param [in,out]	vertexIndices	The vertex indices.
+			 * @param [in,out]	normalIndices	The normal indices.
+			 */
 			static void readFace(std::istream &in,
 				std::vector<openlima::util::Vector3i>& vertexIndices,
 				std::vector<openlima::util::Vector3i>& normalIndices);
@@ -50,8 +74,22 @@ namespace openlima {
 
 		public:
 
+			/**
+			 * Reads a static mesh from a file with the given filename.
+			 *
+			 * @param [in,out]	filename	The filename of the file.
+			 *
+			 * @return	The new static mesh.
+			 */
 			static OPENLIMA_DLL StaticMesh* readStatic(char* filename);
 
+			/**
+			 * Reads a static mesh out of the given input stream.
+			 *
+			 * @param [in,out]	in	The input stream.
+			 *
+			 * @return	The new static mesh.
+			 */
 			static OPENLIMA_DLL StaticMesh* readStatic(std::istream &in);
 
 		};

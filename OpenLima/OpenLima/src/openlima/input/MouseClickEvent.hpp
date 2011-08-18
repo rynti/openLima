@@ -10,14 +10,13 @@
 #include "../util/macros.hpp"
 #include "../util/Vector2.hpp"
 #include "MouseButton.hpp"
-#include "MouseButtonState.hpp"
 
 
 namespace openlima {
 	namespace input {
 
 		/**
-		 * A event argument that will be given to events that are raised on mouse clicks.
+		 * An event argument that will be given to events that are raised on mouse clicks.
 		 */
 		class MouseClickEvent {
 		private:
@@ -28,19 +27,20 @@ namespace openlima {
 			/* The affected mouse button. */
 			MouseButton button;
 
-			/* The state of the affected mouse button. */
-			MouseButtonState state;
+			/* Determines if the affected mouse button is currently pressed. */
+			bool pressed;
 
 		public:
 
 			/**
-			 * Constructor.
+			 * Creates a new MouseClickEvent argument.
 			 *
 			 * @param	position	The mouse position.
 			 * @param	button  	The affected mouse button.
-			 * @param	state   	The state of the affected mouse button.
+			 * @param	pressed   	Determines if the affected mouse button is currently pressed.
 			 */
-			OPENLIMA_DLL MouseClickEvent(openlima::util::Vector2i position, MouseButton button, MouseButtonState state);
+			OPENLIMA_DLL MouseClickEvent(openlima::util::Vector2i position, MouseButton button,
+				bool pressed);
 
 
 			/**
@@ -58,11 +58,11 @@ namespace openlima {
 			OPENLIMA_DLL MouseButton getButton() const;
 
 			/**
-			 * Returns the state of the affected mouse button.
+			 * Determines if the affected mouse button is currently pressed.
 			 *
 			 * @return	The state of the affected mouse button.
 			 */
-			OPENLIMA_DLL MouseButtonState getState() const;
+			OPENLIMA_DLL bool isPressed() const;
 
 		};
 

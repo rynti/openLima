@@ -13,9 +13,9 @@
 #include "WavefrontObjReader.hpp"
 #include "StaticMesh.hpp"
 
-
 using namespace std;
 using namespace openlima::util;
+
 
 namespace openlima {
 	namespace graphics {

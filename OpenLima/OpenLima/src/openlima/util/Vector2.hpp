@@ -7,6 +7,8 @@
 #ifndef OPENLIMA_UTIL_VECTOR2_HPP
 #define OPENLIMA_UTIL_VECTOR2_HPP
 
+#include "types.hpp"
+
 
 namespace openlima {
 	namespace util {
@@ -23,15 +25,39 @@ namespace openlima {
 
 			Vector2() : x(), y() {}
 
+
+			bool Vector2::operator ==(const Vector2& other) const {
+				return this->x == other.x && this->y == other.y;
+			}
+
+			bool Vector2::operator !=(const Vector2& other) const {
+				return this->x != other.x || this->y != other.y;
+			}
+
+
+			Vector2 Vector2::operator +(const Vector2& other) const {
+				return Vector2(this->x + other.x, this->y + other.y);
+			}
+
+			Vector2 Vector2::operator -(const Vector2& other) const {
+				return Vector2(this->x - other.x, this->y - other.y);
+			}
+
+			Vector2 Vector2::operator *(const Vector2& other) const {
+				return Vector2(this->x * other.x, this->y * other.y);
+			}
+
+			Vector2 Vector2::operator /(const Vector2& other) const {
+				return Vector2(this->x / other.x, this->y / other.y);
+			}
+
 		};
 
+		typedef Vector2<i32> Vector2i;
 
-		typedef Vector2<int> Vector2i;
-
-		typedef Vector2<float> Vector2f;
+		typedef Vector2<Real> Vector2f;
 
 	}
 }
-
 
 #endif /* OPENLIMA_UTIL_VECTOR2_HPP */

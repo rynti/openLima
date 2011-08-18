@@ -17,24 +17,49 @@
 namespace openlima {
 	namespace graphics {
 
+		/**
+		 * A static mesh. Use - for instance - the WavefrontObjReader to load a static mesh.
+		 *
+		 * @sa	IRenderable
+		 * @sa	Mesh
+		 * @sa	WavefrontObjReader
+		 */
 		class StaticMesh : public Mesh {
 		public:
+
+			/* The vertices. */
 			std::vector<openlima::util::Vector3f> vertices;
+
+			/* The normals. */
 			std::vector<openlima::util::Vector3f> normals;
+
+			/* The vertex indices. */
 			std::vector<openlima::util::Vector3i> vertexIndices;
+
+			/* The normal indices. */
 			std::vector<openlima::util::Vector3i> normalIndices;
 
+			/**
+			 * Creates a new static mesh based upon the mesh data.
+			 *
+			 * @param	vertices	 	The vertices.
+			 * @param	normals		 	The normals.
+			 * @param	vertexIndices	The vertex indices.
+			 * @param	normalIndices	The normal indices.
+			 */
 			OPENLIMA_DLL StaticMesh(std::vector<openlima::util::Vector3f> vertices,
 				std::vector<openlima::util::Vector3f> normals,
 				std::vector<openlima::util::Vector3i> vertexIndices,
 				std::vector<openlima::util::Vector3i> normalIndices);
 
+			/**
+			 * Renders this static mesh.
+			 */
 			OPENLIMA_DLL virtual void render();
 
 		};
 
 	}
 }
-
 
 #endif /* OPENLIMA_GRAPHICS_STATICMESH_HPP */

@@ -5,12 +5,13 @@
 // along with OpenLima. If not, see: <http://www.gnu.org/licenses/>.
 
 #include <GL/freeglut.h>
+
 #include <iostream>
 
 #include "Mouse.hpp"
 
-
 using namespace openlima::util;
+
 
 namespace openlima {
 	namespace input {
@@ -21,8 +22,17 @@ namespace openlima {
 			mouseButtonStates = 0;
 		}
 
+		Mouse::Mouse(const Mouse& obj) {
+			// Empty
+		}
+
 		Vector2i Mouse::getPosition() {
 			return position;
+		}
+
+		void Mouse::setPosition(Vector2i position) {
+			this->delta = position - this->position;
+			this->position = position;
 		}
 
 		Vector2i Mouse::getDelta() {
@@ -43,16 +53,10 @@ namespace openlima {
 
 		void Mouse::setVisible(bool visible) {
 			this->visible = visible;
-			if(visible) {
-				glutSetCursor(GLUT_CURSOR_INHERIT);
-			} else {
-				glutSetCursor(GLUT_CURSOR_NONE);
-			}
 		}
 
-		MouseButtonState Mouse::getButtonState(MouseButton button) {
-			return ((this->mouseButtonStates & (1 << (int)button)) != 0) ?
-				MouseButtonStateType::PRESSED : MouseButtonStateType::RELEASED;
+		bool Mouse::isPressed(MouseButton button) {
+			return (this->mouseButtonStates & (1 << (int)button)) != 0;
 		}
 
 	}

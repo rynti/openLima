@@ -33,5 +33,4 @@ namespace openlima {
 	}
 }
 
-
 #endif /* OPENLIMA_UTIL_VECTOR3_HPP */

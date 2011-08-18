@@ -138,23 +138,23 @@
     <ClInclude Include="src\openlima\graphics\IRenderable.hpp" />
     <ClInclude Include="src\openlima\graphics\Mesh.hpp" />
     <ClInclude Include="src\openlima\graphics\StaticMesh.hpp" />
-    <ClInclude Include="src\openlima\input\GlobalMouse.hpp" />
+    <ClInclude Include="src\openlima\gui\Window.hpp" />
+    <ClInclude Include="src\openlima\input\GlutMouse.hpp" />
     <ClInclude Include="src\openlima\input\Mouse.hpp" />
     <ClInclude Include="src\openlima\input\MouseMoveEvent.hpp" />
     <ClInclude Include="src\openlima\input\MouseClickEvent.hpp" />
     <ClInclude Include="src\openlima\input\MouseButton.hpp" />
-    <ClInclude Include="src\openlima\input\MouseButtonState.hpp" />
+    <ClInclude Include="src\openlima\util\types.hpp" />
     <ClInclude Include="src\openlima\util\Vector2.hpp" />
     <ClInclude Include="src\openlima\util\Vector3.hpp" />
     <ClInclude Include="src\openlima\graphics\WavefrontObjReader.hpp" />
-    <ClInclude Include="src\openlima\graphics\Window.hpp" />
     <ClInclude Include="src\openlima\util\macros.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\openlima\graphics\StaticMesh.cpp" />
     <ClCompile Include="src\openlima\graphics\WavefrontObjReader.cpp" />
-    <ClCompile Include="src\openlima\graphics\Window.cpp" />
-    <ClCompile Include="src\openlima\input\GlobalMouse.cpp" />
+    <ClCompile Include="src\openlima\gui\Window.cpp" />
+    <ClCompile Include="src\openlima\input\GlutMouse.cpp" />
     <ClCompile Include="src\openlima\input\Mouse.cpp" />
     <ClCompile Include="src\openlima\input\MouseClickEvent.cpp" />
     <ClCompile Include="src\openlima\input\MouseMoveEvent.cpp" />
