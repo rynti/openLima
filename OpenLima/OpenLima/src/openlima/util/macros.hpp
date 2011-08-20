@@ -34,7 +34,7 @@
 // Windows:
 #ifdef _WIN32
 #define OPENLIMA_WIN
-#ifdef _WIN64
+#ifdef _M_X64
 #define OPENLIMA_X64
 #else
 #define OPENLIMA_X86
@@ -68,10 +68,6 @@
 //////////////////////////////////////
 // L_MAIN-Macro
 #ifdef OPENLIMA_WIN
-
-#ifndef WIN32_LEAN_AND_MEAN
-#define WIN32_LEAN_AND_MEAN
-#endif
 #include <windows.h>
 
 #define OPENLIMA_MAIN(c, v) \
@@ -109,6 +105,8 @@
 #endif
 
 #ifndef BOOST_FOREACH_PAIR
+#include <boost/foreach.hpp>
+
 #define BOOST_FOREACH_PAIR(KEY, VALUE, COL) BOOST_FOREACH_PREAMBLE() \
 if (boost::foreach_detail_::auto_any_t BOOST_FOREACH_ID(_foreach_col) \
 	= BOOST_FOREACH_CONTAIN(COL)) {} else if \

@@ -20,6 +20,8 @@ namespace openlima {
 		 *
 		 * @sa	IRenderable
 		 * @sa	StaticMesh
+		 *
+		 * @author	rynti (Robert Boehm)
 		 */
 		class Mesh : public IRenderable {
 		protected:

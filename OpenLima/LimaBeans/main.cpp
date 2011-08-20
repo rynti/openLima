@@ -4,16 +4,24 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with OpenLima. If not, see: <http://www.gnu.org/licenses/>.
 
-#include <openlima/util/macros.hpp>
-#include <openlima/gui/Window.hpp>
-#include <openlima/graphics/WavefrontObjReader.hpp>
-#include <openlima/graphics/IRenderable.hpp>
-#include <openlima/input/MouseButton.hpp>
-#include <openlima/util/types.hpp>
 #include <boost/bind.hpp>
 #include <boost/date_time.hpp>
 
+#include <windows.h>
+
+#include <openlima/util/macros.hpp>
+#include <openlima/util/types.hpp>
+#include <openlima/sil/SystemWindow.hpp>
+#include <openlima/sil/sigl.hpp>
+#include <openlima/gui/Window.hpp>
+#include <openlima/input/MouseButton.hpp>
+#include <openlima/input/KeyboardButton.hpp>
+#include <openlima/graphics/WavefrontObjReader.hpp>
+#include <openlima/graphics/IRenderable.hpp>
+#include <openlima/sil/KeyMapper.hpp>
+
 using namespace openlima::graphics;
+using namespace openlima::sil;
 using namespace openlima::gui;
 using namespace openlima::input;
 using namespace openlima::util;
@@ -31,7 +39,7 @@ public:
 	dtime time;
 	dtime amount;
 
-	MyWindow(const char* title, GLfloat* lightColor) : Window(title, 800, 600) {
+	MyWindow(const wchar_t* title, GLfloat* lightColor) : Window(title, 640, 480) {
 		myRenderable = WavefrontObjReader::readStatic("resources/simpleCube.obj");
 		xPos = 0;
 		yPos = 0;
@@ -59,7 +67,8 @@ public:
 		glLightfv(GL_LIGHT0, GL_DIFFUSE, lightColor);
 		glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
 
-		this->setRenderRate(60);
+		//this->setRenderRate(60);
+		this->showWindow();
 	}
 
 	virtual ~MyWindow() {
@@ -80,6 +89,26 @@ public:
 			this->getMouse()->setSticky(catchIt);
 			this->getMouse()->setVisible(!catchIt);
 		}
+	}
+
+	virtual void onKeyboardButtonPressed(Keyboard& source, const KeyboardEvent& e) {
+		std::cout << "KeyboardButton #" << (unsigned int)(e.getButton()) << " {" << std::endl;
+
+		char buttonValue = KeyMapper::getKeyboardButtonValue(e.getButton());
+		if(buttonValue != 0)
+			std::cout << "  Value: " << buttonValue << std::endl;
+
+		const char* buttonDescription = KeyMapper::getKeyboardButtonDescription(e.getButton());
+		if(buttonDescription != NULL)
+			std::cout << "  Description: " << buttonDescription << std::endl;
+
+		// Deleting NULL-pointers is allowed!
+		delete[] buttonDescription;
+
+		std::cout << "}" << std::endl;
+	}
+
+	virtual void onKeyboardButtonReleased(Keyboard& source, const KeyboardEvent& e) {
 	}
 
 	virtual void update(dtime delta) {
@@ -113,18 +142,12 @@ public:
 
 };
 
+
 OPENLIMA_MAIN(int argc, char** argv) {
-	
-	Window::initialize(&argc, argv);
-
-	//Window::hideConsole();
-		
 	GLfloat lightColors1[] = {0.5f, 1.0f, 0.5f, 1.0f};
-	MyWindow window1("Window 1", lightColors1);
-	//GLfloat lightColors2[] = {1.0f, 0.5f, 0.5f, 1.0f};
-	//MyWindow window2("Window 2", 500.0f, lightColors2);
-
-	Window::setWindowDependency(false);
+	MyWindow window1(L"Window 1", lightColors1);
+	GLfloat lightColors2[] = {1.0f, 0.5f, 0.5f, 1.0f};
+	MyWindow window2(L"Window 2", lightColors2);
 
 	Window::enterMainLoop();
 

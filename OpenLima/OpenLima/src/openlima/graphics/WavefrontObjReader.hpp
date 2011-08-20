@@ -23,6 +23,8 @@ namespace openlima {
 		 * Can read static meshes.
 		 * 
 		 * @sa	StaticMesh
+		 *
+		 * @author	rynti (Robert Boehm)
 		 */
 		class WavefrontObjReader {
 		private:

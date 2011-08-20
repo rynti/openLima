@@ -23,6 +23,8 @@ namespace openlima {
 		 * @sa	IRenderable
 		 * @sa	Mesh
 		 * @sa	WavefrontObjReader
+		 *
+		 * @author	rynti (Robert Boehm)
 		 */
 		class StaticMesh : public Mesh {
 		public:

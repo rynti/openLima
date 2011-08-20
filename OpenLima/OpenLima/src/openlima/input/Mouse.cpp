@@ -4,8 +4,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with OpenLima. If not, see: <http://www.gnu.org/licenses/>.
 
-#include <GL/freeglut.h>
-
 #include <iostream>
 
 #include "Mouse.hpp"
@@ -23,6 +21,10 @@ namespace openlima {
 		}
 
 		Mouse::Mouse(const Mouse& obj) {
+			// Empty
+		}
+
+		Mouse::~Mouse() {
 			// Empty
 		}
 

@@ -17,12 +17,11 @@ namespace openlima {
 
 		/**
 		 * An event argument that will be given to events that are raised on mouse clicks.
+		 *
+		 * @author	rynti (Robert Boehm)
 		 */
 		class MouseClickEvent {
 		private:
-
-			/** The mouse position. */
-			openlima::util::Vector2i position;
 
 			/** The affected mouse button. */
 			MouseButton button;
@@ -35,20 +34,16 @@ namespace openlima {
 			/**
 			 * Creates a new MouseClickEvent argument.
 			 *
-			 * @param	position	The mouse position.
 			 * @param	button  	The affected mouse button.
 			 * @param	pressed   	Determines if the affected mouse button is currently pressed.
 			 */
-			OPENLIMA_DLL MouseClickEvent(openlima::util::Vector2i position, MouseButton button,
-				bool pressed);
-
+			OPENLIMA_DLL MouseClickEvent(MouseButton button, bool pressed);
 
 			/**
-			 * Returns the mouse position.
-			 *
-			 * @return	The mouse position.
+			 * Finalizer.
 			 */
-			OPENLIMA_DLL openlima::util::Vector2i getPosition() const;
+			OPENLIMA_DLL virtual ~MouseClickEvent();
+
 
 			/**
 			 * Returns the affected mouse button.

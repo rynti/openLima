@@ -8,14 +8,16 @@
 #define OPENLIMA_GUI_WINDOW_HPP
 
 #include <boost/date_time.hpp>
-#include <GL/glut.h>
 
 #include <map>
 
 #include "../util/macros.hpp"
 #include "../util/types.hpp"
+#include "../sil/SystemWindow.hpp"
 #include "../input/Mouse.hpp"
 #include "../input/MouseMoveEvent.hpp"
+#include "../input/Keyboard.hpp"
+#include "../input/KeyboardEvent.hpp"
 
 
 namespace openlima {
@@ -27,6 +29,8 @@ namespace openlima {
 		 * management and render/update limit.
 		 * 
 		 * Be sure to use Window::initialize(int*, char**) before constructing a Window-object.
+		 *
+		 * @author	rynti (Robert Boehm)
 		 */
 		class Window {
 		private:
@@ -34,12 +38,9 @@ namespace openlima {
 			/** The default update time. */
 			static const openlima::util::dtime defaultUpdateTime;
 
-			/** The registered windows. */
-			static std::map<openlima::util::GlutHandle, Window*> registeredWindows;
 
-
-			/** Identifier for the glut window. */
-			openlima::util::GlutHandle glutWindowId;
+			/** The SystemWindow this window is based on. */
+			openlima::sil::SystemWindow* systemWindow;
 
 			/** The time when the previous update happened. */
 			boost::posix_time::ptime previousUpdate;
@@ -65,24 +66,8 @@ namespace openlima {
 			/** The mouse for this window. */
 			openlima::input::Mouse* mouse;
 
-
-			/**
-			 * The global resize handler.
-			 *
-			 * @param	width 	The new window width.
-			 * @param	height	The new window height.
-			 */
-			OPENLIMA_DLL static void globalResizeHandler(int width, int height);
-
-			/**
-			 * The global draw handler.
-			 */
-			OPENLIMA_DLL static void globalDrawHandler();
-
-			/**
-			 * The global idle handler.
-			 */
-			OPENLIMA_DLL static void globalIdleHandler();
+			/** The keyboard for this window. */
+			openlima::input::Keyboard* keyboard;
 
 		protected:
 
@@ -93,10 +78,8 @@ namespace openlima {
 			 * @param	title	   	The title of the window.
 			 * @param	width	   	The width of the window.
 			 * @param	height	   	The height of the window.
-			 * @param	displayMode	(optional) The display mode of the window.
 			 */
-			OPENLIMA_DLL Window(const char* title, int width, int height,
-				unsigned int displayMode = GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+			OPENLIMA_DLL Window(const wchar_t* title, int width, int height);
 
 
 			/**
@@ -105,17 +88,13 @@ namespace openlima {
 			 * @param	width 	The new window width.
 			 * @param	height	The new window height.
 			 */
-			OPENLIMA_DLL virtual void onResize(int width, int height);
+			OPENLIMA_DLL virtual void onResize(openlima::sil::SystemWindow& window,
+				int width, int height);
 
 			/**
 			 * The draw handler.
 			 */
-			OPENLIMA_DLL virtual void onDraw();
-
-			/**
-			 * The idle handler.
-			 */
-			OPENLIMA_DLL virtual void onIdle();
+			OPENLIMA_DLL virtual void onDraw(openlima::sil::SystemWindow& window);
 
 		public:
 
@@ -124,15 +103,6 @@ namespace openlima {
 			 */
 			OPENLIMA_DLL virtual ~Window();
 
-
-			/**
-			 * Initializes all the Window-stuff.
-			 * Should only be called once per program execution, is required for multiple stuff.
-			 *
-			 * @param [in,out]	argcp	A pointer to the argument count.
-			 * @param [in,out]	argv 	A pointer to the arguments.
-			 */
-			OPENLIMA_DLL static void initialize(int* argcp, char** argv);
 
 			/**
 			 * Hides the console. (If there is one)
@@ -147,7 +117,7 @@ namespace openlima {
 			 * 						windows gets closed, when false, the program will continue
 			 * 						execution if any other window is still open.
 			 */
-			OPENLIMA_DLL static void setWindowDependency(bool dependent = true);
+			// TODO OPENLIMA_DLL static void setWindowDependency(bool dependent = true);
 
 			/**
 			 * Enters the main loop.
@@ -163,11 +133,23 @@ namespace openlima {
 			OPENLIMA_DLL openlima::input::Mouse* getMouse();
 
 			/**
+			 * Returns the keyboard for this window.
+			 *
+			 * @return	The keyboard for this window.
+			 */
+			OPENLIMA_DLL openlima::input::Mouse* getKeyboard();
+
+			/**
+			 * Shows the window.
+			 */
+			OPENLIMA_DLL void showWindow();
+
+			/**
 			 * Sets the title of this window.
 			 *
 			 * @param	title	The title.
 			 */
-			OPENLIMA_DLL void setTitle(const char* title);
+			OPENLIMA_DLL void setTitle(const wchar_t* title);
 
 			/**
 			 * Sets the size of this window.
@@ -176,6 +158,13 @@ namespace openlima {
 			 * @param	height	The new window height.
 			 */
 			OPENLIMA_DLL void setSize(int width, int height);
+
+			/**
+			 * Makes this window resizable or unresizable, depending on the given value.
+			 *
+			 * @param	resizable	True to make this window resizable, else false.
+			 */
+			OPENLIMA_DLL void setResizable(bool resizable);
 
 			/**
 			 * Sets the target render rate.
@@ -222,6 +211,24 @@ namespace openlima {
 			 */
 			OPENLIMA_DLL virtual void onMouseClick(openlima::input::Mouse& source,
 				const openlima::input::MouseClickEvent& e);
+
+			/**
+			 * Will be called when any keyboard button gets pressed.
+			 *
+			 * @param [in,out]	source	The affected keyboard.
+			 * @param	e			  	Additional event arguments.
+			 */
+			OPENLIMA_DLL virtual void onKeyboardButtonPressed(openlima::input::Keyboard& source,
+				const openlima::input::KeyboardEvent& e);
+
+			/**
+			 * Will be called when any keyboard button gets released.
+			 *
+			 * @param [in,out]	source	The affected keyboard.
+			 * @param	e			  	Additional event arguments.
+			 */
+			OPENLIMA_DLL virtual void onKeyboardButtonReleased(openlima::input::Keyboard& source,
+				const openlima::input::KeyboardEvent& e);
 
 			/**
 			 * Updates this window.

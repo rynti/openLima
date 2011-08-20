@@ -7,16 +7,16 @@
 #include <boost/bind.hpp>
 #include <boost/foreach.hpp>
 
-#include <GL/glut.h>
-#include <GL/freeglut_ext.h>
-
-#include "../input/GlutMouse.hpp"
+#include "../sil/sigl.hpp"
+#include "../input/SystemMouse.hpp"
+#include "../input/SystemKeyboard.hpp"
 #include "Window.hpp"
 
 using namespace std;
 using namespace boost::posix_time;
 using namespace openlima::input;
 using namespace openlima::util;
+using namespace openlima::sil;
 
 
 namespace openlima {
@@ -24,60 +24,51 @@ namespace openlima {
 
 		const dtime Window::defaultUpdateTime = 0.016667; // ~= (1/60) => 60 FPS
 
-		std::map<GlutHandle, Window*> Window::registeredWindows;
 
 
-
-		Window::Window(const char* title, int width, int height,
-				unsigned int displayMode /* = GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH */) {
-
+		Window::Window(const wchar_t* title, int width, int height) {
 			this->updateDelta = 0;
 			this->updateTime = defaultUpdateTime;
 			this->redrawDelta = 0;
 			this->redrawTime = defaultUpdateTime;
 			this->limitRedraw = false;
 
-			glutInitDisplayMode(displayMode);
-			glutInitWindowSize(width, height);
+			this->systemWindow = new SystemWindow(title, width, height);
 
-			this->glutWindowId = glutCreateWindow(title);
-			Window::registeredWindows[this->glutWindowId] = this;
+			this->systemWindow->onResize = boost::bind(&Window::onResize, this, _1, _2, _3);
+			this->systemWindow->onDraw = boost::bind(&Window::onDraw, this, _1);
 
-			glutReshapeFunc(&Window::globalResizeHandler);
-			glutDisplayFunc(&Window::globalDrawHandler);
+			this->mouse = new SystemMouse(*systemWindow);
+			this->mouse->onMouseClick.connect(
+				boost::bind(&Window::onMouseClick, this, _1, _2));
+			this->mouse->onMouseMove.connect(
+				boost::bind(&Window::onMouseMove, this, _1, _2));
 
-			this->mouse = new GlutMouse(this->glutWindowId);
-			this->mouse->onMouseClick.connect(boost::bind(&Window::onMouseClick, this, _1, _2));
-			this->mouse->onMouseMove.connect(boost::bind(&Window::onMouseMove, this, _1, _2));
+			this->keyboard = new SystemKeyboard(*systemWindow);
+			this->keyboard->onKeyboardButtonPressed.connect(
+				boost::bind(&Window::onKeyboardButtonPressed, this, _1, _2));
+			this->keyboard->onKeyboardButtonReleased.connect(
+				boost::bind(&Window::onKeyboardButtonReleased, this, _1, _2));
+			
 		}
 
 		Window::~Window() {
-			Window::registeredWindows.erase(this->glutWindowId);
 			delete this->mouse;
-		}
-
-		void Window::initialize(int* argcp, char** argv) {
-			static bool initialized = false;
-			if(!initialized) {
-				glutInit(argcp, argv);
-				glutIdleFunc(&Window::globalIdleHandler);
-				setWindowDependency();
-
-				initialized = true;
-			}
+			delete this->keyboard;
+			delete this->systemWindow;
 		}
 
 		void Window::enterMainLoop() {
-			glutMainLoop();
+			openlima::sil::SystemWindow::mainLoop();
 		}
 
-		void Window::setWindowDependency(bool dependent /* = true*/) {
+		/*void Window::setWindowDependency(bool dependent) {
 			if(dependent) {
 				glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS);
 			} else {
 				glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_CONTINUE_EXECUTION);
 			}
-		}
+		}*/
 
 		void Window::hideConsole() {
 #ifdef OPENLIMA_WIN
@@ -85,21 +76,7 @@ namespace openlima {
 #endif
 		}
 
-		void Window::globalResizeHandler(int width, int height) {
-			Window::registeredWindows[glutGetWindow()]->onResize(width, height);
-		}
-
-		void Window::globalDrawHandler() {
-			Window::registeredWindows[glutGetWindow()]->onDraw();
-		}
-
-		void Window::globalIdleHandler() {
-			BOOST_FOREACH_PAIR(GlutHandle windowId, Window* window, Window::registeredWindows) {
-				window->onIdle();
-			}
-		}
-
-		void Window::onResize(int width, int height) {
+		void Window::onResize(SystemWindow& window, int width, int height) {
 			glViewport(0, 0, width, height);
 
 			glMatrixMode(GL_PROJECTION);
@@ -108,7 +85,7 @@ namespace openlima {
 			gluPerspective(45.0, (double)width / (double)height, 1.0, 200.0);
 		}
 
-		void Window::onDraw() {
+		void Window::onDraw(SystemWindow& window) {
 			if(this->previousUpdate.is_not_a_date_time()) {
 				this->previousUpdate = microsec_clock::local_time();
 			}
@@ -134,22 +111,24 @@ namespace openlima {
 			}
 		}
 
-		void Window::onIdle() {
-			glutPostWindowRedisplay(this->glutWindowId);
-		}
-
 		Mouse* Window::getMouse() {
 			return this->mouse;
 		}
 
-		void Window::setTitle(const char* title) {
-			glutSetWindow(this->glutWindowId);
-			glutSetWindowTitle(title);
+		void Window::showWindow() {
+			this->systemWindow->showWindow();
+		}
+
+		void Window::setTitle(const wchar_t* title) {
+			this->systemWindow->setTitle(title);
 		}
 
 		void Window::setSize(int width, int height) {
-			glutSetWindow(this->glutWindowId);
-			glutReshapeWindow(width, height);
+			this->systemWindow->setSize(width, height);
+		}
+
+		void Window::setResizable(bool resizable) {
+			this->systemWindow->setResizable(resizable);
 		}
 
 		void Window::setRenderRate(Real rate) {
@@ -173,7 +152,7 @@ namespace openlima {
 		}
 
 		void Window::finishRendering() {
-			glutSwapBuffers();
+			this->systemWindow->swapBuffers();
 		}
 
 
@@ -183,6 +162,14 @@ namespace openlima {
 		}
 
 		void Window::onMouseMove(Mouse& source, const MouseMoveEvent& e) {
+			// Empty
+		}
+
+		void Window::onKeyboardButtonPressed(Keyboard& source, const KeyboardEvent& e) {
+			// Empty
+		}
+
+		void Window::onKeyboardButtonReleased(Keyboard& source, const KeyboardEvent& e) {
 			// Empty
 		}
 

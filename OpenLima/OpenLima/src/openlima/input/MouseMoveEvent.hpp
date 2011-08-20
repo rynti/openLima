@@ -16,6 +16,8 @@ namespace openlima {
 
 		/**
 		 * An event argument that will be given to events that are raised on mouse movements.
+		 *
+		 * @author	rynti (Robert Boehm)
 		 */
 		class MouseMoveEvent {
 		private:
@@ -34,7 +36,13 @@ namespace openlima {
 			 * @param	position	The mouse position.
 			 * @param	delta   	The position delta from this movement.
 			 */
-			OPENLIMA_DLL MouseMoveEvent(openlima::util::Vector2i position, openlima::util::Vector2i delta);
+			OPENLIMA_DLL MouseMoveEvent(openlima::util::Vector2i position,
+				openlima::util::Vector2i delta);
+
+			/**
+			 * Finalizer.
+			 */
+			OPENLIMA_DLL virtual ~MouseMoveEvent();
 
 
 			/**

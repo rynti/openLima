@@ -61,6 +61,16 @@ namespace openlima {
 	 */
 	namespace util {}
 
+	/**
+	 * The SIL namespace is the interface between the operating system and openlima.
+	 * 
+	 * SIL stands for "System independency layer" and it does exactly what the name says:
+	 * It provides classes that are for the outside system-independent, but inside they work
+	 * system-dependent, so every class here can be used (from outside) as if it is
+	 * system-independent.
+	 */
+	namespace sil {}
+
 }
 
 #endif /* OPENLIMA_DOCS_HPP */

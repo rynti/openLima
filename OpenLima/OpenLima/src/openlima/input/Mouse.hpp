@@ -21,6 +21,8 @@ namespace openlima {
 
 		/**
 		 * A abstract mouse. Use specializations like GlutMouse instead.
+		 *
+		 * @author	rynti (Robert Boehm)
 		 */
 		class Mouse {
 		private:
@@ -30,7 +32,7 @@ namespace openlima {
 			 *
 			 * @param	obj	The other mouse.
 			 */
-			Mouse(const Mouse& obj);
+			OPENLIMA_DLL Mouse(const Mouse& obj);
 
 		protected:
 
@@ -71,6 +73,12 @@ namespace openlima {
 
 			/** An event that will be called when this mouse was clicked. */
 			boost::signal<void (Mouse&, const MouseClickEvent&)> onMouseClick;
+
+
+			/**
+			 * Finalizer.
+			 */
+			OPENLIMA_DLL virtual ~Mouse();
 
 
 			/**

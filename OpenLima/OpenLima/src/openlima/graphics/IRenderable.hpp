@@ -15,6 +15,8 @@ namespace openlima {
 
 		/**
 		 * Marks a class renderable, which means it can be rendered on the screen.
+		 *
+		 * @author	rynti (Robert Boehm)
 		 */
 		class IRenderable {
 		protected:

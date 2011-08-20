@@ -55,6 +55,12 @@
     <Filter Include="Headerdateien\gui">
       <UniqueIdentifier>{7fba8842-0c3d-42dd-af6a-22176b045615}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Quelldateien\sil">
+      <UniqueIdentifier>{ec53bd12-3c09-4f45-918d-2f810eff42f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\sil">
+      <UniqueIdentifier>{568226af-bce6-48cb-89f4-222c32c7c53a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\openlima\util\macros.hpp">
@@ -90,14 +96,38 @@
     <ClInclude Include="src\openlima\input\MouseMoveEvent.hpp">
       <Filter>Headerdateien\input</Filter>
     </ClInclude>
-    <ClInclude Include="src\openlima\input\GlutMouse.hpp">
-      <Filter>Headerdateien\input</Filter>
-    </ClInclude>
     <ClInclude Include="src\openlima\gui\Window.hpp">
       <Filter>Headerdateien\gui</Filter>
     </ClInclude>
     <ClInclude Include="src\openlima\util\types.hpp">
       <Filter>Headerdateien\util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\openlima\docs.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\openlima\input\SystemMouse.hpp">
+      <Filter>Headerdateien\input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\openlima\sil\KeyMapper.hpp">
+      <Filter>Headerdateien\sil</Filter>
+    </ClInclude>
+    <ClInclude Include="src\openlima\sil\sigl.hpp">
+      <Filter>Headerdateien\sil</Filter>
+    </ClInclude>
+    <ClInclude Include="src\openlima\sil\SystemWindow.hpp">
+      <Filter>Headerdateien\sil</Filter>
+    </ClInclude>
+    <ClInclude Include="src\openlima\input\Keyboard.hpp">
+      <Filter>Headerdateien\input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\openlima\input\KeyboardButton.hpp">
+      <Filter>Headerdateien\input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\openlima\input\KeyboardEvent.hpp">
+      <Filter>Headerdateien\input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\openlima\input\SystemKeyboard.hpp">
+      <Filter>Headerdateien\input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -116,11 +146,26 @@
     <ClCompile Include="src\openlima\input\MouseMoveEvent.cpp">
       <Filter>Quelldateien\input</Filter>
     </ClCompile>
-    <ClCompile Include="src\openlima\input\GlutMouse.cpp">
-      <Filter>Quelldateien\input</Filter>
-    </ClCompile>
     <ClCompile Include="src\openlima\gui\Window.cpp">
       <Filter>Quelldateien\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\openlima\input\SystemMouse.cpp">
+      <Filter>Quelldateien\input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\openlima\input\Keyboard.cpp">
+      <Filter>Quelldateien\input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\openlima\sil\SystemWindow.cpp">
+      <Filter>Quelldateien\sil</Filter>
+    </ClCompile>
+    <ClCompile Include="src\openlima\sil\KeyMapper.cpp">
+      <Filter>Quelldateien\sil</Filter>
+    </ClCompile>
+    <ClCompile Include="src\openlima\input\KeyboardEvent.cpp">
+      <Filter>Quelldateien\input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\openlima\input\SystemKeyboard.cpp">
+      <Filter>Quelldateien\input</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

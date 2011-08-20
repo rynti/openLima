@@ -4,29 +4,23 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with OpenLima. If not, see: <http://www.gnu.org/licenses/>.
 
-#include "MouseClickEvent.hpp"
-
-using namespace openlima::util;
+#include "KeyboardEvent.hpp"
+#include "KeyboardButton.hpp"
 
 
 namespace openlima {
 	namespace input {
 
-		MouseClickEvent::MouseClickEvent(MouseButton button, bool pressed) {
+		KeyboardEvent::KeyboardEvent(KeyboardButton button) {
 			this->button = button;
-			this->pressed = pressed;
 		}
 
-		MouseClickEvent::~MouseClickEvent() {
+		KeyboardEvent::~KeyboardEvent() {
 			// Empty
 		}
 
-		MouseButton MouseClickEvent::getButton() const {
+		KeyboardButton KeyboardEvent::getButton() const {
 			return this->button;
-		}
-
-		bool MouseClickEvent::isPressed() const {
-			return this->pressed;
 		}
 
 	}

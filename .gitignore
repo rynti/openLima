@@ -5,4 +5,5 @@
 *.user
 [Dd]ebug/
 [Rr]elease/
+x64/
 bin/

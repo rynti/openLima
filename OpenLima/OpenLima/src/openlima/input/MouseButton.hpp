@@ -14,7 +14,9 @@ namespace openlima {
 	namespace input {
 
 		/**
-		 * A struct that acts like a namespace for all mouse button types. 
+		 * A struct that acts like a namespace for all mouse button types.
+		 *
+		 * @author	rynti (Robert Boehm)
 		 */
 		struct MouseButtonType {
 			/**
