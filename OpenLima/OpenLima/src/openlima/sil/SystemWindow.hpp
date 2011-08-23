@@ -19,6 +19,12 @@
 namespace openlima {
 	namespace sil {
 
+		/**
+		 * A system window, which means from outside it is system-independent, but internal it
+		 * works system-dependent.
+		 * 
+		 * This class is the key feature of SIL.
+		 */
 		class SystemWindow {
 		private:
 #ifdef OPENLIMA_WIN
@@ -72,25 +78,46 @@ namespace openlima {
 
 #endif
 
+			/**
+			 * Executes the next event.
+			 *
+			 * @return	True if everything is still fine, false if this window was closed.
+			 */
 			bool nextEvent();
 
 		public:
 
+			/** An event that will be called when the content of this window should get drawn. */
 			boost::function<void (SystemWindow&)> onDraw;
 
+			/** An event that will be called when this window gets resized. */
 			boost::function<void (SystemWindow&, int, int)> onResize;
 
+			/** An event that will be called when the mouse of this window was moved. */
 			boost::function<void (SystemWindow&, int, int)> onMouseMove;
 
+			/** An event that will be called when a mouse button of this window was clicked. */
 			boost::function<void (SystemWindow&, openlima::input::MouseButton, bool)> onMouseClick;
 
+			/** An event that will be called when a key on the keyboard was pressed. */
 			boost::function<void (SystemWindow&, openlima::input::KeyboardButton)> onKeyDown;
 
+			/** An event that will be called when a key on the keyboard was released. */
 			boost::function<void (SystemWindow&, openlima::input::KeyboardButton)> onKeyUp;
 
-			
+
+			/**
+			 * Creates a new system-independent window.
+			 *
+			 * @param	title 	The initial title of the window.
+			 * @param	width 	The initial width of the window.
+			 * @param	height	The initial height of the window.
+			 */
 			OPENLIMA_DLL SystemWindow(const wchar_t* title, int width, int height);
 
+			/**
+			 * Finalizer.
+			 */
 			OPENLIMA_DLL virtual ~SystemWindow();
 
 

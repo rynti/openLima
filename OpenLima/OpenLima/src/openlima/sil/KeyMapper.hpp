@@ -13,7 +13,10 @@
 
 namespace openlima {
 	namespace sil {
-		
+
+		/**
+		 * A key mapper that can map keys of one format to another.
+		 */
 		class KeyMapper {
 		public:
 

@@ -6,6 +6,7 @@
 
 #include <boost/bind.hpp>
 #include <boost/date_time.hpp>
+#include <boost/smart_ptr.hpp>
 
 #include <windows.h>
 
@@ -19,6 +20,8 @@
 #include <openlima/graphics/WavefrontObjReader.hpp>
 #include <openlima/graphics/IRenderable.hpp>
 #include <openlima/sil/KeyMapper.hpp>
+#include <openlima/util/ResourceManager.hpp>
+#include <openlima/util/FileResourceManager.hpp>
 
 using namespace openlima::graphics;
 using namespace openlima::sil;
@@ -30,7 +33,7 @@ using namespace boost::posix_time;
 
 class MyWindow : public Window {
 public:
-	IRenderable* myRenderable;
+	boost::shared_ptr<IRenderable> myRenderable;
 	Real xPos;
 	Real yPos;
 	Real zPos;
@@ -39,8 +42,11 @@ public:
 	dtime time;
 	dtime amount;
 
-	MyWindow(const wchar_t* title, GLfloat* lightColor) : Window(title, 640, 480) {
-		myRenderable = WavefrontObjReader::readStatic("resources/simpleCube.obj");
+	MyWindow(boost::shared_ptr<ResourceManager> resourceManager,
+			const wchar_t* title, GLfloat* lightColor) : Window(title, 640, 480) {
+
+		myRenderable = resourceManager->getResource<StaticMesh>("simpleCube.obj");
+
 		xPos = 0;
 		yPos = 0;
 		zPos = 0;
@@ -72,7 +78,7 @@ public:
 	}
 
 	virtual ~MyWindow() {
-		delete myRenderable;
+		// Empty
 	}
 
 	virtual void onMouseMove(Mouse& source, const MouseMoveEvent& e) {
@@ -109,6 +115,7 @@ public:
 	}
 
 	virtual void onKeyboardButtonReleased(Keyboard& source, const KeyboardEvent& e) {
+		// Empty
 	}
 
 	virtual void update(dtime delta) {
@@ -144,10 +151,13 @@ public:
 
 
 OPENLIMA_MAIN(int argc, char** argv) {
+	boost::shared_ptr<ResourceManager> resourceManager(new FileResourceManager("resources"));
+	resourceManager->registerReader<StaticMesh>(new WavefrontObjReader);
+
 	GLfloat lightColors1[] = {0.5f, 1.0f, 0.5f, 1.0f};
-	MyWindow window1(L"Window 1", lightColors1);
+	MyWindow window1(resourceManager, L"Window 1", lightColors1);
 	GLfloat lightColors2[] = {1.0f, 0.5f, 0.5f, 1.0f};
-	MyWindow window2(L"Window 2", lightColors2);
+	MyWindow window2(resourceManager, L"Window 2", lightColors2);
 
 	Window::enterMainLoop();
 

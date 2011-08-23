@@ -153,6 +153,10 @@
     <ClInclude Include="src\openlima\sil\KeyMapper.hpp" />
     <ClInclude Include="src\openlima\sil\sigl.hpp" />
     <ClInclude Include="src\openlima\sil\SystemWindow.hpp" />
+    <ClInclude Include="src\openlima\util\FileResourceManager.hpp" />
+    <ClInclude Include="src\openlima\util\IAnonymousResourceReader.hpp" />
+    <ClInclude Include="src\openlima\util\ResourceManager.hpp" />
+    <ClInclude Include="src\openlima\util\IResourceReader.hpp" />
     <ClInclude Include="src\openlima\util\types.hpp" />
     <ClInclude Include="src\openlima\util\Vector2.hpp" />
     <ClInclude Include="src\openlima\util\Vector3.hpp" />
@@ -172,6 +176,7 @@
     <ClCompile Include="src\openlima\input\MouseMoveEvent.cpp" />
     <ClCompile Include="src\openlima\sil\KeyMapper.cpp" />
     <ClCompile Include="src\openlima\sil\SystemWindow.cpp" />
+    <ClCompile Include="src\openlima\util\FileResourceManager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

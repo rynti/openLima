@@ -7,11 +7,14 @@
 #ifndef OPENLIMA_GRAPHICS_WAVEFRONTOBJREADER_HPP
 #define OPENLIMA_GRAPHICS_WAVEFRONTOBJREADER_HPP
 
+#include <boost/smart_ptr.hpp>
+
 #include <iostream>
 #include <vector>
 
 #include "../util/macros.hpp"
 #include "../util/Vector3.hpp"
+#include "../util/IResourceReader.hpp"
 #include "StaticMesh.hpp"
 
 
@@ -26,7 +29,7 @@ namespace openlima {
 		 *
 		 * @author	rynti (Robert Boehm)
 		 */
-		class WavefrontObjReader {
+		class WavefrontObjReader : public openlima::util::IResourceReader<StaticMesh> {
 		private:
 
 			/**
@@ -35,7 +38,7 @@ namespace openlima {
 			 * @param [in,out]	in			The input stream.
 			 * @param [in,out]	vertices	The vertices.
 			 */
-			static void readVertex(std::istream &in,
+			void readVertex(std::istream &in,
 				std::vector<openlima::util::Vector3f>& vertices);
 			
 			/**
@@ -44,7 +47,7 @@ namespace openlima {
 			 * @param [in,out]	in	   	The input stream.
 			 * @param [in,out]	normals	The normals.
 			 */
-			static void readNormal(std::istream &in,
+			void readNormal(std::istream &in,
 				std::vector<openlima::util::Vector3f>& normals);
 
 			/**
@@ -54,7 +57,7 @@ namespace openlima {
 			 * @param [in,out]	vertexIndices	The vertex indices.
 			 * @param [in,out]	normalIndices	The normal indices.
 			 */
-			static void readFace(std::istream &in,
+			void readFace(std::istream &in,
 				std::vector<openlima::util::Vector3i>& vertexIndices,
 				std::vector<openlima::util::Vector3i>& normalIndices);
 
@@ -71,28 +74,28 @@ namespace openlima {
 			 * 			10 - Normal index has been loaded.
 			 * 			The vertex index gets always loaded.
 			 */
-			static int readFacePart(std::istream &in,
+			int readFacePart(std::istream &in,
 				int& vertex, int& texture, int& normal);
 
 		public:
 
 			/**
-			 * Reads a static mesh from a file with the given filename.
+			 * Query if 'name' is a legal resource name for this resource reader.
 			 *
-			 * @param [in,out]	filename	The filename of the file.
+			 * @param	name	The name of the resource.
 			 *
-			 * @return	The new static mesh.
+			 * @return	true if the name is legal, false if not.
 			 */
-			static OPENLIMA_DLL StaticMesh* readStatic(char* filename);
+			OPENLIMA_DLL virtual bool isLegal(const std::string& name);
 
 			/**
 			 * Reads a static mesh out of the given input stream.
 			 *
 			 * @param [in,out]	in	The input stream.
 			 *
-			 * @return	The new static mesh.
+			 * @return	The read static mesh.
 			 */
-			static OPENLIMA_DLL StaticMesh* readStatic(std::istream &in);
+			OPENLIMA_DLL virtual boost::shared_ptr<StaticMesh> readResource(std::istream &in);
 
 		};
 

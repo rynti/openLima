@@ -4,6 +4,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with OpenLima. If not, see: <http://www.gnu.org/licenses/>.
 
+#include <boost/algorithm/string.hpp>
+
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -20,14 +22,11 @@ using namespace openlima::util;
 namespace openlima {
 	namespace graphics {
 
-		StaticMesh* WavefrontObjReader::readStatic(char* filename) {
-			ifstream ifs(filename, ifstream::in);
-			StaticMesh* mesh = readStatic(ifs);
-			ifs.close();
-			return mesh;
+		bool WavefrontObjReader::isLegal(const std::string& name) {
+			return boost::algorithm::ends_with(name, std::string(".obj"));
 		}
 
-		StaticMesh* WavefrontObjReader::readStatic(std::istream &in) {
+		boost::shared_ptr<StaticMesh> WavefrontObjReader::readResource(std::istream &in) {
 			vector<Vector3f> vertices;
 			vector<Vector3f> normals;
 			vector<Vector3i> vertexIndices;
@@ -49,7 +48,7 @@ namespace openlima {
 				commandType.clear();
 			}
 
-			return new StaticMesh(vertices, normals, vertexIndices, normalIndices);
+			return boost::make_shared<StaticMesh>(vertices, normals, vertexIndices, normalIndices);
 		}
 
 		void WavefrontObjReader::readVertex(std::istream &in, std::vector<Vector3f>& vertices) {

@@ -62,14 +62,6 @@ namespace openlima {
 			openlima::sil::SystemWindow::mainLoop();
 		}
 
-		/*void Window::setWindowDependency(bool dependent) {
-			if(dependent) {
-				glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS);
-			} else {
-				glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_CONTINUE_EXECUTION);
-			}
-		}*/
-
 		void Window::hideConsole() {
 #ifdef OPENLIMA_WIN
 			FreeConsole();

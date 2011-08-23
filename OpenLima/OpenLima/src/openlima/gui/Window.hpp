@@ -85,6 +85,7 @@ namespace openlima {
 			/**
 			 * The resize handler.
 			 *
+			 * @param	window	The system window where this event came from.
 			 * @param	width 	The new window width.
 			 * @param	height	The new window height.
 			 */
@@ -108,16 +109,6 @@ namespace openlima {
 			 * Hides the console. (If there is one)
 			 */
 			OPENLIMA_DLL static void hideConsole();
-
-			/**
-			 * Sets a window dependency mode.
-			 *
-			 * @param	dependent	(optional) Determines if the windows are dependent of each
-			 * 						other. When true, the whole program will stop when any of the
-			 * 						windows gets closed, when false, the program will continue
-			 * 						execution if any other window is still open.
-			 */
-			// TODO OPENLIMA_DLL static void setWindowDependency(bool dependent = true);
 
 			/**
 			 * Enters the main loop.

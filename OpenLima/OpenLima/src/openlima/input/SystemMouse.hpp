@@ -33,7 +33,7 @@ namespace openlima {
 			/**
 			 * The mouse move handler.
 			 *
-			 * @param [in,out]	window	The window where this event comes from.
+			 * @param [in,out]	systemWindow	The window where this event comes from.
 			 * @param	x	The x coordinate of the mouse.
 			 * @param	y	The y coordinate of the mouse.
 			 */
@@ -42,7 +42,7 @@ namespace openlima {
 			/**
 			 * The mouse click handler.
 			 *
-			 * @param [in,out]	window	The window where this event comes from.
+			 * @param [in,out]	systemWindow	The window where this event comes from.
 			 * @param	button		  	The affected button.
 			 * @param	state		  	The state of the affected button.
 			 */

@@ -129,6 +129,18 @@
     <ClInclude Include="src\openlima\input\SystemKeyboard.hpp">
       <Filter>Headerdateien\input</Filter>
     </ClInclude>
+    <ClInclude Include="src\openlima\util\FileResourceManager.hpp">
+      <Filter>Headerdateien\util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\openlima\util\IAnonymousResourceReader.hpp">
+      <Filter>Headerdateien\util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\openlima\util\IResourceReader.hpp">
+      <Filter>Headerdateien\util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\openlima\util\ResourceManager.hpp">
+      <Filter>Headerdateien\util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\openlima\graphics\StaticMesh.cpp">
@@ -166,6 +178,9 @@
     </ClCompile>
     <ClCompile Include="src\openlima\input\SystemKeyboard.cpp">
       <Filter>Quelldateien\input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\openlima\util\FileResourceManager.cpp">
+      <Filter>Quelldateien\util</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
