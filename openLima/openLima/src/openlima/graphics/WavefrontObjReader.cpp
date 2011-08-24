@@ -56,28 +56,6 @@ namespace openlima {
 						vertices[vertexIndices[i].y],
 						vertices[vertexIndices[i].z]);
 
-					std::cout << "Surface: (" <<
-						surfaceNormal.x << " | " <<
-						surfaceNormal.y << " | " <<
-						surfaceNormal.z << ")" << std::endl;
-
-					std::cout << "  p1: (" <<
-						vertices[vertexIndices[i].x].x << " | " <<
-						vertices[vertexIndices[i].x].y << " | " <<
-						vertices[vertexIndices[i].x].z << ")" << std::endl;
-
-					std::cout << "  p2: (" <<
-						vertices[vertexIndices[i].y].x << " | " <<
-						vertices[vertexIndices[i].y].y << " | " <<
-						vertices[vertexIndices[i].y].z << ")" << std::endl;
-
-					std::cout << "  p3: (" <<
-						vertices[vertexIndices[i].z].x << " | " <<
-						vertices[vertexIndices[i].z].y << " | " <<
-						vertices[vertexIndices[i].z].z << ")" << std::endl;
-
-					std::cout << std::endl;
-
 					// Check if this normal already exists
 					int normalIndex = -1;
 					for(size_t j = 0; j < normals.size(); j++) {
