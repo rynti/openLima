@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenLima", "OpenLima\OpenLima.vcxproj", "{37F0AB8D-96A8-4F40-BF9E-0982E51CA957}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "openLima", "openLima\openLima.vcxproj", "{37F0AB8D-96A8-4F40-BF9E-0982E51CA957}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LimaBeans", "LimaBeans\LimaBeans.vcxproj", "{A173F516-A8E3-4267-87D8-A5479CA0813A}"
 EndProject

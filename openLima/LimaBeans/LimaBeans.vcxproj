@@ -152,7 +152,7 @@ copy "$(ProjectDir)resources\*" "$(TargetDir)resources\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OpenLima\OpenLima.vcxproj">
+    <ProjectReference Include="..\openLima\openLima.vcxproj">
       <Project>{37f0ab8d-96a8-4f40-bf9e-0982e51ca957}</Project>
     </ProjectReference>
   </ItemGroup>

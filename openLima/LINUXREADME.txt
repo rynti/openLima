@@ -3,7 +3,7 @@ project).
 
 You should start with the chapter 'Preparation', which you should only do once per linux
 installation.
-Then you should continue with the chapter 'OpenLima', which will compile the engine.
+Then you should continue with the chapter 'openLima', which will compile the engine.
 After that, you can optionally test the engine using 'LimaBeans' - the test project for openlima.
 
 Preparation:
@@ -12,12 +12,12 @@ Preparation:
 	This will install some OpenGL-libraries and the boost framework:
 		sudo apt-get install mesa-common-dev freeglut3-dev libboost-all-dev
 
-OpenLima: (The engine)
+openLima: (The engine)
 	You should execute this command from the directory where this readme is:
 	
-	cd ./OpenLima;sudo ./compile.sh;cd ../
+	cd ./openLima;sudo ./compile.sh;cd ../
 	
-	If this didn't work, try to mark the compile.sh in the OpenLima-directory as an executable.
+	If this didn't work, try to mark the compile.sh in the openLima-directory as an executable.
 
 LimaBeans: (The program)
 	You should execute this command from the directory where this readme is:

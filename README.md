@@ -1,14 +1,14 @@
-[OpenLima](http://github.com/rynti/OpenLima)
+[openLima](http://github.com/rynti/openLima)
 ===================================================
 
-OpenLima is a powerful engine for games and is licensed under
+openLima is a powerful engine for games and is licensed under
 the terms of the GNU Lesser General Public License (LGPL).
 
 
 Can I have more information about the license?
 ----------------------
 
-The LGPL, under which this project is licensed, makes OpenLima
+The LGPL, under which this project is licensed, makes openLima
 free to use in your project, even if they may be with commercial
 purposes.
 
