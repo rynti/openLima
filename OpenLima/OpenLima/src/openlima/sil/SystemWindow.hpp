@@ -119,7 +119,30 @@ namespace openlima {
 			 * Finalizer.
 			 */
 			OPENLIMA_DLL virtual ~SystemWindow();
+			
 
+			/**
+			 * Executes a step of the main loop.
+			 *
+			 * @return	True if the main loop is still active, false if any window was closed.
+			 */
+			OPENLIMA_DLL static bool mainLoopStep();
+
+			/**
+			 * Starts the main loop. It basically loops through "mainLoopStep"s as long as that
+			 * method returns true.
+			 */
+			OPENLIMA_DLL static void mainLoop();
+			
+			/**
+			 * Closes this window.
+			 */
+			OPENLIMA_DLL void closeWindow();
+
+			/**
+			 * Hides this window.
+			 */
+			OPENLIMA_DLL void hideWindow();
 
 			/**
 			 * Shows the window.
@@ -183,19 +206,6 @@ namespace openlima {
 			 * @return	The window height.
 			 */
 			OPENLIMA_DLL int getHeight();
-
-			/**
-			 * Executes a step of the main loop.
-			 *
-			 * @return	True if the main loop is still active, false if any window was closed.
-			 */
-			OPENLIMA_DLL static bool mainLoopStep();
-
-			/**
-			 * Starts the main loop. It basically loops through "mainLoopStep"s as long as that
-			 * method returns true.
-			 */
-			OPENLIMA_DLL static void mainLoop();
 
 		};
 

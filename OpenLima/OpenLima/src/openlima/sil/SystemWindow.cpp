@@ -317,6 +317,15 @@ namespace openlima {
 			}
 		}
 
+		void SystemWindow::closeWindow() {
+			DestroyWindow(hWnd);
+		}
+
+		void SystemWindow::hideWindow() {
+			ShowWindow(hWnd, SW_HIDE);
+			UpdateWindow(hWnd);
+		}
+
 		void SystemWindow::showWindow() {
 			ShowWindow(hWnd, SW_SHOW);
 			UpdateWindow(hWnd);

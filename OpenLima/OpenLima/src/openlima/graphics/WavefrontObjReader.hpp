@@ -56,10 +56,14 @@ namespace openlima {
 			 * @param [in,out]	in			 	The input stream.
 			 * @param [in,out]	vertexIndices	The vertex indices.
 			 * @param [in,out]	normalIndices	The normal indices.
+			 * @param [in,out]	vertices		The vertices.
+			 * @param [in,out]	normals			The normals.
 			 */
 			void readFace(std::istream &in,
 				std::vector<openlima::util::Vector3i>& vertexIndices,
-				std::vector<openlima::util::Vector3i>& normalIndices);
+				std::vector<openlima::util::Vector3i>& normalIndices,
+				std::vector<openlima::util::Vector3f>& vertices,
+				std::vector<openlima::util::Vector3f>& normals);
 
 			/**
 			 * Reads a face part.

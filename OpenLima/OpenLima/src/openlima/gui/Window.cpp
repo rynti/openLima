@@ -107,7 +107,15 @@ namespace openlima {
 			return this->mouse;
 		}
 
-		void Window::showWindow() {
+		void Window::close() {
+			this->systemWindow->closeWindow();
+		}
+
+		void Window::hide() {
+			this->systemWindow->hideWindow();
+		}
+
+		void Window::show() {
 			this->systemWindow->showWindow();
 		}
 

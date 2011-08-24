@@ -42,10 +42,12 @@ public:
 	dtime time;
 	dtime amount;
 
+	MyWindow* other;
+
 	MyWindow(boost::shared_ptr<ResourceManager> resourceManager,
 			const wchar_t* title, GLfloat* lightColor) : Window(title, 640, 480) {
 
-		myRenderable = resourceManager->getResource<StaticMesh>("simpleCube.obj");
+		myRenderable = resourceManager->getResource<StaticMesh>("doubleCubes.obj");
 
 		xPos = 0;
 		yPos = 0;
@@ -60,7 +62,6 @@ public:
 		// For instance, those flags will come to the Window-class and can be modified by different
 		// methods:
 		glEnable(GL_DEPTH_TEST);
-		glEnable(GL_CULL_FACE);
 		glEnable(GL_NORMALIZE);
 		glEnable(GL_LIGHTING);
 
@@ -73,8 +74,10 @@ public:
 		glLightfv(GL_LIGHT0, GL_DIFFUSE, lightColor);
 		glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
 
+		other = NULL;
+
 		//this->setRenderRate(60);
-		this->showWindow();
+		//this->show();
 	}
 
 	virtual ~MyWindow() {
@@ -112,6 +115,16 @@ public:
 		delete[] buttonDescription;
 
 		std::cout << "}" << std::endl;
+
+		if(e.getButton() == KeyboardButtonType::KEY_ESCAPE)
+			this->close();
+
+		if(e.getButton() == KeyboardButtonType::KEY_H)
+			this->hide();
+
+		if(e.getButton() == KeyboardButtonType::KEY_S && other != NULL)
+			other->show();
+		
 	}
 
 	virtual void onKeyboardButtonReleased(Keyboard& source, const KeyboardEvent& e) {
@@ -158,6 +171,11 @@ OPENLIMA_MAIN(int argc, char** argv) {
 	MyWindow window1(resourceManager, L"Window 1", lightColors1);
 	GLfloat lightColors2[] = {1.0f, 0.5f, 0.5f, 1.0f};
 	MyWindow window2(resourceManager, L"Window 2", lightColors2);
+
+	window1.other = &window2;
+	window2.other = &window1;
+
+	window1.show();
 
 	Window::enterMainLoop();
 

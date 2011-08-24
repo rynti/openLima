@@ -41,11 +41,61 @@ namespace openlima {
 				} else if(commandType == "vn") {
 					readNormal(in, normals);
 				} else if(commandType == "f") {
-					readFace(in, vertexIndices, normalIndices);
+					readFace(in, vertexIndices, normalIndices, vertices, normals);
 				} else {
 					std::getline(in, commandType);
 				}
 				commandType.clear();
+			}
+
+			for(size_t i = 0; i < vertexIndices.size(); i++) {
+				if(normalIndices[i].x == -1) {
+					// Generate normal
+					Vector3f surfaceNormal = Vector3f::computeSurfaceNormal(
+						vertices[vertexIndices[i].x],
+						vertices[vertexIndices[i].y],
+						vertices[vertexIndices[i].z]);
+
+					std::cout << "Surface: (" <<
+						surfaceNormal.x << " | " <<
+						surfaceNormal.y << " | " <<
+						surfaceNormal.z << ")" << std::endl;
+
+					std::cout << "  p1: (" <<
+						vertices[vertexIndices[i].x].x << " | " <<
+						vertices[vertexIndices[i].x].y << " | " <<
+						vertices[vertexIndices[i].x].z << ")" << std::endl;
+
+					std::cout << "  p2: (" <<
+						vertices[vertexIndices[i].y].x << " | " <<
+						vertices[vertexIndices[i].y].y << " | " <<
+						vertices[vertexIndices[i].y].z << ")" << std::endl;
+
+					std::cout << "  p3: (" <<
+						vertices[vertexIndices[i].z].x << " | " <<
+						vertices[vertexIndices[i].z].y << " | " <<
+						vertices[vertexIndices[i].z].z << ")" << std::endl;
+
+					std::cout << std::endl;
+
+					// Check if this normal already exists
+					int normalIndex = -1;
+					for(size_t j = 0; j < normals.size(); j++) {
+						if(normals[j] == surfaceNormal) {
+							normalIndex = j;
+							break;
+						}
+					}
+					if(normalIndex < 0) {
+						// If not, create it
+						normalIndex = normals.size();
+						normals.push_back(surfaceNormal);
+					}
+
+					normalIndices[i].x = normalIndex;
+					normalIndices[i].y = normalIndex;
+					normalIndices[i].z = normalIndex;
+				}
 			}
 
 			return boost::make_shared<StaticMesh>(vertices, normals, vertexIndices, normalIndices);
@@ -64,17 +114,23 @@ namespace openlima {
 		}
 
 		void WavefrontObjReader::readFace(std::istream &in, std::vector<Vector3i>& vertexIndices,
-				std::vector<Vector3i>& normalIndices) {
+				std::vector<Vector3i>& normalIndices, std::vector<Vector3f>& vertices,
+				std::vector<Vector3f>& normals) {
 			int v1, v2, v3, n1, n2, n3, temp;
 			int num = readFacePart(in, v1, temp, n1);
 			readFacePart(in, v2, temp, n2);
 			readFacePart(in, v3, temp, n3);
-			vertexIndices.push_back(Vector3i(v1, v2, v3));
+
+			vertexIndices.push_back(Vector3i(--v1, --v2, --v3));
 			if((num & 1) != 0) {
 				// Texture index
 			}
 			if((num & 2) != 0) {
-				normalIndices.push_back(Vector3i(n1, n2, n3));
+				// Normal index
+				normalIndices.push_back(Vector3i(--n1, --n2, --n3));
+			} else {
+				// Missing normal
+				normalIndices.push_back(Vector3i(-1, -1, -1));
 			}
 		}
 

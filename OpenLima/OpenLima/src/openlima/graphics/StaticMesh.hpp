@@ -27,6 +27,18 @@ namespace openlima {
 		 * @author	rynti (Robert Boehm)
 		 */
 		class StaticMesh : public Mesh {
+		private:
+
+			/**
+			 * Renders only the vertices.
+			 */
+			OPENLIMA_DLL void renderVertices();
+
+			/**
+			 * Renders the vertices and the normals.
+			 */
+			OPENLIMA_DLL void renderVerticesAndNormals();
+			
 		public:
 
 			/** The vertices. */

@@ -28,6 +28,40 @@ namespace openlima {
 
 			glBegin(GL_TRIANGLES);
 
+			if(vertices.size() != 0) {
+				if(normals.size() != 0) {
+					// Render with vertices and normals
+					renderVerticesAndNormals();
+				} else {
+					// Render only with vertices
+					renderVertices();
+				}
+			}
+
+			glEnd();
+
+		}
+
+		void StaticMesh::renderVertices() {
+			Vector3i* faceVertex;
+			Vector3f* vertex;
+			for(size_t i = 0; i < vertexIndices.size(); i++) {
+
+				faceVertex = &this->vertexIndices.at(i);
+
+				vertex = &this->vertices.at(faceVertex->x);
+				glVertex3f(vertex->x, vertex->y, vertex->z);
+
+				vertex = &this->vertices.at(faceVertex->y);
+				glVertex3f(vertex->x, vertex->y, vertex->z);
+
+				vertex = &this->vertices.at(faceVertex->z);
+				glVertex3f(vertex->x, vertex->y, vertex->z);
+
+			}
+		}
+
+		void StaticMesh::renderVerticesAndNormals() {
 			Vector3i* faceVertex;
 			Vector3i* faceNormal;
 			Vector3f* vertex;
@@ -37,25 +71,22 @@ namespace openlima {
 				faceVertex = &this->vertexIndices.at(i);
 				faceNormal = &this->normalIndices.at(i);
 
-				vertex = &this->vertices.at(faceVertex->x - 1);
-				normal = &this->normals.at(faceNormal->x - 1);
+				vertex = &this->vertices.at(faceVertex->x);
+				normal = &this->normals.at(faceNormal->x);
 				glNormal3f(normal->x, normal->y, normal->z);
 				glVertex3f(vertex->x, vertex->y, vertex->z);
 
-				vertex = &this->vertices.at(faceVertex->y - 1);
-				normal = &this->normals.at(faceNormal->y - 1);
+				vertex = &this->vertices.at(faceVertex->y);
+				normal = &this->normals.at(faceNormal->y);
 				glNormal3f(normal->x, normal->y, normal->z);
 				glVertex3f(vertex->x, vertex->y, vertex->z);
 
-				vertex = &this->vertices.at(faceVertex->z - 1);
-				normal = &this->normals.at(faceNormal->y - 1);
+				vertex = &this->vertices.at(faceVertex->z);
+				normal = &this->normals.at(faceNormal->y);
 				glNormal3f(normal->x, normal->y, normal->z);
 				glVertex3f(vertex->x, vertex->y, vertex->z);
 
 			}
-
-			glEnd();
-
 		}
 
 	}

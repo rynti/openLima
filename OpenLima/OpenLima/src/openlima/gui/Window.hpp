@@ -131,9 +131,19 @@ namespace openlima {
 			OPENLIMA_DLL openlima::input::Mouse* getKeyboard();
 
 			/**
-			 * Shows the window.
+			 * Closes this window.
 			 */
-			OPENLIMA_DLL void showWindow();
+			OPENLIMA_DLL void close();
+
+			/**
+			 * Hides this window.
+			 */
+			OPENLIMA_DLL void hide();
+
+			/**
+			 * Shows this window.
+			 */
+			OPENLIMA_DLL void show();
 
 			/**
 			 * Sets the title of this window.
