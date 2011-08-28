@@ -6,7 +6,7 @@
 
 #include <iostream>
 
-#include "Mouse.hpp"
+#include <openlima/input/Mouse.hpp>
 
 using namespace openlima::util;
 

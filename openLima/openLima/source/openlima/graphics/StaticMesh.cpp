@@ -4,8 +4,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with OpenLima. If not, see: <http://www.gnu.org/licenses/>.
 
-#include "../sil/sigl.hpp"
-#include "StaticMesh.hpp"
+#include <openlima/sil/sigl.hpp>
+#include <openlima/graphics/StaticMesh.hpp>
 
 using namespace std;
 using namespace openlima::util;

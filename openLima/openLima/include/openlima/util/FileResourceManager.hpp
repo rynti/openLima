@@ -7,7 +7,8 @@
 #ifndef OPENLIMA_UTIL_FILERESOURCEMANAGER_HPP
 #define OPENLIMA_UTIL_FILERESOURCEMANAGER_HPP
 
-#include <boost\smart_ptr.hpp>
+#include <boost/smart_ptr.hpp>
+#include <boost/filesystem.hpp>
 
 #include <string>
 #include <iostream>

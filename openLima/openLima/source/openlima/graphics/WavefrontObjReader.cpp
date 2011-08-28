@@ -11,9 +11,9 @@
 #include <vector>
 #include <string>
 
-#include "../util/Vector3.hpp"
-#include "WavefrontObjReader.hpp"
-#include "StaticMesh.hpp"
+#include <openlima/util/Vector3.hpp>
+#include <openlima/graphics/WavefrontObjReader.hpp>
+#include <openlima/graphics/StaticMesh.hpp>
 
 using namespace std;
 using namespace openlima::util;

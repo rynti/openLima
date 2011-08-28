@@ -8,10 +8,10 @@
 #include <tchar.h>
 #endif
 
-#include "../util/macros.hpp"
-#include "sigl.hpp"
-#include "SystemWindow.hpp"
-#include "KeyMapper.hpp"
+#include <openlima/util/macros.hpp>
+#include <openlima/sil/sigl.hpp>
+#include <openlima/sil/SystemWindow.hpp>
+#include <openlima/sil/KeyMapper.hpp>
 
 using namespace openlima::input;
 

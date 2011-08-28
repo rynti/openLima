@@ -7,6 +7,7 @@
 #include <boost/bind.hpp>
 #include <boost/date_time.hpp>
 #include <boost/smart_ptr.hpp>
+#include <boost/filesystem.hpp>
 
 #include <windows.h>
 
@@ -29,6 +30,7 @@ using namespace openlima::gui;
 using namespace openlima::input;
 using namespace openlima::util;
 using namespace boost::posix_time;
+using namespace boost::filesystem;
 
 
 class MyWindow : public Window {
@@ -164,8 +166,14 @@ public:
 
 
 OPENLIMA_MAIN(int argc, char** argv) {
-	boost::shared_ptr<ResourceManager> resourceManager(new FileResourceManager("resources"));
+	path executable(argv[0]);
+	path resourcesDir = executable.remove_filename()/"resources";
+
+	boost::shared_ptr<ResourceManager> resourceManager(
+		new FileResourceManager(resourcesDir.string()));
+	
 	resourceManager->registerReader<StaticMesh>(new WavefrontObjReader);
+
 
 	GLfloat lightColors1[] = {0.5f, 1.0f, 0.5f, 1.0f};
 	MyWindow window1(resourceManager, L"Window 1", lightColors1);

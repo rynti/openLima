@@ -4,7 +4,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with OpenLima. If not, see: <http://www.gnu.org/licenses/>.
 
-#include "Keyboard.hpp"
+#include <openlima/input/Keyboard.hpp>
 
 
 namespace openlima {

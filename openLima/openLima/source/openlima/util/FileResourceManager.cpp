@@ -8,7 +8,7 @@
 #include <boost/filesystem/fstream.hpp>
 #include <boost/smart_ptr.hpp>
 
-#include "FileResourceManager.hpp"
+#include <openlima/util/FileResourceManager.hpp>
 
 using namespace std;
 using namespace boost::filesystem;

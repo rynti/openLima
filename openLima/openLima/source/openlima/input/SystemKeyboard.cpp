@@ -8,7 +8,7 @@
 
 #include <iostream>
 
-#include "SystemKeyboard.hpp"
+#include <openlima/input/SystemKeyboard.hpp>
 
 using namespace openlima::sil;
 

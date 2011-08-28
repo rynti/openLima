@@ -7,10 +7,10 @@
 #include <boost/bind.hpp>
 #include <boost/foreach.hpp>
 
-#include "../sil/sigl.hpp"
-#include "../input/SystemMouse.hpp"
-#include "../input/SystemKeyboard.hpp"
-#include "Window.hpp"
+#include <openlima/sil/sigl.hpp>
+#include <openlima/input/SystemMouse.hpp>
+#include <openlima/input/SystemKeyboard.hpp>
+#include <openlima/gui/Window.hpp>
 
 using namespace std;
 using namespace boost::posix_time;

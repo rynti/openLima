@@ -6,8 +6,8 @@
 
 #include <boost/bind.hpp>
 
-#include "../sil/SystemWindow.hpp"
-#include "SystemMouse.hpp"
+#include <openlima/sil/SystemWindow.hpp>
+#include <openlima/input/SystemMouse.hpp>
 
 using namespace openlima::util;
 using namespace openlima::sil;

@@ -6,9 +6,9 @@
 
 #include <iostream>
 
-#include "../util/macros.hpp"
-#include "../input/KeyboardButton.hpp"
-#include "KeyMapper.hpp"
+#include <openlima/util/macros.hpp>
+#include <openlima/input/KeyboardButton.hpp>
+#include <openlima/sil/KeyMapper.hpp>
 
 using namespace openlima::input;
 
