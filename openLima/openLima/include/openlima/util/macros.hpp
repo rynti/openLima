@@ -23,6 +23,8 @@
 //						/SUBSYSTEM:WINDOWS
 // OPENLIMA_REAL_TYPE => Will be the type for openlima::util::real. Use the OPENLIMA_PRECISE_REAL-
 //							macro to switch between float and double.
+// OPENLIMA_SIL_WINAPI => Use WinAPI for SIL
+// OPENLIMA_SIL_XLIB => Use Xlib for SIL
 // 
 // Additional defines (If not already defined):
 // GLUT_WHEEL_UP
@@ -58,7 +60,7 @@
 #endif
 
 //////////////////////////////////////
-// L_DLL-Macro
+// OPENLIMA_DLL-Macro
 #ifdef OPENLIMA_WIN
 #define OPENLIMA_DLL __declspec(dllexport)
 #else
@@ -66,7 +68,7 @@
 #endif
 
 //////////////////////////////////////
-// L_MAIN-Macro
+// OPENLIMA_MAIN-Macro
 #ifdef OPENLIMA_WIN
 #include <windows.h>
 
@@ -85,6 +87,22 @@
 #endif
 
 //////////////////////////////////////
+// OPENLIMA_REAL_TYPE-Macro
+#if defined(OPENLIMA_PRECISE_REAL) && !defined(OPENLIMA_REAL_TYPE)
+#define OPENLIMA_REAL_TYPE double
+#else
+#define OPENLIMA_REAL_TYPE float
+#endif
+
+//////////////////////////////////////
+// SIL-type
+#ifdef OPENLIMA_WIN
+#define OPENLIMA_SIL_WINAPI
+#else
+#define OPENLIMA_SIL_XLIB
+#endif
+
+//////////////////////////////////////
 // GLUT_WHEEL_UP-Macro
 #ifndef GLUT_WHEEL_UP
 #define GLUT_WHEEL_UP 3
@@ -97,12 +115,7 @@
 #endif
 
 //////////////////////////////////////
-// OPENLIMA_REAL_TYPE-Macro
-#if defined(OPENLIMA_PRECISE_REAL) && !defined(OPENLIMA_REAL_TYPE)
-#define OPENLIMA_REAL_TYPE double
-#else
-#define OPENLIMA_REAL_TYPE float
-#endif
+// BOOST_FOREACH_PAIR-Macro
 
 #ifndef BOOST_FOREACH_PAIR
 #include <boost/foreach.hpp>

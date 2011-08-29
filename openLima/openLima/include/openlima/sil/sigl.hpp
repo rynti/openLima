@@ -9,7 +9,7 @@
 
 #include "../util/macros.hpp"
 
-#ifdef OPENLIMA_WIN
+#ifdef OPENLIMA_SIL_WINAPI
 #include <windows.h>
 #endif
 

@@ -27,7 +27,7 @@ namespace openlima {
 		 */
 		class SystemWindow {
 		private:
-#ifdef OPENLIMA_WIN
+#ifdef OPENLIMA_SIL_WINAPI
 			// WinAPI-only members
 			static HINSTANCE hInstance;
 

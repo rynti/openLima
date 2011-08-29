@@ -16,7 +16,7 @@ using namespace openlima::input;
 namespace openlima {
 	namespace sil {
 
-#ifdef OPENLIMA_WIN
+#ifdef OPENLIMA_SIL_WINAPI
 		KeyboardButton KeyMapper::mapVirtualKey(unsigned int vk) {
 			if(vk >= 'A' && vk <= 'Z') {
 				// Alphanumerical characters

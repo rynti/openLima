@@ -20,7 +20,7 @@ namespace openlima {
 		class KeyMapper {
 		public:
 
-#ifdef OPENLIMA_WIN
+#ifdef OPENLIMA_SIL_WINAPI
 		OPENLIMA_DLL static openlima::input::KeyboardButton mapVirtualKey(unsigned int vk);
 #endif
 

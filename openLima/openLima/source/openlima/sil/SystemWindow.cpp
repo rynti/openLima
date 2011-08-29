@@ -4,7 +4,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with OpenLima. If not, see: <http://www.gnu.org/licenses/>.
 
-#ifdef OPENLIMA_WIN
+#ifdef OPENLIMA_SIL_WINAPI
 #include <tchar.h>
 #endif
 
@@ -19,7 +19,7 @@ using namespace openlima::input;
 namespace openlima {
 	namespace sil {
 		
-#ifdef OPENLIMA_WIN
+#ifdef OPENLIMA_SIL_WINAPI
 		// The WinAPI implementation
 
 		std::map<HWND, SystemWindow*> SystemWindow::registeredWindows;
