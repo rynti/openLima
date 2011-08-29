@@ -1,6 +1,6 @@
 // Copyright (C) 2011 Robert Boehm
 // This file is part of OpenLima.
-// 
+//
 // You should have received a copy of the GNU Lesser General Public License
 // along with OpenLima. If not, see: <http://www.gnu.org/licenses/>.
 
@@ -25,18 +25,18 @@ namespace openlima {
 
 		/**
 		 * Manager for resources with capabilities of resource caching.
-		 * 
+		 *
 		 * @sa	FileResourceManager
 		 */
 		class ResourceManager {
 		protected:
 
 			/** The registered readers. */
-			std::map<const type_info*, std::vector<boost::shared_ptr<IAnonymousResourceReader>>>
+			std::map<const std::type_info*, std::vector<boost::shared_ptr<IAnonymousResourceReader> > >
 				registeredReaders;
 
 			/** The cached resources. */
-			std::map<const std::string, boost::weak_ptr<void>> cachedResources;
+			std::map<const std::string, boost::weak_ptr<void> > cachedResources;
 
 
 			/**
@@ -47,7 +47,7 @@ namespace openlima {
 				// Empty
 			}
 
-			
+
 			/**
 			 * Opens a resource stream.
 			 *
@@ -90,7 +90,7 @@ namespace openlima {
 			 * @param	reader	The resource reader.
 			 */
 			template <typename T>
-			OPENLIMA_DLL void registerReader(boost::shared_ptr<IResourceReader<T>> reader) {
+			OPENLIMA_DLL void registerReader(boost::shared_ptr<IResourceReader<T> > reader) {
 				this->registeredReaders[&typeid(T)].push_back(reader);
 			}
 
@@ -101,9 +101,9 @@ namespace openlima {
 			 */
 			template <typename T>
 			OPENLIMA_DLL void registerReader(IResourceReader<T>* reader) {
-				this->registerReader<T>(boost::shared_ptr<IResourceReader<T>>(reader));
+				this->registerReader<T>(boost::shared_ptr<IResourceReader<T> >(reader));
 			}
-			
+
 			/**
 			 * Requests a resource.
 			 *
@@ -119,10 +119,10 @@ namespace openlima {
 				if(cachedResources.count(name) > 0 && !cachedResources[name].expired()) {
 					return boost::static_pointer_cast<T>(cachedResources[name].lock());
 				}
-				
+
 				return getRefreshedResource<T>(name);
 			}
-			
+
 			/**
 			 * Requests a resource.
 			 *
@@ -138,7 +138,7 @@ namespace openlima {
 				if(cachedResources.count(name) > 0 && !cachedResources[name].expired()) {
 					return boost::static_pointer_cast<ResourceType>(cachedResources[name].lock());
 				}
-				
+
 				return getRefreshedResource<ResourceType, ReaderType>(name);
 			}
 
@@ -160,13 +160,13 @@ namespace openlima {
 				if(!this->resourceExists(name))
 					return boost::shared_ptr<T>();
 
-				const std::vector<boost::shared_ptr<IAnonymousResourceReader>>& readerList = 
+				const std::vector<boost::shared_ptr<IAnonymousResourceReader> >& readerList =
 					this->registeredReaders.find(&typeid(T))->second;
 
 				BOOST_FOREACH(boost::shared_ptr<IAnonymousResourceReader> anonymousReader,
 						readerList) {
-					boost::shared_ptr<IResourceReader<T>> reader =
-						boost::dynamic_pointer_cast<IResourceReader<T>>(anonymousReader);
+					boost::shared_ptr<IResourceReader<T> > reader =
+						boost::dynamic_pointer_cast<IResourceReader<T> >(anonymousReader);
 
 					if(reader->isLegal(name)) {
 						boost::shared_ptr<std::istream> istream = this->openResourceStream(name);
@@ -196,13 +196,13 @@ namespace openlima {
 				if(!this->resourceExists(name))
 					return boost::shared_ptr<ResourceType>();
 
-				const std::vector<boost::shared_ptr<IAnonymousResourceReader>>& readerList = 
+				const std::vector<boost::shared_ptr<IAnonymousResourceReader> >& readerList =
 					this->registeredReaders.find(&typeid(ResourceType))->second;
 
 				BOOST_FOREACH(boost::shared_ptr<IAnonymousResourceReader> anonymousReader,
 						readerList) {
-					boost::shared_ptr<IResourceReader<ResourceType>> reader =
-						boost::dynamic_pointer_cast<IResourceReader<ResourceType>>(anonymousReader);
+					boost::shared_ptr<IResourceReader<ResourceType> > reader =
+						boost::dynamic_pointer_cast<IResourceReader<ResourceType> >(anonymousReader);
 
 					if(&typeid(*reader) == &typeid(ReaderType)) {
 						boost::shared_ptr<std::istream> istream = this->openResourceStream(name);

@@ -68,4 +68,4 @@ ELSE(BUILD_SHARED_LIBS)
 	ENDIF(BUILD_STATIC_LIBS)
 ENDIF(BUILD_SHARED_LIBS)
 
-target_link_libraries(openLima opengl32 glu32 ${Boost_LIBRARIES})
+target_link_libraries(openLima ${OPENGL_LIBRARY} ${Boost_LIBRARIES})

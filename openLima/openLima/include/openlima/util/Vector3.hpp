@@ -1,6 +1,6 @@
 // Copyright (C) 2011 Robert Boehm
 // This file is part of OpenLima.
-// 
+//
 // You should have received a copy of the GNU Lesser General Public License
 // along with OpenLima. If not, see: <http://www.gnu.org/licenses/>.
 
@@ -10,7 +10,7 @@
 
 namespace openlima {
 	namespace util {
-		
+
 		/**
 		 * A 3-dimensional vector.
 		 */
@@ -96,7 +96,7 @@ namespace openlima {
 			 *
 			 * @return	True if this vector has the same coordinates as the other, else false.
 			 */
-			bool Vector3::operator ==(const Vector3& other) const {
+			bool operator ==(const Vector3& other) const {
 				return this->x == other.x && this->y == other.y && this->z == other.z;
 			}
 
@@ -107,7 +107,7 @@ namespace openlima {
 			 *
 			 * @return	True if this vector has different coordinates as the other, else false.
 			 */
-			bool Vector3::operator !=(const Vector3& other) const {
+			bool operator !=(const Vector3& other) const {
 				return this->x != other.x || this->y != other.y || this->z != other.z;
 			}
 
@@ -118,7 +118,7 @@ namespace openlima {
 			 *
 			 * @return	The sum of this vector and the other vector.
 			 */
-			Vector3 Vector3::operator +(const Vector3& other) const {
+			Vector3 operator +(const Vector3& other) const {
 				return Vector3(this->x + other.x, this->y + other.y, this->z + other.z);
 			}
 
@@ -129,7 +129,7 @@ namespace openlima {
 			 *
 			 * @return	The difference between this vector and the other vector.
 			 */
-			Vector3 Vector3::operator -(const Vector3& other) const {
+			Vector3 operator -(const Vector3& other) const {
 				return Vector3(this->x - other.x, this->y - other.y, this->z - other.z);
 			}
 
@@ -140,7 +140,7 @@ namespace openlima {
 			 *
 			 * @return	The product of this vector and the other vector.
 			 */
-			Vector3 Vector3::operator *(const Vector3& other) const {
+			Vector3 operator *(const Vector3& other) const {
 				return Vector3(this->x * other.x, this->y * other.y, this->z * other.z);
 			}
 
@@ -151,7 +151,7 @@ namespace openlima {
 			 *
 			 * @return	The quotient of this vector and the other vector.
 			 */
-			Vector3 Vector3::operator /(const Vector3& other) const {
+			Vector3 operator /(const Vector3& other) const {
 				return Vector3(this->x / other.x, this->y / other.y, this->z / other.y);
 			}
 

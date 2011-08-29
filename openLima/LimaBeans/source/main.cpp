@@ -1,6 +1,6 @@
 // Copyright (C) 2011 Robert Boehm
 // This file is part of OpenLima.
-// 
+//
 // You should have received a copy of the GNU Lesser General Public License
 // along with OpenLima. If not, see: <http://www.gnu.org/licenses/>.
 
@@ -8,8 +8,6 @@
 #include <boost/date_time.hpp>
 #include <boost/smart_ptr.hpp>
 #include <boost/filesystem.hpp>
-
-#include <windows.h>
 
 #include <openlima/util/macros.hpp>
 #include <openlima/util/types.hpp>
@@ -60,7 +58,7 @@ public:
 
 		// All glX-functions will be removed so users of openlima don't have to deal with them
 		// directly, instead they'll use abstractions.
-		
+
 		// For instance, those flags will come to the Window-class and can be modified by different
 		// methods:
 		glEnable(GL_DEPTH_TEST);
@@ -126,7 +124,7 @@ public:
 
 		if(e.getButton() == KeyboardButtonType::KEY_S && other != NULL)
 			other->show();
-		
+
 	}
 
 	virtual void onKeyboardButtonReleased(Keyboard& source, const KeyboardEvent& e) {
@@ -171,7 +169,7 @@ OPENLIMA_MAIN(int argc, char** argv) {
 
 	boost::shared_ptr<ResourceManager> resourceManager(
 		new FileResourceManager(resourcesDir.string()));
-	
+
 	resourceManager->registerReader<StaticMesh>(new WavefrontObjReader);
 
 

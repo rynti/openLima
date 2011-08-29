@@ -9,8 +9,8 @@
 
 #include <map>
 
-#include "..\sil\SystemWindow.hpp"
-#include "..\util\macros.hpp"
+#include "../sil/SystemWindow.hpp"
+#include "../util/macros.hpp"
 #include "KeyboardButton.hpp"
 #include "Keyboard.hpp"
 

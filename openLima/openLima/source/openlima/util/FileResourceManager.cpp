@@ -1,12 +1,13 @@
 // Copyright (C) 2011 Robert Boehm
 // This file is part of OpenLima.
-// 
+//
 // You should have received a copy of the GNU Lesser General Public License
 // along with OpenLima. If not, see: <http://www.gnu.org/licenses/>.
 
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
 #include <boost/smart_ptr.hpp>
+#include <boost/make_shared.hpp>
 
 #include <openlima/util/FileResourceManager.hpp>
 
@@ -19,12 +20,12 @@ namespace openlima {
 
 		FileResourceManager::FileResourceManager()
 			: parentDirectory("./") {
-			
+
 		}
 
 		FileResourceManager::FileResourceManager(const std::string& parent)
 			: parentDirectory(parent) {
-			
+
 		}
 
 		FileResourceManager::~FileResourceManager() {
@@ -50,6 +51,6 @@ namespace openlima {
 			p /= name;
 			return exists(p);
 		}
-		
+
 	}
 }

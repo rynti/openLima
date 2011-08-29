@@ -55,7 +55,7 @@ namespace openlima {
 			 *
 			 * @return	True if this vector has the same coordinates as the other, else false.
 			 */
-			bool Vector2::operator ==(const Vector2& other) const {
+			bool operator ==(const Vector2& other) const {
 				return this->x == other.x && this->y == other.y;
 			}
 
@@ -66,7 +66,7 @@ namespace openlima {
 			 *
 			 * @return	True if this vector has different coordinates as the other, else false.
 			 */
-			bool Vector2::operator !=(const Vector2& other) const {
+			bool operator !=(const Vector2& other) const {
 				return this->x != other.x || this->y != other.y;
 			}
 
@@ -77,7 +77,7 @@ namespace openlima {
 			 *
 			 * @return	The sum of this vector and the other vector.
 			 */
-			Vector2 Vector2::operator +(const Vector2& other) const {
+			Vector2 operator +(const Vector2& other) const {
 				return Vector2(this->x + other.x, this->y + other.y);
 			}
 
@@ -88,7 +88,7 @@ namespace openlima {
 			 *
 			 * @return	The difference between this vector and the other vector.
 			 */
-			Vector2 Vector2::operator -(const Vector2& other) const {
+			Vector2 operator -(const Vector2& other) const {
 				return Vector2(this->x - other.x, this->y - other.y);
 			}
 
@@ -99,7 +99,7 @@ namespace openlima {
 			 *
 			 * @return	The product of this vector and the other vector.
 			 */
-			Vector2 Vector2::operator *(const Vector2& other) const {
+			Vector2 operator *(const Vector2& other) const {
 				return Vector2(this->x * other.x, this->y * other.y);
 			}
 
@@ -110,7 +110,7 @@ namespace openlima {
 			 *
 			 * @return	The quotient of this vector and the other vector.
 			 */
-			Vector2 Vector2::operator /(const Vector2& other) const {
+			Vector2 operator /(const Vector2& other) const {
 				return Vector2(this->x / other.x, this->y / other.y);
 			}
 

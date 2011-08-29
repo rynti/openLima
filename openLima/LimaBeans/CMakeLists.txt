@@ -1,14 +1,16 @@
 # LimaBeans
 project(LimaBeans)
 
-find_package(Boost REQUIRED COMPONENTS signals filesystem date_time)
+find_package(Boost REQUIRED COMPONENTS system signals filesystem date_time)
 
 link_directories(${Boost_LIBRARY_DIRS})
 include_directories(${Boost_INCLUDE_DIR})
 
 include_directories("../openLima/include")
 
-add_executable(LimaBeans "source/*.cpp")
+file(GLOB LIMABEANS_SOURCES "source/*.cpp")
+
+add_executable(LimaBeans ${LIMABEANS_SOURCES})
 target_link_libraries(LimaBeans openLima ${Boost_LIBRARIES})
 add_dependencies(LimaBeans openLima)
 
