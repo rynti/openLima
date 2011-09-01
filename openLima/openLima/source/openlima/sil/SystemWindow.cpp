@@ -190,7 +190,7 @@ namespace openlima {
 
 			this->resizeFunction(*this, width, height);
 
-			//wglMakeCurrent(NULL, NULL);
+			wglMakeCurrent(NULL, NULL);
 		}
 
 		void SystemWindow::draw() {
@@ -198,7 +198,7 @@ namespace openlima {
 
 			this->drawFunction(*this);
 
-			//wglMakeCurrent(NULL, NULL);
+			wglMakeCurrent(NULL, NULL);
 		}
 
 		void SystemWindow::unloadGL() {
@@ -228,6 +228,15 @@ namespace openlima {
 		// Public
 
 		SystemWindow::SystemWindow(const char* title, int width, int height) {
+#ifdef UNICODE
+			size_t len = strlen(title);
+			wchar_t* unicodeTitle = new wchar_t[len + 1];
+			for(size_t i = 0; i < len; i++)
+				unicodeTitle[i] = (wchar_t)(title[i]);
+
+			unicodeTitle[len] = 0;
+#endif
+
 			wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
 			wc.lpfnWndProc = SystemWindow::globalWindowMessageHandler;
 			wc.cbClsExtra = 0;
@@ -236,12 +245,16 @@ namespace openlima {
 			wc.hCursor = LoadCursor(NULL, IDC_ARROW);
 			wc.hIcon = LoadIcon(NULL, IDI_APPLICATION);
 			wc.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
+#ifdef UNICODE
+			wc.lpszClassName = unicodeTitle;
+#else
 			wc.lpszClassName = title;
+#endif
 			wc.lpszMenuName = NULL;
 			RegisterClass(&wc);
 
-			this->width = width;
-			this->height = height;
+			this->width = -1;
+			this->height = -1;
 			this->cursorVisibility = true;
 			this->mouseLeaved = false;
 			this->alive = true;
@@ -249,6 +262,22 @@ namespace openlima {
 			this->title = title;
 			this->resizable = true;
 
+
+#ifdef UNICODE
+			hWnd = CreateWindow(unicodeTitle,
+				unicodeTitle,
+				WS_OVERLAPPEDWINDOW,
+				CW_USEDEFAULT,
+				CW_USEDEFAULT,
+				width,
+				height,
+				NULL,
+				NULL,
+				hInstance,
+				NULL);
+
+			delete [] unicodeTitle;
+#else
 			hWnd = CreateWindow(title,
 				title,
 				WS_OVERLAPPEDWINDOW,
@@ -260,10 +289,13 @@ namespace openlima {
 				NULL,
 				hInstance,
 				NULL);
+#endif
 
 			SystemWindow::registeredWindows[hWnd] = this;
 
 			setupGL();
+
+			this->setSize(width, height);
 		}
 
 		SystemWindow::~SystemWindow() {
@@ -301,11 +333,11 @@ namespace openlima {
 				RECT clientRect, windowRect;
 				GetClientRect(hWnd, &clientRect);
 				GetWindowRect(hWnd, &windowRect);
-				int borderWidth = (clientRect.right - clientRect.left) -
-					(windowRect.right - windowRect.left);
+				int borderWidth = (windowRect.right - windowRect.left) -
+					(clientRect.right - clientRect.left);
 
-				int borderHeight = (clientRect.bottom - clientRect.top) -
-					(windowRect.bottom - windowRect.top);
+				int borderHeight = (windowRect.bottom - windowRect.top) -
+					(clientRect.bottom - clientRect.top);
 
 				MoveWindow(hWnd, windowRect.left, windowRect.top,
 					width + borderWidth, height + borderHeight, true);
@@ -314,7 +346,20 @@ namespace openlima {
 
 		void SystemWindow::setTitle(const char* title) {
 			this->title = title;
+#ifdef UNICODE
+			size_t len = strlen(title);
+			wchar_t* unicodeTitle = new wchar_t[len + 1];
+			for(size_t i = 0; i < len; i++)
+				unicodeTitle[i] = (wchar_t)(title[i]);
+
+			unicodeTitle[len] = 0;
+
+			SetWindowText(hWnd, unicodeTitle);
+
+			delete [] unicodeTitle;
+#else
 			SetWindowText(hWnd, title);
+#endif
 		}
 
 		void SystemWindow::setResizable(bool resizable) {

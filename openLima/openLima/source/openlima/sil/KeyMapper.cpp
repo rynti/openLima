@@ -36,7 +36,6 @@ namespace openlima {
 				// Function-keys
 				return (KeyboardButton)(vk + 145);
 			}
-			std::cout << "VKey: " << vk << std::endl;
 
 			// Other keys
 			switch(vk) {
@@ -101,7 +100,6 @@ namespace openlima {
 			}
 
 			// Unknown keys
-			std::cout << "Unknown VKey: " << vk << std::endl;
 			return KeyboardButtonType::KEY_NONE;
 		}
 
