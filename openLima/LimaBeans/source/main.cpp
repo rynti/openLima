@@ -13,7 +13,7 @@
 #include <openlima/util/types.hpp>
 #include <openlima/sil/SystemWindow.hpp>
 #include <openlima/sil/sigl.hpp>
-#include <openlima/gui/Window.hpp>
+#include <openlima/gui/LimaWindow.hpp>
 #include <openlima/input/MouseButton.hpp>
 #include <openlima/input/KeyboardButton.hpp>
 #include <openlima/graphics/WavefrontObjReader.hpp>
@@ -31,7 +31,9 @@ using namespace boost::posix_time;
 using namespace boost::filesystem;
 
 
-class MyWindow : public Window {
+void showHelp();
+
+class MyWindow : public LimaWindow {
 public:
 	boost::shared_ptr<IRenderable> myRenderable;
 	Real xPos;
@@ -44,10 +46,10 @@ public:
 
 	MyWindow* other;
 
-	MyWindow(boost::shared_ptr<ResourceManager> resourceManager,
-			const wchar_t* title, GLfloat* lightColor) : Window(title, 640, 480) {
+	MyWindow(boost::shared_ptr<IRenderable> renderable,
+			const char* title, GLfloat* lightColor) : LimaWindow(title, 640, 480) {
 
-		myRenderable = resourceManager->getResource<StaticMesh>("doubleCubes.obj");
+		myRenderable = renderable;
 
 		xPos = 0;
 		yPos = 0;
@@ -56,11 +58,11 @@ public:
 		time = 0;
 		amount = 0;
 
-		// All glX-functions will be removed so users of openlima don't have to deal with them
+		// All gl-functions will be removed so users of openlima don't have to deal with them
 		// directly, instead they'll use abstractions.
 
-		// For instance, those flags will come to the Window-class and can be modified by different
-		// methods:
+		// For instance, those flags will come to the LimaWindow-class and can be modified by
+		// different methods:
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_NORMALIZE);
 		glEnable(GL_LIGHTING);
@@ -97,34 +99,72 @@ public:
 			bool catchIt = !this->getMouse()->isSticky();
 			this->getMouse()->setSticky(catchIt);
 			this->getMouse()->setVisible(!catchIt);
+			std::cout << "Mouse stickyness " <<
+				(catchIt ? "activated." : "deactivated.") << std::endl;
 		}
 	}
 
+	void showWindowInformation() {
+		std::cout <<	"Window Information:" << std::endl <<
+						"  Title:         \"" << this->getTitle() << "\"" << std::endl <<
+						"  Size:          " << this->getWidth() << "x" <<
+											   this->getHeight() << std::endl <<
+						"  Alive:         " << (this->isAlive() ? "Yes" : "No") << std::endl <<
+						"  Visible:       " << (this->isVisible() ? "Yes" : "No") << std::endl <<
+						"  Resizable:     " << (this->isResizable() ? "Yes" : "No") << std::endl <<
+						"  Mouse Visible: " << (this->isMouseVisible() ? "Yes" : "No") << std::endl;
+	}
+
 	virtual void onKeyboardButtonPressed(Keyboard& source, const KeyboardEvent& e) {
-		std::cout << "KeyboardButton #" << (unsigned int)(e.getButton()) << " {" << std::endl;
+		if(source.isPressed(KeyboardButtonType::KEY_CONTROL)) {
+			if(e.getButton() == KeyboardButtonType::KEY_ADD) {
+				this->setSize(this->getWidth() + 16, this->getHeight() + 12);
+				std::cout << "Window enlarged!" << std::endl;
 
-		char buttonValue = KeyMapper::getKeyboardButtonValue(e.getButton());
-		if(buttonValue != 0)
-			std::cout << "  Value: " << buttonValue << std::endl;
+			} else if(e.getButton() == KeyboardButtonType::KEY_SUBTRACT) {
+				this->setSize(this->getWidth() - 16, this->getHeight() - 12);
+				std::cout << "Window shrinked!" << std::endl;
 
-		const char* buttonDescription = KeyMapper::getKeyboardButtonDescription(e.getButton());
-		if(buttonDescription != NULL)
-			std::cout << "  Description: " << buttonDescription << std::endl;
+			} else if(e.getButton() == KeyboardButtonType::KEY_R) {
+				this->setResizable(!this->isResizable());
+				std::cout << "This window is " <<
+					(this->isResizable() ? "now resizable." : "not resizable anymore.") <<
+					std::endl;
 
-		// Deleting NULL-pointers is allowed!
-		delete[] buttonDescription;
+			} else if(e.getButton() == KeyboardButtonType::KEY_I) {
+				this->showWindowInformation();
 
-		std::cout << "}" << std::endl;
+			} else if(e.getButton() == KeyboardButtonType::KEY_Q) {
+				showHelp();
 
-		if(e.getButton() == KeyboardButtonType::KEY_ESCAPE)
-			this->close();
+			} else if(e.getButton() == KeyboardButtonType::KEY_X) {
+				this->close();
+				std::cout << "Window closed!" << std::endl;
 
-		if(e.getButton() == KeyboardButtonType::KEY_H)
-			this->hide();
+			} else if(e.getButton() == KeyboardButtonType::KEY_H) {
+				if(other == NULL) {
+					std::cout <<
+						"Cant' hide the window, reason: There is no other window!" << std::endl <<
+						"Use CTRL+X to close this window." << std::endl;
+				} else if(!other->isVisible()) {
+					std::cout <<
+						"Cant' hide the window, reason: The other window is not visible!" <<
+						std::endl << "Use CTRL+S to show the other window." << std::endl;
+				} else {
+					this->hide();
+					std::cout << "Window hidden!" << std::endl;
+				}
 
-		if(e.getButton() == KeyboardButtonType::KEY_S && other != NULL)
-			other->show();
-
+			} else if(e.getButton() == KeyboardButtonType::KEY_S) {
+				if(other == NULL) {
+					std::cout << "Cant' show the other window, reason: There is no other window!" <<
+						std::endl;
+				} else {
+					other->show();
+					std::cout << "Showing the other window!" << std::endl;
+				}
+			}
+		}
 	}
 
 	virtual void onKeyboardButtonReleased(Keyboard& source, const KeyboardEvent& e) {
@@ -163,6 +203,18 @@ public:
 };
 
 
+void showHelp() {
+	std::cout <<	"Debug Controls (CTRL + Key):" << std::endl <<
+					" Q - Show this command overview" << std::endl <<
+					" R - Toggle the resizable attribute" << std::endl <<
+					" I - Print some debug information" << std::endl <<
+					" X - Close the window" << std::endl <<
+					" H - Hide the window" << std::endl <<
+					" S - Show the other window" << std::endl <<
+					" + (Numpad) - Enlarge the window" << std::endl <<
+					" - (Numpad) - Shrink the window" << std::endl;
+}
+
 OPENLIMA_MAIN(int argc, char** argv) {
 	path executable(argv[0]);
 	path resourcesDir = executable.remove_filename()/"resources";
@@ -171,21 +223,29 @@ OPENLIMA_MAIN(int argc, char** argv) {
 		new FileResourceManager(resourcesDir.string()));
 
 	resourceManager->registerReader<StaticMesh>(new WavefrontObjReader);
+	boost::shared_ptr<IRenderable> renderable =
+		resourceManager->getResource<StaticMesh>("doubleCubes.obj");
 
+	if(!renderable) {
+		std::cout << "Failed to load resource: \"./resources/doubleCubes.obj\"" << std::endl;
+		return 1;
+	}
 
 	GLfloat lightColors1[] = {0.5f, 1.0f, 0.5f, 1.0f};
-	MyWindow window1(resourceManager, L"Window 1", lightColors1);
+	MyWindow window1(renderable, "Window 1", lightColors1);
 	GLfloat lightColors2[] = {1.0f, 0.5f, 0.5f, 1.0f};
-	MyWindow window2(resourceManager, L"Window 2", lightColors2);
+	MyWindow window2(renderable, "Window 2", lightColors2);
 
 	window1.other = &window2;
 	window2.other = &window1;
 
+	window1.setTitle("LOOOL");
+	window2.setTitle("TROLL");
 	window1.show();
 
-	Window::enterMainLoop();
+	showHelp();
 
-	std::cout << "end" << std::endl;
+	SystemWindow::mainLoop();
 
 	return 0;
 }

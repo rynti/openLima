@@ -1,6 +1,6 @@
 // Copyright (C) 2011 Robert Boehm
 // This file is part of OpenLima.
-// 
+//
 // You should have received a copy of the GNU Lesser General Public License
 // along with OpenLima. If not, see: <http://www.gnu.org/licenses/>.
 
@@ -11,13 +11,13 @@
 
 #include <map>
 
-#include "../util/macros.hpp"
-#include "../util/types.hpp"
-#include "../sil/SystemWindow.hpp"
-#include "../input/Mouse.hpp"
-#include "../input/MouseMoveEvent.hpp"
-#include "../input/Keyboard.hpp"
-#include "../input/KeyboardEvent.hpp"
+#include <openlima/util/macros.hpp>
+#include <openlima/util/types.hpp>
+#include <openlima/sil/SystemWindow.hpp>
+#include <openlima/input/Mouse.hpp>
+#include <openlima/input/MouseMoveEvent.hpp>
+#include <openlima/input/Keyboard.hpp>
+#include <openlima/input/KeyboardEvent.hpp>
 
 
 namespace openlima {
@@ -27,20 +27,15 @@ namespace openlima {
 		 * A window, that can be rendered and uses functionality of openlima::input to provide easy
 		 * use of input devices. Also provides methods like render or update, with built-in time
 		 * management and render/update limit.
-		 * 
-		 * Be sure to use Window::initialize(int*, char**) before constructing a Window-object.
 		 *
 		 * @author	rynti (Robert Boehm)
 		 */
-		class Window {
+		class LimaWindow : public openlima::sil::SystemWindow {
 		private:
 
 			/** The default update time. */
 			static const openlima::util::dtime defaultUpdateTime;
 
-
-			/** The SystemWindow this window is based on. */
-			openlima::sil::SystemWindow* systemWindow;
 
 			/** The time when the previous update happened. */
 			boost::posix_time::ptime previousUpdate;
@@ -73,13 +68,12 @@ namespace openlima {
 
 			/**
 			 * Creates a new window.
-			 * Be sure to call "Window::initialize(int*, char**)" first.
 			 *
 			 * @param	title	   	The title of the window.
 			 * @param	width	   	The width of the window.
 			 * @param	height	   	The height of the window.
 			 */
-			OPENLIMA_DLL Window(const wchar_t* title, int width, int height);
+			OPENLIMA_DLL LimaWindow(const char* title, int width, int height);
 
 
 			/**
@@ -102,18 +96,13 @@ namespace openlima {
 			/**
 			 * Finalizer.
 			 */
-			OPENLIMA_DLL virtual ~Window();
+			OPENLIMA_DLL virtual ~LimaWindow();
 
 
 			/**
 			 * Hides the console. (If there is one)
 			 */
 			OPENLIMA_DLL static void hideConsole();
-
-			/**
-			 * Enters the main loop.
-			 */
-			OPENLIMA_DLL static void enterMainLoop();
 
 
 			/**
@@ -129,43 +118,6 @@ namespace openlima {
 			 * @return	The keyboard for this window.
 			 */
 			OPENLIMA_DLL openlima::input::Mouse* getKeyboard();
-
-			/**
-			 * Closes this window.
-			 */
-			OPENLIMA_DLL void close();
-
-			/**
-			 * Hides this window.
-			 */
-			OPENLIMA_DLL void hide();
-
-			/**
-			 * Shows this window.
-			 */
-			OPENLIMA_DLL void show();
-
-			/**
-			 * Sets the title of this window.
-			 *
-			 * @param	title	The title.
-			 */
-			OPENLIMA_DLL void setTitle(const wchar_t* title);
-
-			/**
-			 * Sets the size of this window.
-			 *
-			 * @param	width 	The new window width.
-			 * @param	height	The new window height.
-			 */
-			OPENLIMA_DLL void setSize(int width, int height);
-
-			/**
-			 * Makes this window resizable or unresizable, depending on the given value.
-			 *
-			 * @param	resizable	True to make this window resizable, else false.
-			 */
-			OPENLIMA_DLL void setResizable(bool resizable);
 
 			/**
 			 * Sets the target render rate.

@@ -1,15 +1,15 @@
 // Copyright (C) 2011 Robert Boehm
 // This file is part of OpenLima.
-// 
+//
 // You should have received a copy of the GNU Lesser General Public License
 // along with OpenLima. If not, see: <http://www.gnu.org/licenses/>.
 
 #ifndef OPENLIMA_INPUT_MOUSECLICKEVENT_HPP
 #define OPENLIMA_INPUT_MOUSECLICKEVENT_HPP
 
-#include "../util/macros.hpp"
-#include "../util/Vector2.hpp"
-#include "MouseButton.hpp"
+#include <openlima/util/macros.hpp>
+#include <openlima/util/Vector2.hpp>
+#include <openlima/input/MouseButton.hpp>
 
 
 namespace openlima {

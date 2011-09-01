@@ -1,15 +1,15 @@
 // Copyright (C) 2011 Robert Boehm
 // This file is part of OpenLima.
-// 
+//
 // You should have received a copy of the GNU Lesser General Public License
 // along with OpenLima. If not, see: <http://www.gnu.org/licenses/>.
 
 #ifndef OPENLIMA_INPUT_SYSTEMMOUSE_HPP
 #define OPENLIMA_INPUT_SYSTEMMOUSE_HPP
 
-#include "../util/types.hpp"
-#include "../sil/SystemWindow.hpp"
-#include "Mouse.hpp"
+#include <openlima/util/types.hpp>
+#include <openlima/sil/SystemWindow.hpp>
+#include <openlima/input/Mouse.hpp>
 
 
 namespace openlima {

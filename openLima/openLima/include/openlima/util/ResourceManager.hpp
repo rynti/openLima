@@ -16,8 +16,8 @@
 #include <typeinfo>
 #include <string>
 
-#include "macros.hpp"
-#include "IResourceReader.hpp"
+#include <openlima/util/macros.hpp>
+#include <openlima/util/IResourceReader.hpp>
 
 
 namespace openlima {

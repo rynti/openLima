@@ -3,6 +3,7 @@ project(openLima)
 
 set(Boost_USE_STATIC_LIBS ON)
 find_package(Boost REQUIRED COMPONENTS signals filesystem date_time)
+find_package(X11)
 find_package(OpenGL)
 
 link_directories(${Boost_LIBRARY_DIRS})
@@ -68,4 +69,4 @@ ELSE(BUILD_SHARED_LIBS)
 	ENDIF(BUILD_STATIC_LIBS)
 ENDIF(BUILD_SHARED_LIBS)
 
-target_link_libraries(openLima ${OPENGL_LIBRARY} ${Boost_LIBRARIES})
+target_link_libraries(openLima ${OPENGL_LIBRARY} ${Boost_LIBRARIES} ${X11_LIBRARIES})

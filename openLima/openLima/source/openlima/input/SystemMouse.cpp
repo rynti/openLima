@@ -1,6 +1,6 @@
 // Copyright (C) 2011 Robert Boehm
 // This file is part of OpenLima.
-// 
+//
 // You should have received a copy of the GNU Lesser General Public License
 // along with OpenLima. If not, see: <http://www.gnu.org/licenses/>.
 
@@ -15,10 +15,10 @@ using namespace openlima::sil;
 
 namespace openlima {
 	namespace input {
-		
+
 		SystemMouse::SystemMouse(SystemWindow& systemWindow) : window(systemWindow) {
-			window.onMouseMove = boost::bind(&SystemMouse::mouseMove, this, _1, _2, _3);
-			window.onMouseClick = boost::bind(&SystemMouse::mouseClick, this, _1, _2, _3);
+			window.mouseMoveFunction = boost::bind(&SystemMouse::mouseMove, this, _1, _2, _3);
+			window.mouseClickFunction = boost::bind(&SystemMouse::mouseClick, this, _1, _2, _3);
 		}
 
 		SystemMouse::~SystemMouse() {
@@ -35,7 +35,7 @@ namespace openlima {
 			this->position = Vector2i(x, y);
 
 			this->onMouseMove(*this, MouseMoveEvent(this->getPosition(), this->getDelta()));
-			
+
 			if(this->sticky && (this->delta.x != 0 || this->delta.y != 0)) {
 				//glutSetWindow(this->glutWindowId);
 				//int newX = glutGet(GLUT_WINDOW_WIDTH) / 2;
@@ -63,7 +63,7 @@ namespace openlima {
 
 		void SystemMouse::setVisible(bool visible) {
 			Mouse::setVisible(visible);
-			
+
 			if(visible) {
 				window.setMouseVisibility(visible);
 			} else {

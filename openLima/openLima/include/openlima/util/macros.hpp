@@ -1,6 +1,6 @@
 // Copyright (C) 2011 Robert Boehm
 // This file is part of OpenLima.
-// 
+//
 // You should have received a copy of the GNU Lesser General Public License
 // along with OpenLima. If not, see: <http://www.gnu.org/licenses/>.
 
@@ -8,10 +8,10 @@
 #define OPENLIMA_UTIL_MACROS_HPP
 
 // Defines of OpenLima:
-// 
+//
 // Extern defines (Should be defined with compiler definitions):
 // OPENLIMA_PRECISE_REAL => Uses "double" instead of "float" for the openlima::util::real type.
-// 
+//
 // Intern defines (Will be defined by this file):
 // OPENLIMA_WIN => Build for Windows
 // OPENLIMA_LIN => Build for Linux
@@ -25,7 +25,7 @@
 //							macro to switch between float and double.
 // OPENLIMA_SIL_WINAPI => Use WinAPI for SIL
 // OPENLIMA_SIL_XLIB => Use Xlib for SIL
-// 
+//
 // Additional defines (If not already defined):
 // GLUT_WHEEL_UP
 // GLUT_WHEEL_DOWN
@@ -60,7 +60,7 @@
 #endif
 
 //////////////////////////////////////
-// OPENLIMA_DLL-Macro
+// OPENLIMA_DLL-macro
 #ifdef OPENLIMA_WIN
 #define OPENLIMA_DLL __declspec(dllexport)
 #else
@@ -68,7 +68,7 @@
 #endif
 
 //////////////////////////////////////
-// OPENLIMA_MAIN-Macro
+// OPENLIMA_MAIN-macro
 #ifdef OPENLIMA_WIN
 #include <windows.h>
 
@@ -87,7 +87,7 @@
 #endif
 
 //////////////////////////////////////
-// OPENLIMA_REAL_TYPE-Macro
+// OPENLIMA_REAL_TYPE-macro
 #if defined(OPENLIMA_PRECISE_REAL) && !defined(OPENLIMA_REAL_TYPE)
 #define OPENLIMA_REAL_TYPE double
 #else
@@ -103,19 +103,19 @@
 #endif
 
 //////////////////////////////////////
-// GLUT_WHEEL_UP-Macro
+// GLUT_WHEEL_UP-macro
 #ifndef GLUT_WHEEL_UP
 #define GLUT_WHEEL_UP 3
 #endif
 
 //////////////////////////////////////
-// GLUT_WHEEL_DOWN-Macro
+// GLUT_WHEEL_DOWN-macro
 #ifndef GLUT_WHEEL_DOWN
 #define GLUT_WHEEL_DOWN 4
 #endif
 
 //////////////////////////////////////
-// BOOST_FOREACH_PAIR-Macro
+// BOOST_FOREACH_PAIR-macro
 
 #ifndef BOOST_FOREACH_PAIR
 #include <boost/foreach.hpp>

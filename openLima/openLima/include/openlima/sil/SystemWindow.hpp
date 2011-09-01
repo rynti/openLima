@@ -1,6 +1,6 @@
 // Copyright (C) 2011 Robert Boehm
 // This file is part of OpenLima.
-// 
+//
 // You should have received a copy of the GNU Lesser General Public License
 // along with OpenLima. If not, see: <http://www.gnu.org/licenses/>.
 
@@ -11,9 +11,15 @@
 
 #include <map>
 
-#include "../util/macros.hpp"
-#include "../input/MouseButton.hpp"
-#include "../input/KeyboardButton.hpp"
+#include <openlima/util/macros.hpp>
+#include <openlima/sil/sigl.hpp>
+#include <openlima/input/MouseButton.hpp>
+#include <openlima/input/KeyboardButton.hpp>
+
+#ifdef OPENLIMA_SIL_XLIB
+#include <X11/Xlib.h>
+#include <X11/Xutil.h>
+#endif
 
 
 namespace openlima {
@@ -22,7 +28,7 @@ namespace openlima {
 		/**
 		 * A system window, which means from outside it is system-independent, but internal it
 		 * works system-dependent.
-		 * 
+		 *
 		 * This class is the key feature of SIL.
 		 */
 		class SystemWindow {
@@ -41,10 +47,6 @@ namespace openlima {
 			HDC hDC;
 			HGLRC hRC;
 
-			int width;
-			int height;
-
-			bool cursorVisibility;
 			bool mouseLeaved;
 
 
@@ -76,34 +78,82 @@ namespace openlima {
 
 			void resize(int width, int height);
 
+			bool nextEvent();
+
 #endif
 
-			/**
-			 * Executes the next event.
-			 *
-			 * @return	True if everything is still fine, false if this window was closed.
-			 */
-			bool nextEvent();
+#ifdef OPENLIMA_SIL_XLIB
+
+			static std::map<Window, SystemWindow*> registeredWindows;
+			static Display* display;
+			static int screen;
+			static unsigned long white;
+			static unsigned long black;
+			static long eventMask;
+			static Atom wmDelete;
+			static char noData[8];
+
+			Window window;
+			Cursor invisibleCursor;
+			XSizeHints* sizeHints;
+			XVisualInfo* visualInfo;
+			GLXContext glContext;
+
+
+			void mapNotifyEvent(XEvent& evt);
+
+			void configureNotifyEvent(XEvent& evt);
+
+			void motionNotifyEvent(XEvent& evt);
+
+			void buttonReleasedEvent(XEvent& evt);
+
+			void buttonPressedEvent(XEvent& evt);
+
+			void keyReleasedEvent(XEvent& evt);
+
+			void keyPressedEvent(XEvent& evt);
+
+			bool nextEvent(XEvent& evt);
+
+			void setupGL();
+
+			void unloadGL();
+
+			void draw();
+
+			void resize(int width, int height);
+
+#endif
+
+			int width;
+			int height;
+			const char* title;
+			bool cursorVisibility;
+			bool visible;
+			bool resizable;
+			bool alive;
 
 		public:
 
 			/** An event that will be called when the content of this window should get drawn. */
-			boost::function<void (SystemWindow&)> onDraw;
+			boost::function<void (SystemWindow&)> drawFunction;
 
 			/** An event that will be called when this window gets resized. */
-			boost::function<void (SystemWindow&, int, int)> onResize;
+			boost::function<void (SystemWindow&, int, int)> resizeFunction;
 
 			/** An event that will be called when the mouse of this window was moved. */
-			boost::function<void (SystemWindow&, int, int)> onMouseMove;
+			boost::function<void (SystemWindow&, int, int)> mouseMoveFunction;
 
 			/** An event that will be called when a mouse button of this window was clicked. */
-			boost::function<void (SystemWindow&, openlima::input::MouseButton, bool)> onMouseClick;
+			boost::function<void (SystemWindow&, openlima::input::MouseButton, bool)>
+				mouseClickFunction;
 
 			/** An event that will be called when a key on the keyboard was pressed. */
-			boost::function<void (SystemWindow&, openlima::input::KeyboardButton)> onKeyDown;
+			boost::function<void (SystemWindow&, openlima::input::KeyboardButton)> keyDownFunction;
 
 			/** An event that will be called when a key on the keyboard was released. */
-			boost::function<void (SystemWindow&, openlima::input::KeyboardButton)> onKeyUp;
+			boost::function<void (SystemWindow&, openlima::input::KeyboardButton)> keyUpFunction;
 
 
 			/**
@@ -113,13 +163,13 @@ namespace openlima {
 			 * @param	width 	The initial width of the window.
 			 * @param	height	The initial height of the window.
 			 */
-			OPENLIMA_DLL SystemWindow(const wchar_t* title, int width, int height);
+			OPENLIMA_DLL SystemWindow(const char* title, int width, int height);
 
 			/**
 			 * Finalizer.
 			 */
 			OPENLIMA_DLL virtual ~SystemWindow();
-			
+
 
 			/**
 			 * Executes a step of the main loop.
@@ -133,21 +183,35 @@ namespace openlima {
 			 * method returns true.
 			 */
 			OPENLIMA_DLL static void mainLoop();
-			
+
 			/**
 			 * Closes this window.
 			 */
-			OPENLIMA_DLL void closeWindow();
+			OPENLIMA_DLL void close();
 
 			/**
 			 * Hides this window.
 			 */
-			OPENLIMA_DLL void hideWindow();
+			OPENLIMA_DLL void hide();
 
 			/**
 			 * Shows the window.
 			 */
-			OPENLIMA_DLL void showWindow();
+			OPENLIMA_DLL void show();
+
+			/**
+			 * Returns a value that determines if this window is still "alive".
+			 *
+			 * @return True if this window is still alive (= Not closed yet), false if not.
+			 */
+			OPENLIMA_DLL bool isAlive();
+
+			/**
+			 * Returns a value that determines if this window is visible.
+			 *
+			 * @return True if this window is visible, false if not.
+			 */
+			OPENLIMA_DLL bool isVisible();
 
 			/**
 			 * Swap buffers. (Needed for doublebuffering)
@@ -170,6 +234,13 @@ namespace openlima {
 			OPENLIMA_DLL void setMouseVisibility(bool visible);
 
 			/**
+			 * Returns a value that determines if the mouse of this window is visible.
+			 *
+			 * @return	True if the mouse is visible, or false if not.
+			 */
+			OPENLIMA_DLL bool isMouseVisible();
+
+			/**
 			 * Sets the window size.
 			 * The size is a so-called "client size", which means it is without any window frames,
 			 * etc.!
@@ -184,7 +255,14 @@ namespace openlima {
 			 *
 			 * @param	title	The window title.
 			 */
-			OPENLIMA_DLL void setTitle(const wchar_t* title);
+			OPENLIMA_DLL void setTitle(const char* title);
+
+			/**
+			 * Returns the title of this window.
+			 *
+			 * @return The title of this window.
+			 */
+			OPENLIMA_DLL const char* getTitle();
 
 			/**
 			 * Makes this window resizable or unresizable, depending on the given value.
@@ -192,6 +270,13 @@ namespace openlima {
 			 * @param	resizable	True to make this window resizable, else false.
 			 */
 			OPENLIMA_DLL void setResizable(bool resizable);
+
+			/**
+			 * Returns a value, that determines if this window is resizable or not.
+			 *
+			 * @return True if this window is resizable, false if not.
+			 */
+			OPENLIMA_DLL bool isResizable();
 
 			/**
 			 * Returns the window width.

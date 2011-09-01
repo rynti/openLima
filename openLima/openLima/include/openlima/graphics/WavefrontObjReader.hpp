@@ -1,6 +1,6 @@
 // Copyright (C) 2011 Robert Boehm
 // This file is part of OpenLima.
-// 
+//
 // You should have received a copy of the GNU Lesser General Public License
 // along with OpenLima. If not, see: <http://www.gnu.org/licenses/>.
 
@@ -12,10 +12,10 @@
 #include <iostream>
 #include <vector>
 
-#include "../util/macros.hpp"
-#include "../util/Vector3.hpp"
-#include "../util/IResourceReader.hpp"
-#include "StaticMesh.hpp"
+#include <openlima/util/macros.hpp>
+#include <openlima/util/Vector3.hpp>
+#include <openlima/util/IResourceReader.hpp>
+#include <openlima/graphics/StaticMesh.hpp>
 
 
 namespace openlima {
@@ -24,7 +24,7 @@ namespace openlima {
 		/**
 		 * A Wavefront .obj-reader.
 		 * Can read static meshes.
-		 * 
+		 *
 		 * @sa	StaticMesh
 		 *
 		 * @author	rynti (Robert Boehm)
@@ -40,7 +40,7 @@ namespace openlima {
 			 */
 			void readVertex(std::istream &in,
 				std::vector<openlima::util::Vector3f>& vertices);
-			
+
 			/**
 			 * Reads a normal out of the given input stream.
 			 *

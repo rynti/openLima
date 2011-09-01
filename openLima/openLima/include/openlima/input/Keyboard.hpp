@@ -1,6 +1,6 @@
 // Copyright (C) 2011 Robert Boehm
 // This file is part of OpenLima.
-// 
+//
 // You should have received a copy of the GNU Lesser General Public License
 // along with OpenLima. If not, see: <http://www.gnu.org/licenses/>.
 
@@ -9,9 +9,9 @@
 
 #include <boost/signals.hpp>
 
-#include "../util/macros.hpp"
-#include "KeyboardButton.hpp"
-#include "KeyboardEvent.hpp"
+#include <openlima/util/macros.hpp>
+#include <openlima/input/KeyboardButton.hpp>
+#include <openlima/input/KeyboardEvent.hpp>
 
 
 namespace openlima {
@@ -39,7 +39,7 @@ namespace openlima {
 			/** The states of the keys. */
 			bool keyStates[KEYSTATES_LENGTH];
 
-			
+
 			/**
 			 * Makes this class not instanceable, use specializations instead.
 			 */
@@ -52,7 +52,7 @@ namespace openlima {
 
 			/** An event that will be called when any keyboard button was released. */
 			boost::signal<void (Keyboard&, const KeyboardEvent&)> onKeyboardButtonReleased;
-			
+
 
 			/**
 			 * Finalizer.

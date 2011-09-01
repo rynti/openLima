@@ -1,6 +1,6 @@
 // Copyright (C) 2011 Robert Boehm
 // This file is part of OpenLima.
-// 
+//
 // You should have received a copy of the GNU Lesser General Public License
 // along with OpenLima. If not, see: <http://www.gnu.org/licenses/>.
 
@@ -13,7 +13,7 @@
 #include <string>
 #include <iostream>
 
-#include "ResourceManager.hpp"
+#include <openlima/util/ResourceManager.hpp>
 
 
 namespace openlima {
@@ -31,7 +31,7 @@ namespace openlima {
 			const std::string parentDirectory;
 
 		protected:
-			
+
 			/**
 			 * Opens a resource stream.
 			 *
@@ -41,7 +41,7 @@ namespace openlima {
 			 */
 			OPENLIMA_DLL virtual boost::shared_ptr<std::istream>
 				openResourceStream(const std::string& name) const;
-			
+
 			/**
 			 * Closes a resource stream.
 			 *
@@ -49,7 +49,7 @@ namespace openlima {
 			 */
 			OPENLIMA_DLL virtual void closeResourceStream(
 				boost::shared_ptr<std::istream> in) const;
-			
+
 			/**
 			 * Queries if a given resource exists.
 			 *

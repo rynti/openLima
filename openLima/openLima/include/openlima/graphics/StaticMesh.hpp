@@ -1,6 +1,6 @@
 // Copyright (C) 2011 Robert Boehm
 // This file is part of OpenLima.
-// 
+//
 // You should have received a copy of the GNU Lesser General Public License
 // along with OpenLima. If not, see: <http://www.gnu.org/licenses/>.
 
@@ -9,9 +9,9 @@
 
 #include <vector>
 
-#include "../util/macros.hpp"
-#include "../util/Vector3.hpp"
-#include "Mesh.hpp"
+#include <openlima/util/macros.hpp>
+#include <openlima/util/Vector3.hpp>
+#include <openlima/graphics/Mesh.hpp>
 
 
 namespace openlima {
@@ -38,7 +38,7 @@ namespace openlima {
 			 * Renders the vertices and the normals.
 			 */
 			OPENLIMA_DLL void renderVerticesAndNormals();
-			
+
 		public:
 
 			/** The vertices. */

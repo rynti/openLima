@@ -1,24 +1,26 @@
 // Copyright (C) 2011 Robert Boehm
 // This file is part of OpenLima.
-// 
+//
 // You should have received a copy of the GNU Lesser General Public License
 // along with OpenLima. If not, see: <http://www.gnu.org/licenses/>.
-
-#ifdef OPENLIMA_SIL_WINAPI
-#include <tchar.h>
-#endif
 
 #include <openlima/util/macros.hpp>
 #include <openlima/sil/sigl.hpp>
 #include <openlima/sil/SystemWindow.hpp>
 #include <openlima/sil/KeyMapper.hpp>
 
+#include <iostream>
+
+#ifdef OPENLIMA_SIL_XLIB
+#include <X11/Xlib.h>
+#endif
+
 using namespace openlima::input;
 
 
 namespace openlima {
 	namespace sil {
-		
+
 #ifdef OPENLIMA_SIL_WINAPI
 		// The WinAPI implementation
 
@@ -26,45 +28,6 @@ namespace openlima {
 
 		HINSTANCE SystemWindow::hInstance = GetModuleHandle(NULL);
 
-
-		SystemWindow::SystemWindow(const wchar_t* title, int width, int height) {
-			wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
-			wc.lpfnWndProc = SystemWindow::globalWindowMessageHandler;
-			wc.cbClsExtra = 0;
-			wc.cbWndExtra = 0;
-			wc.hInstance = hInstance;
-			wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-			wc.hIcon = LoadIcon(NULL, IDI_APPLICATION);
-			wc.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
-			wc.lpszClassName = title;
-			wc.lpszMenuName = NULL;
-			RegisterClass(&wc);
-
-			this->width = width;
-			this->height = height;
-			this->cursorVisibility = true;
-			this->mouseLeaved = false;
-			
-			hWnd = CreateWindow(title,
-				title,
-				WS_OVERLAPPEDWINDOW,
-				CW_USEDEFAULT,
-				CW_USEDEFAULT,
-				width,
-				height,
-				NULL,
-				NULL,
-				hInstance,
-				NULL);
-
-			SystemWindow::registeredWindows[hWnd] = this;
-
-			setupGL();
-		}
-
-		SystemWindow::~SystemWindow() {
-			SystemWindow::registeredWindows.erase(hWnd);
-		}
 
 		LRESULT CALLBACK SystemWindow::globalWindowMessageHandler(HWND hWnd, UINT message, WPARAM wParam,
 				LPARAM lParam) {
@@ -127,7 +90,7 @@ namespace openlima {
 			int height = HIWORD(lParam);
 			if(height == 0)
 				height = 1;
-			
+
 			this->resize(width, height);
 			return 0;
 		}
@@ -148,7 +111,7 @@ namespace openlima {
 
 			int x = LOWORD(lParam);
 			int y = HIWORD(lParam);
-			this->onMouseMove(*this, x, y);
+			this->mouseMoveFunction(*this, x, y);
 			return 0;
 		}
 
@@ -174,25 +137,25 @@ namespace openlima {
 			case WM_SIZE:
 				return wmSize(hWnd, message, wParam, lParam);
 			case WM_KEYDOWN:
-				this->onKeyDown(*this, KeyMapper::mapVirtualKey(wParam)); return 0;
+				this->keyDownFunction(*this, KeyMapper::mapVirtualKey(wParam)); return 0;
 			case WM_KEYUP:
-				this->onKeyUp(*this, KeyMapper::mapVirtualKey(wParam)); return 0;
+				this->keyUpFunction(*this, KeyMapper::mapVirtualKey(wParam)); return 0;
 			case WM_MOUSELEAVE:
 				return wmMouseLeave(hWnd, message, wParam, lParam);
 			case WM_MOUSEMOVE:
 				return wmMouseMove(hWnd, message, wParam, lParam);
 			case WM_LBUTTONDOWN:
-				this->onMouseClick(*this, MouseButtonType::LEFT, true); return 0;
+				this->mouseClickFunction(*this, MouseButtonType::LEFT, true); return 0;
 			case WM_LBUTTONUP:
-				this->onMouseClick(*this, MouseButtonType::LEFT, false); return 0;
+				this->mouseClickFunction(*this, MouseButtonType::LEFT, false); return 0;
 			case WM_MBUTTONDOWN:
-				this->onMouseClick(*this, MouseButtonType::MIDDLE, true); return 0;
+				this->mouseClickFunction(*this, MouseButtonType::MIDDLE, true); return 0;
 			case WM_MBUTTONUP:
-				this->onMouseClick(*this, MouseButtonType::MIDDLE, false); return 0;
+				this->mouseClickFunction(*this, MouseButtonType::MIDDLE, false); return 0;
 			case WM_RBUTTONDOWN:
-				this->onMouseClick(*this, MouseButtonType::RIGHT, true); return 0;
+				this->mouseClickFunction(*this, MouseButtonType::RIGHT, true); return 0;
 			case WM_RBUTTONUP:
-				this->onMouseClick(*this, MouseButtonType::RIGHT, false); return 0;
+				this->mouseClickFunction(*this, MouseButtonType::RIGHT, false); return 0;
 			}
 			return DefWindowProc(hWnd, message, wParam, lParam);
 		}
@@ -225,7 +188,7 @@ namespace openlima {
 
 			wglMakeCurrent(hDC, hRC);
 
-			this->onResize(*this, width, height);
+			this->resizeFunction(*this, width, height);
 
 			//wglMakeCurrent(NULL, NULL);
 		}
@@ -233,7 +196,7 @@ namespace openlima {
 		void SystemWindow::draw() {
 			wglMakeCurrent(hDC, hRC);
 
-			this->onDraw(*this);
+			this->drawFunction(*this);
 
 			//wglMakeCurrent(NULL, NULL);
 		}
@@ -264,6 +227,49 @@ namespace openlima {
 
 		// Public
 
+		SystemWindow::SystemWindow(const char* title, int width, int height) {
+			wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
+			wc.lpfnWndProc = SystemWindow::globalWindowMessageHandler;
+			wc.cbClsExtra = 0;
+			wc.cbWndExtra = 0;
+			wc.hInstance = hInstance;
+			wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+			wc.hIcon = LoadIcon(NULL, IDI_APPLICATION);
+			wc.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
+			wc.lpszClassName = title;
+			wc.lpszMenuName = NULL;
+			RegisterClass(&wc);
+
+			this->width = width;
+			this->height = height;
+			this->cursorVisibility = true;
+			this->mouseLeaved = false;
+			this->alive = true;
+			this->visible = false;
+			this->title = title;
+			this->resizable = true;
+
+			hWnd = CreateWindow(title,
+				title,
+				WS_OVERLAPPEDWINDOW,
+				CW_USEDEFAULT,
+				CW_USEDEFAULT,
+				width,
+				height,
+				NULL,
+				NULL,
+				hInstance,
+				NULL);
+
+			SystemWindow::registeredWindows[hWnd] = this;
+
+			setupGL();
+		}
+
+		SystemWindow::~SystemWindow() {
+			SystemWindow::registeredWindows.erase(hWnd);
+		}
+
 		void SystemWindow::setMousePosition(int x, int y) {
 			POINT myPoint;
 			myPoint.x = x;
@@ -279,7 +285,7 @@ namespace openlima {
 		int SystemWindow::getHeight() {
 			return this->height;
 		}
-		
+
 		void SystemWindow::setMouseVisibility(bool visible) {
 			if(this->cursorVisibility != visible) {
 				ShowCursor(visible);
@@ -288,47 +294,66 @@ namespace openlima {
 		}
 
 		void SystemWindow::setSize(int width, int height) {
-			RECT clientRect, windowRect;
-			GetClientRect(hWnd, &clientRect);
-			GetWindowRect(hWnd, &windowRect);
-			int borderWidth = (clientRect.right - clientRect.left) -
-				(windowRect.right - windowRect.left);
+			if(this->width != width || this->height != height) {
+				this->width = width;
+				this->height = height;
 
-			int borderHeight = (clientRect.bottom - clientRect.top) -
-				(windowRect.bottom - windowRect.top);
+				RECT clientRect, windowRect;
+				GetClientRect(hWnd, &clientRect);
+				GetWindowRect(hWnd, &windowRect);
+				int borderWidth = (clientRect.right - clientRect.left) -
+					(windowRect.right - windowRect.left);
 
-			MoveWindow(hWnd, windowRect.left, windowRect.top,
-				width + borderWidth, height + borderHeight, true);
+				int borderHeight = (clientRect.bottom - clientRect.top) -
+					(windowRect.bottom - windowRect.top);
+
+				MoveWindow(hWnd, windowRect.left, windowRect.top,
+					width + borderWidth, height + borderHeight, true);
+			}
 		}
 
-		void SystemWindow::setTitle(const wchar_t* title) {
+		void SystemWindow::setTitle(const char* title) {
+			this->title = title;
 			SetWindowText(hWnd, title);
 		}
 
 		void SystemWindow::setResizable(bool resizable) {
-			if(resizable) {
-				SetWindowLong(hWnd, GWL_STYLE,
-					GetWindowLong(hWnd, GWL_STYLE) | WS_THICKFRAME | WS_MAXIMIZEBOX);
-				this->setSize(this->width, this->height);
-			} else {
-				SetWindowLong(hWnd, GWL_STYLE,
-					GetWindowLong(hWnd, GWL_STYLE) & ~(WS_THICKFRAME | WS_MAXIMIZEBOX));
-				this->setSize(this->width, this->height);
+			if(this->resizable != resizable) {
+				if(resizable) {
+					this->resizable = resizable;
+					SetWindowLong(hWnd, GWL_STYLE,
+						GetWindowLong(hWnd, GWL_STYLE) | WS_THICKFRAME | WS_MAXIMIZEBOX);
+					this->setSize(this->width, this->height);
+				} else {
+					this->resizable = resizable;
+					SetWindowLong(hWnd, GWL_STYLE,
+						GetWindowLong(hWnd, GWL_STYLE) & ~(WS_THICKFRAME | WS_MAXIMIZEBOX));
+					this->setSize(this->width, this->height);
+				}
 			}
 		}
 
-		void SystemWindow::closeWindow() {
-			DestroyWindow(hWnd);
+		void SystemWindow::close() {
+			if(this->alive) {
+				this->alive = false;
+				DestroyWindow(hWnd);
+			}
 		}
 
-		void SystemWindow::hideWindow() {
-			ShowWindow(hWnd, SW_HIDE);
-			UpdateWindow(hWnd);
+		void SystemWindow::hide() {
+			if(this->visible) {
+				this->visible = false;
+				ShowWindow(hWnd, SW_HIDE);
+				UpdateWindow(hWnd);
+			}
 		}
 
-		void SystemWindow::showWindow() {
-			ShowWindow(hWnd, SW_SHOW);
-			UpdateWindow(hWnd);
+		void SystemWindow::show() {
+			if(!this->visible) {
+				this->visible = true;
+				ShowWindow(hWnd, SW_SHOW);
+				UpdateWindow(hWnd);
+			}
 		}
 
 		void SystemWindow::swapBuffers() {
@@ -345,6 +370,331 @@ namespace openlima {
 		}
 
 #endif
+
+#ifdef OPENLIMA_SIL_XLIB
+
+		std::map<Window, SystemWindow*> SystemWindow::registeredWindows;
+		Display* SystemWindow::display = XOpenDisplay(NULL);
+		int SystemWindow::screen = DefaultScreen(SystemWindow::display);
+		unsigned long SystemWindow::white = WhitePixel(SystemWindow::display, SystemWindow::screen);
+		unsigned long SystemWindow::black = BlackPixel(SystemWindow::display, SystemWindow::screen);
+
+		long SystemWindow::eventMask =
+			ButtonPressMask			| ButtonReleaseMask			| KeyPressMask |
+			KeyReleaseMask			| PointerMotionMask			| StructureNotifyMask;
+
+		Atom SystemWindow::wmDelete = XInternAtom(display, "WM_DELETE_WINDOW", true);
+		char SystemWindow::noData[] = {0,0,0,0,0,0,0,0};
+
+
+		SystemWindow::SystemWindow(const char* title, int width, int height) {
+			this->width = width;
+			this->height = height;
+			this->alive = true;
+			this->visible = false;
+			this->resizable = true;
+			this->cursorVisibility = true;
+			this->title = title;
+			this->sizeHints = XAllocSizeHints();
+
+			XSetWindowAttributes winAttributes;
+			Window root = DefaultRootWindow(display);
+			int attributes[] = {GLX_RGBA, GLX_DEPTH_SIZE, 24, GLX_DOUBLEBUFFER, None};
+			visualInfo = glXChooseVisual(display, screen, attributes);
+
+			winAttributes.colormap = XCreateColormap(display, root, visualInfo->visual, AllocNone);
+			winAttributes.event_mask = eventMask;
+
+			this->window = XCreateWindow(
+				display, root, 0, 0, width, height, 0,
+				visualInfo->depth, InputOutput,
+				visualInfo->visual,
+				CWColormap | CWEventMask,
+				&winAttributes);
+
+			SystemWindow::registeredWindows[window] = this;
+
+			setupGL();
+
+			XAutoRepeatOn(display);
+
+			XSetWMNormalHints(display, window, sizeHints);
+			XStoreName(display, window, title);
+			XSetWMProtocols(display, window, &wmDelete, 1);
+
+			Pixmap emptyBitmap;
+			XColor black;
+			black.red = black.green = black.blue = 0;
+			emptyBitmap = XCreateBitmapFromData(display, window, noData, 8, 8);
+			invisibleCursor = XCreatePixmapCursor(display, emptyBitmap, emptyBitmap,
+													&black, &black, 0, 0);
+
+		}
+
+		SystemWindow::~SystemWindow() {
+			this->close();
+			SystemWindow::registeredWindows.erase(window);
+			delete visualInfo;
+			XFree(this->sizeHints);
+			unloadGL();
+		}
+
+		void SystemWindow::setMousePosition(int x, int y) {
+			XWarpPointer(display, window, window, 0, 0, 0, 0, x, y);
+		}
+
+		int SystemWindow::getWidth() {
+			return this->width;
+		}
+
+		int SystemWindow::getHeight() {
+			return this->height;
+		}
+
+		void SystemWindow::setMouseVisibility(bool visible) {
+			if(this->cursorVisibility != visible) {
+				this->cursorVisibility = visible;
+				// When passing "None" as cursor, it will use the default cursor!
+				XDefineCursor(display, window, visible ? None : invisibleCursor);
+			}
+		}
+
+		void SystemWindow::setSize(int width, int height) {
+			if(width < 1)
+				width = 1;
+
+			if(height < 1)
+				height = 1;
+
+			if(this->width != width || this->height != height) {
+				if(!this->isResizable()) {
+					this->width = width;
+					this->height = height;
+					this->setResizable(true);
+					XFlush(display);
+					XResizeWindow(display, window,
+								  static_cast<unsigned int>(width),
+								  static_cast<unsigned int>(height));
+					XFlush(display);
+					this->setResizable(false);
+					XFlush(display);
+					resize(width, height);
+				} else {
+					XResizeWindow(display, window,
+								  static_cast<unsigned int>(width),
+								  static_cast<unsigned int>(height));
+				}
+			}
+		}
+
+		void SystemWindow::setTitle(const char* title) {
+			this->title = title;
+			XStoreName(display, window, title);
+		}
+
+		void SystemWindow::setResizable(bool resizable) {
+			if(this->resizable != resizable) {
+				this->resizable = resizable;
+				if(resizable) {
+					sizeHints->flags = 0;
+					XSetWMNormalHints(display, window, sizeHints);
+				} else {
+					sizeHints->flags = PMinSize | PMaxSize;
+					sizeHints->min_width = this->getWidth();
+					sizeHints->min_height = this->getHeight();
+					sizeHints->max_width = this->getWidth();
+					sizeHints->max_height = this->getHeight();
+					XSetWMNormalHints(display, window, sizeHints);
+				}
+			}
+		}
+
+		void SystemWindow::close() {
+			if(this->alive) {
+				this->alive = false;
+				XDestroyWindow(display, window);
+				XFreeCursor(display, invisibleCursor);
+			}
+		}
+
+		void SystemWindow::hide() {
+			if(this->visible) {
+				this->visible = false;
+				XUnmapWindow(display, window);
+			}
+		}
+
+		void SystemWindow::show() {
+			if(!this->visible) {
+				this->visible = true;
+				XMapWindow(display, window);
+			}
+		}
+
+		void SystemWindow::swapBuffers() {
+			glXSwapBuffers(display, window);
+		}
+
+		bool SystemWindow::nextEvent(XEvent& evt) {
+			if(!this->alive)
+				return false;
+
+			switch(evt.type) {
+			case ClientMessage:
+			case DestroyNotify:
+				this->alive = false;
+				return false;
+			case ConfigureNotify:
+				configureNotifyEvent(evt);
+				break;
+			case MapNotify:
+				mapNotifyEvent(evt);
+				break;
+			case MotionNotify:
+				motionNotifyEvent(evt);
+				break;
+			case ButtonPress:
+				buttonPressedEvent(evt);
+				break;
+			case ButtonRelease:
+				buttonReleasedEvent(evt);
+				break;
+			case KeyPress:
+				keyPressedEvent(evt);
+				break;
+			case KeyRelease:
+				keyReleasedEvent(evt);
+				break;
+			}
+
+			return true;
+		}
+
+		void SystemWindow::mapNotifyEvent(XEvent& evt) {
+			XMapEvent event = *((XMapEvent*)&evt);
+
+			resize(this->width, this->height);
+		}
+
+		void SystemWindow::configureNotifyEvent(XEvent& evt) {
+			XConfigureEvent event = *((XConfigureEvent*)&evt);
+
+			if(event.width != this->width || event.height != this->height) {
+				this->width = width;
+				this->height = height;
+				resize(event.width, event.height);
+			}
+		}
+
+		void SystemWindow::motionNotifyEvent(XEvent& evt) {
+			XPointerMovedEvent event = *((XPointerMovedEvent*)&evt);
+
+			this->mouseMoveFunction(*this, event.x, event.y);
+		}
+
+		void SystemWindow::buttonReleasedEvent(XEvent& evt) {
+			XButtonReleasedEvent event = *((XButtonReleasedEvent*)&evt);
+			if(event.button == Button1)
+				this->mouseClickFunction(*this, MouseButtonType::LEFT, false);
+
+			if(event.button == Button2)
+				this->mouseClickFunction(*this, MouseButtonType::MIDDLE, false);
+
+			if(event.button == Button3)
+				this->mouseClickFunction(*this, MouseButtonType::RIGHT, false);
+
+		}
+
+		void SystemWindow::buttonPressedEvent(XEvent& evt) {
+			XButtonPressedEvent event = *((XButtonPressedEvent*)&evt);
+			if(event.button == Button1)
+				this->mouseClickFunction(*this, MouseButtonType::LEFT, true);
+
+			if(event.button == Button2)
+				this->mouseClickFunction(*this, MouseButtonType::MIDDLE, true);
+
+			if(event.button == Button3)
+				this->mouseClickFunction(*this, MouseButtonType::RIGHT, true);
+
+		}
+
+		void SystemWindow::keyReleasedEvent(XEvent& evt) {
+			XKeyReleasedEvent event = *((XKeyReleasedEvent*)&evt);
+
+			this->keyUpFunction(*this, KeyMapper::mapKeycode(display, event.keycode));
+		}
+
+		void SystemWindow::keyPressedEvent(XEvent& evt) {
+			XKeyPressedEvent event = *((XKeyPressedEvent*)&evt);
+
+			this->keyDownFunction(*this, KeyMapper::mapKeycode(display, event.keycode));
+		}
+
+		void SystemWindow::setupGL() {
+			glContext = glXCreateContext(display, visualInfo, NULL, true);
+			glXMakeCurrent(display, window, glContext);
+		}
+
+		void SystemWindow::unloadGL() {
+			glXDestroyContext(display, glContext);
+		}
+
+		void SystemWindow::draw() {
+			glXMakeCurrent(display, window, glContext);
+			this->drawFunction(*this);
+			glXMakeCurrent(display, None, NULL);
+		}
+
+		void SystemWindow::resize(int width, int height) {
+			this->width = width;
+			this->height = height;
+
+			glXMakeCurrent(display, window, glContext);
+			this->resizeFunction(*this, width, height);
+			glXMakeCurrent(display, None, NULL);
+		}
+
+		bool SystemWindow::mainLoopStep() {
+			if(registeredWindows.size() == 0)
+				return false;	// If no windows are registered
+
+			while(XPending(display) > 0) {
+				XEvent evt;
+				XNextEvent(display, &evt);
+				if(!registeredWindows[((XAnyEvent*)&evt)->window]->nextEvent(evt))
+					return false;
+			}
+
+			BOOST_FOREACH_PAIR(Window wHandle, SystemWindow* window, registeredWindows) {
+				if(!window->isAlive())
+					return false;	// If any window is not alive anymore
+				window->draw();
+			}
+
+			return true;
+		}
+
+#endif
+
+		bool SystemWindow::isAlive() {
+			return this->alive;
+		}
+
+		bool SystemWindow::isVisible() {
+			return this->visible;
+		}
+
+		bool SystemWindow::isMouseVisible() {
+			return this->cursorVisibility;
+		}
+
+		const char* SystemWindow::getTitle() {
+			return this->title;
+		}
+
+		bool SystemWindow::isResizable() {
+			return this->resizable;
+		}
 
 		void SystemWindow::mainLoop() {
 			while(SystemWindow::mainLoopStep()) {}

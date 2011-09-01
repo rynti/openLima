@@ -1,6 +1,6 @@
 // Copyright (C) 2011 Robert Boehm
 // This file is part of OpenLima.
-// 
+//
 // You should have received a copy of the GNU Lesser General Public License
 // along with OpenLima. If not, see: <http://www.gnu.org/licenses/>.
 
@@ -9,11 +9,11 @@
 
 #include <boost/signal.hpp>
 
-#include "../util/macros.hpp"
-#include "../util/Vector2.hpp"
-#include "MouseButton.hpp"
-#include "MouseMoveEvent.hpp"
-#include "MouseClickEvent.hpp"
+#include <openlima/util/macros.hpp>
+#include <openlima/util/Vector2.hpp>
+#include <openlima/input/MouseButton.hpp>
+#include <openlima/input/MouseMoveEvent.hpp>
+#include <openlima/input/MouseClickEvent.hpp>
 
 
 namespace openlima {
@@ -48,7 +48,7 @@ namespace openlima {
 			/** Determines if this mouse is visible. */
 			bool visible;
 
-			/** 
+			/**
 			 * List of states of the mouse buttons.
 			 * 0d = 000b => No button pressed
 			 * 1d = 001b => Left button pressed

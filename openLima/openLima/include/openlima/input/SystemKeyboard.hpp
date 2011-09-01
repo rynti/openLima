@@ -1,6 +1,6 @@
 // Copyright (C) 2011 Robert Boehm
 // This file is part of OpenLima.
-// 
+//
 // You should have received a copy of the GNU Lesser General Public License
 // along with OpenLima. If not, see: <http://www.gnu.org/licenses/>.
 
@@ -9,10 +9,10 @@
 
 #include <map>
 
-#include "../sil/SystemWindow.hpp"
-#include "../util/macros.hpp"
-#include "KeyboardButton.hpp"
-#include "Keyboard.hpp"
+#include <openlima/sil/SystemWindow.hpp>
+#include <openlima/util/macros.hpp>
+#include <openlima/input/KeyboardButton.hpp>
+#include <openlima/input/Keyboard.hpp>
 
 
 namespace openlima {
@@ -52,7 +52,7 @@ namespace openlima {
 				openlima::sil::SystemWindow& systemWindow, KeyboardButton key);
 
 		public:
-			
+
 			/**
 			 * Initializes the keyboard and registers the events to it.
 			 *
