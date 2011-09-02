@@ -7,6 +7,8 @@
 #ifndef OPENLIMA_UTIL_VECTOR3_HPP
 #define OPENLIMA_UTIL_VECTOR3_HPP
 
+#include <openlima/util/types.hpp>
+
 
 namespace openlima {
 	namespace util {
@@ -165,7 +167,7 @@ namespace openlima {
 		/**
 		 * A 3-dimensional vector of floating point numbers.
 		 */
-		typedef Vector3<float> Vector3f;
+		typedef Vector3<Real> Vector3f;
 
 	}
 }

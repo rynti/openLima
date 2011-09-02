@@ -67,7 +67,7 @@ namespace openlima {
 			glMatrixMode(GL_PROJECTION);
 
 			glLoadIdentity();
-			gluPerspective(45.0, (double)width / (double)height, 1.0, 200.0);
+			gluPerspective(45.0, (double)width / (double)height, 0.01, 200.0);
 		}
 
 		void LimaWindow::onDraw(SystemWindow& window) {
@@ -85,19 +85,25 @@ namespace openlima {
 				this->updateDelta -= this->updateTime;
 			}
 
-			if(limitRedraw) {
-				this->redrawDelta += deltaSeconds;
-				if(this->redrawDelta >= this->redrawTime) {
-					this->render(this->redrawDelta);
-					this->redrawDelta = 0;
+			if(this->isVisible()) {
+				if(limitRedraw) {
+					this->redrawDelta += deltaSeconds;
+					if(this->redrawDelta >= this->redrawTime) {
+						this->render(this->redrawDelta);
+						this->redrawDelta = 0;
+					}
+				} else {
+					this->render(deltaSeconds);
 				}
-			} else {
-				this->render(deltaSeconds);
 			}
 		}
 
 		Mouse* LimaWindow::getMouse() {
 			return this->mouse;
+		}
+
+		Keyboard* LimaWindow::getKeyboard() {
+			return this->keyboard;
 		}
 
 		void LimaWindow::setRenderRate(Real rate) {

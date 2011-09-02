@@ -117,7 +117,7 @@ namespace openlima {
 			 *
 			 * @return	The keyboard for this window.
 			 */
-			OPENLIMA_DLL openlima::input::Mouse* getKeyboard();
+			OPENLIMA_DLL openlima::input::Keyboard* getKeyboard();
 
 			/**
 			 * Sets the target render rate.

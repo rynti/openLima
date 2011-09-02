@@ -179,7 +179,11 @@ namespace openlima {
 
 			hRC = wglCreateContext(hDC);
 
+			// Keep it open so after the SystemWindow constructor modifications of OpenGL can be
+			// done:
 			wglMakeCurrent(hDC, hRC);
+			// Maybe a "dirty" way to do it, I'm think about adding a virtual initialize() method
+			// that can do some GL-initialization stuff.
 		}
 
 		void SystemWindow::resize(int width, int height) {

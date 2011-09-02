@@ -76,7 +76,7 @@ namespace openlima {
 					normalIndices[i].z = normalIndex;
 				}
 			}
-
+			std::cout << "Triangles: " << vertexIndices.size() << std::endl;
 			return boost::make_shared<StaticMesh>(vertices, normals, vertexIndices, normalIndices);
 		}
 

@@ -25,7 +25,6 @@ namespace openlima {
 		}
 
 		void StaticMesh::render() {
-
 			glBegin(GL_TRIANGLES);
 
 			if(vertices.size() != 0) {
@@ -39,7 +38,6 @@ namespace openlima {
 			}
 
 			glEnd();
-
 		}
 
 		void StaticMesh::renderVertices() {
@@ -49,6 +47,16 @@ namespace openlima {
 
 				faceVertex = &this->vertexIndices.at(i);
 
+#ifdef OPENLIMA_PRECISE_REAL
+				vertex = &this->vertices.at(faceVertex->x);
+				glVertex3d(vertex->x, vertex->y, vertex->z);
+
+				vertex = &this->vertices.at(faceVertex->y);
+				glVertex3d(vertex->x, vertex->y, vertex->z);
+
+				vertex = &this->vertices.at(faceVertex->z);
+				glVertex3d(vertex->x, vertex->y, vertex->z);
+#else
 				vertex = &this->vertices.at(faceVertex->x);
 				glVertex3f(vertex->x, vertex->y, vertex->z);
 
@@ -57,6 +65,7 @@ namespace openlima {
 
 				vertex = &this->vertices.at(faceVertex->z);
 				glVertex3f(vertex->x, vertex->y, vertex->z);
+#endif
 
 			}
 		}
@@ -71,6 +80,25 @@ namespace openlima {
 				faceVertex = &this->vertexIndices.at(i);
 				faceNormal = &this->normalIndices.at(i);
 
+#ifdef OPENLIMA_PRECISE_REAL
+
+				vertex = &this->vertices.at(faceVertex->x);
+				normal = &this->normals.at(faceNormal->x);
+				glNormal3d(normal->x, normal->y, normal->z);
+				glVertex3d(vertex->x, vertex->y, vertex->z);
+
+				vertex = &this->vertices.at(faceVertex->y);
+				normal = &this->normals.at(faceNormal->y);
+				glNormal3d(normal->x, normal->y, normal->z);
+				glVertex3d(vertex->x, vertex->y, vertex->z);
+
+				vertex = &this->vertices.at(faceVertex->z);
+				normal = &this->normals.at(faceNormal->z);
+				glNormal3d(normal->x, normal->y, normal->z);
+				glVertex3d(vertex->x, vertex->y, vertex->z);
+
+#else
+
 				vertex = &this->vertices.at(faceVertex->x);
 				normal = &this->normals.at(faceNormal->x);
 				glNormal3f(normal->x, normal->y, normal->z);
@@ -82,9 +110,11 @@ namespace openlima {
 				glVertex3f(vertex->x, vertex->y, vertex->z);
 
 				vertex = &this->vertices.at(faceVertex->z);
-				normal = &this->normals.at(faceNormal->y);
+				normal = &this->normals.at(faceNormal->z);
 				glNormal3f(normal->x, normal->y, normal->z);
 				glVertex3f(vertex->x, vertex->y, vertex->z);
+
+#endif
 
 			}
 		}
