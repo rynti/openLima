@@ -23,6 +23,8 @@
 //						/SUBSYSTEM:WINDOWS
 // OPENLIMA_REAL_TYPE => Will be the type for openlima::util::real. Use the OPENLIMA_PRECISE_REAL-
 //							macro to switch between float and double.
+// OPENLIMA_REAL(x) => Can be used to create Real literals with ensuring that on non-precise real
+//						the "f" prefix is used.
 // OPENLIMA_SIL_WINAPI => Use WinAPI for SIL
 // OPENLIMA_SIL_XLIB => Use Xlib for SIL
 //
@@ -92,6 +94,14 @@
 #define OPENLIMA_REAL_TYPE double
 #else
 #define OPENLIMA_REAL_TYPE float
+#endif
+
+//////////////////////////////////////
+// OPENLIMA_REAL(x)-macro
+#if OPENLIMA_PRECISE_REAL
+#define OPENLIMA_REAL(x) x
+#else
+#define OPENLIMA_REAL(x) (x ## f)
 #endif
 
 //////////////////////////////////////

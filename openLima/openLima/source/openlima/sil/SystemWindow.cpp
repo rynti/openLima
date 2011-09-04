@@ -257,14 +257,25 @@ namespace openlima {
 			wc.lpszMenuName = NULL;
 			RegisterClass(&wc);
 
-			this->width = -1;
-			this->height = -1;
+			this->width = width;
+			this->height = height;
 			this->cursorVisibility = true;
 			this->mouseLeaved = false;
 			this->alive = true;
 			this->visible = false;
 			this->title = title;
 			this->resizable = true;
+
+			RECT winRect;
+			winRect.left = 0;
+			winRect.top = 0;
+			winRect.right = width;
+			winRect.bottom = height;
+
+			AdjustWindowRect(&winRect, WS_OVERLAPPEDWINDOW, false);
+
+			int winWidth = winRect.right - winRect.left;
+			int winHeight = winRect.bottom - winRect.top;
 
 
 #ifdef UNICODE
@@ -273,8 +284,8 @@ namespace openlima {
 				WS_OVERLAPPEDWINDOW,
 				CW_USEDEFAULT,
 				CW_USEDEFAULT,
-				width,
-				height,
+				winWidth,
+				winHeight,
 				NULL,
 				NULL,
 				hInstance,
@@ -287,8 +298,8 @@ namespace openlima {
 				WS_OVERLAPPEDWINDOW,
 				CW_USEDEFAULT,
 				CW_USEDEFAULT,
-				width,
-				height,
+				winWidth,
+				winHeight,
 				NULL,
 				NULL,
 				hInstance,
@@ -298,8 +309,6 @@ namespace openlima {
 			SystemWindow::registeredWindows[hWnd] = this;
 
 			setupGL();
-
-			this->setSize(width, height);
 		}
 
 		SystemWindow::~SystemWindow() {

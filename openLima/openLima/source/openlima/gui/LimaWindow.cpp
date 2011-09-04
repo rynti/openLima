@@ -22,7 +22,7 @@ using namespace openlima::sil;
 namespace openlima {
 	namespace gui {
 
-		const dtime LimaWindow::defaultUpdateTime = 0.016667; // ~= (1/60) => 60 FPS
+		const dtime LimaWindow::defaultUpdateTime = OPENLIMA_REAL(0.016667); // ~= (1/60) => 60 FPS
 
 
 
@@ -77,7 +77,7 @@ namespace openlima {
 			ptime now = microsec_clock::local_time();
 			time_duration delta = now - this->previousUpdate;
 			this->previousUpdate = now;
-			dtime deltaSeconds = delta.total_microseconds() / 1000000.0;
+			dtime deltaSeconds = delta.total_microseconds() / OPENLIMA_REAL(1000000.0);
 
 			this->updateDelta += deltaSeconds;
 			while(this->updateDelta >= this->updateTime) {

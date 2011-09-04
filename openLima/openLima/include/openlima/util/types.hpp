@@ -50,15 +50,15 @@ namespace openlima {
 		/** A GLUT-handle, for instance a window. */
 		typedef int GlutHandle;
 
-		/** "Delta time" - A time duration. Will always be given in seconds. */
-		typedef double dtime;
-
 		/**
 		 * A floating point type that can be either float or double, based on the precision given.
 		 *
 		 * Define OPENLIMA_PRECISE_REAL when compiling openlima to let Real be a double.
 		 */
 		typedef OPENLIMA_REAL_TYPE Real;
+
+		/** "Delta time" - A time duration. Will always be given in seconds. */
+		typedef Real dtime;
 
 	}
 }

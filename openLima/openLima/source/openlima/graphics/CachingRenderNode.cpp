@@ -5,44 +5,43 @@
 // along with OpenLima. If not, see: <http://www.gnu.org/licenses/>.
 
 #include <openlima/sil/sigl.hpp>
-#include <openlima/graphics/CachedRenderable.hpp>
+#include <openlima/graphics/CachingRenderNode.hpp>
 
 
 namespace openlima {
 	namespace graphics {
 
-		CachedRenderable::CachedRenderable(boost::shared_ptr<IRenderable> renderable) {
-			this->renderable = renderable;
+		CachingRenderNode::CachingRenderNode() {
 			this->validCache = false;
 			this->glList = 0;
 		}
 
-		CachedRenderable::~CachedRenderable() {
+		CachingRenderNode::~CachingRenderNode() {
 			// Empty
 		}
 
 
-		void CachedRenderable::render() {
+		void CachingRenderNode::invalidate() {
+			this->validCache = false;
+		}
+
+		bool CachingRenderNode::isValid() {
+			return this->validCache;
+		}
+
+		void CachingRenderNode::render() {
 			if(this->validCache) {
 				glCallList(this->glList);
 			} else {
 				if(!glIsList(this->glList))
 					this->glList = glGenLists(1);
-				
+
 				glNewList(this->glList, GL_COMPILE_AND_EXECUTE);
-				this->renderable->render();
+				RenderNode::render();
 				glEndList();
 
 				this->validCache = true;
 			}
-		}
-
-		void CachedRenderable::invalidate() {
-			this->validCache = false;
-		}
-
-		bool CachedRenderable::isValid() {
-			return this->validCache;
 		}
 
 	}

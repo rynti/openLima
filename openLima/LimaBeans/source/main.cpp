@@ -19,7 +19,10 @@
 #include <openlima/input/KeyboardButton.hpp>
 #include <openlima/graphics/WavefrontObjReader.hpp>
 #include <openlima/graphics/IRenderable.hpp>
-#include <openlima/graphics/CachedRenderable.hpp>
+#include <openlima/graphics/CachingRenderNode.hpp>
+#include <openlima/graphics/TranslatingRenderNode.hpp>
+#include <openlima/graphics/RotatingRenderNode.hpp>
+#include <openlima/graphics/ScalingRenderNode.hpp>
 #include <openlima/sil/KeyMapper.hpp>
 #include <openlima/util/ResourceManager.hpp>
 #include <openlima/util/FileResourceManager.hpp>
@@ -55,7 +58,13 @@ public:
 	MyWindow(boost::shared_ptr<IRenderable> renderable,
 			const char* title, GLfloat* lightColor) : LimaWindow(title, 640, 480) {
 
-		myRenderable = boost::make_shared<CachedRenderable>(renderable);
+		boost::shared_ptr<CachingRenderNode> node = boost::make_shared<CachingRenderNode>();
+		boost::shared_ptr<RotatingRenderNode> tNode = boost::make_shared<RotatingRenderNode>(
+			OPENLIMA_REAL(45.0), Vector3f(0, 0, 1));
+		
+		tNode->addChild(renderable);
+		node->addChild(tNode);
+		myRenderable = node;
 
 		fpsMode = false;
 		xPos = 0;
@@ -201,8 +210,6 @@ public:
 
 	virtual void update(dtime delta) {
 		if(fpsMode) {
-			// TODO Make dtime implicitly castable with Real.
-
 			Real movementSpeed = static_cast<Real>(delta) * 3;
 
 			int forwardMovement = 0;
@@ -234,8 +241,7 @@ public:
 				movementSpeed *= 5;
 
 
-
-			Real yRotRadian = yRot / 180 * 3.14159265;
+			Real yRotRadian = yRot / 180 * OPENLIMA_REAL(3.14159265);
 
 			if(forwardMovement != 0) {
 				zPos += cos(-yRotRadian) * movementSpeed * forwardMovement;
