@@ -86,7 +86,7 @@ namespace openlima {
 			 *
 			 * @return	The position of this mouse.
 			 */
-			OPENLIMA_DLL openlima::util::Vector2i getPosition();
+			OPENLIMA_DLL const openlima::util::Vector2i getPosition() const;
 
 			/**
 			 * Sets the position for this mouse.
@@ -100,14 +100,14 @@ namespace openlima {
 			 *
 			 * @return	The delta of this mouse from the last movement.
 			 */
-			OPENLIMA_DLL openlima::util::Vector2i getDelta();
+			OPENLIMA_DLL const openlima::util::Vector2i getDelta() const;
 
 			/**
 			 * Determines if this mouse is sticky.
 			 *
 			 * @return	True if the mouse is sticky, false if not.
 			 */
-			OPENLIMA_DLL bool isSticky();
+			OPENLIMA_DLL bool isSticky() const;
 
 			/**
 			 * Defines if this mouse is sticky. If this mouse is sticky, it will always return to
@@ -122,7 +122,7 @@ namespace openlima {
 			 *
 			 * @return	True if the mouse is visible, false if not.
 			 */
-			OPENLIMA_DLL bool isVisible();
+			OPENLIMA_DLL bool isVisible() const;
 
 			/**
 			 * Sets the mouse visibility.
@@ -138,7 +138,7 @@ namespace openlima {
 			 *
 			 * @return	True if the given button is currently pressed, false if not.
 			 */
-			OPENLIMA_DLL bool isPressed(MouseButton button);
+			OPENLIMA_DLL bool isPressed(MouseButton button) const;
 
 		};
 

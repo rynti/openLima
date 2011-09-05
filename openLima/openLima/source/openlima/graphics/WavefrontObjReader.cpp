@@ -23,7 +23,11 @@ using namespace openlima::util;
 namespace openlima {
 	namespace graphics {
 
-		bool WavefrontObjReader::isLegal(const std::string& name) {
+		WavefrontObjReader::WavefrontObjReader() {
+			// Empty
+		}
+
+		bool WavefrontObjReader::isLegal(const std::string& name) const {
 			return boost::algorithm::ends_with(name, std::string(".obj"));
 		}
 
@@ -52,7 +56,7 @@ namespace openlima {
 			for(size_t i = 0; i < vertexIndices.size(); i++) {
 				if(normalIndices[i].x == -1) {
 					// Generate normal
-					Vector3f surfaceNormal = Vector3f::computeSurfaceNormal(
+					Vector3f surfaceNormal = Vector3f::computeCrossProduct(
 						vertices[vertexIndices[i].x],
 						vertices[vertexIndices[i].y],
 						vertices[vertexIndices[i].z]);

@@ -23,10 +23,10 @@ namespace openlima {
 		private:
 
 			/** The mouse position. */
-			openlima::util::Vector2i position;
+			const openlima::util::Vector2i position;
 
 			/** The mouse position delta. */
-			openlima::util::Vector2i delta;
+			const openlima::util::Vector2i delta;
 
 		public:
 
@@ -50,14 +50,14 @@ namespace openlima {
 			 *
 			 * @return	The mouse position.
 			 */
-			OPENLIMA_DLL openlima::util::Vector2i getPosition() const;
+			OPENLIMA_DLL const openlima::util::Vector2i getPosition() const;
 
 			/**
 			 * Returns the mouse position delta.
 			 *
 			 * @return	The mouse position delta.
 			 */
-			OPENLIMA_DLL openlima::util::Vector2i getDelta() const;
+			OPENLIMA_DLL const openlima::util::Vector2i getDelta() const;
 
 		};
 

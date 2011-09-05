@@ -45,7 +45,7 @@ namespace openlima {
 		}
 
 		RenderNode& Environment::getRenderNode() {
-			return this->renderNode;
+			return renderNode;
 		}
 
 		void Environment::render(Vector2i dimensions) {

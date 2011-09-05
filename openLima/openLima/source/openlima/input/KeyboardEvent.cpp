@@ -11,15 +11,15 @@
 namespace openlima {
 	namespace input {
 
-		KeyboardEvent::KeyboardEvent(KeyboardButton button) {
-			this->button = button;
+		KeyboardEvent::KeyboardEvent(KeyboardButton button) : button(button) {
+			// Empty
 		}
 
 		KeyboardEvent::~KeyboardEvent() {
 			// Empty
 		}
 
-		KeyboardButton KeyboardEvent::getButton() const {
+		const KeyboardButton KeyboardEvent::getButton() const {
 			return this->button;
 		}
 

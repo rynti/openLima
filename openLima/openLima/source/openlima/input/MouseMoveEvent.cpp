@@ -12,20 +12,20 @@ using namespace openlima::util;
 namespace openlima {
 	namespace input {
 
-		MouseMoveEvent::MouseMoveEvent(Vector2i position, Vector2i delta) {
-			this->position = position;
-			this->delta = delta;
+		MouseMoveEvent::MouseMoveEvent(Vector2i position, Vector2i delta)
+				: position(position), delta(delta) {
+			// Empty
 		}
 
 		MouseMoveEvent::~MouseMoveEvent() {
 			// Empty
 		}
 
-		Vector2i MouseMoveEvent::getPosition() const {
+		const Vector2i MouseMoveEvent::getPosition() const {
 			return this->position;
 		}
 
-		Vector2i MouseMoveEvent::getDelta() const {
+		const Vector2i MouseMoveEvent::getDelta() const {
 			return this->delta;
 		}
 

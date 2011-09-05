@@ -56,7 +56,7 @@ namespace openlima {
 			 *
 			 * @param dimensions	The screen dimensions
 			 */
-			OPENLIMA_DLL virtual void modifyProjection(openlima::util::Vector2i dimensions);
+			OPENLIMA_DLL virtual void modifyProjection(openlima::util::Vector2i dimensions) const;
 			
 			/**
 			 * Renders this camera. In this case, modifies the current matrix to be affected by the

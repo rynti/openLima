@@ -84,13 +84,20 @@ namespace openlima {
 		public:
 
 			/**
+			 * Creates a new Wavefront .obj-Reader.
+			 *
+			 * Is able to correctly read .obj-ressources.
+			 */
+			OPENLIMA_DLL WavefrontObjReader();
+
+			/**
 			 * Query if 'name' is a legal resource name for this resource reader.
 			 *
 			 * @param	name	The name of the resource.
 			 *
 			 * @return	true if the name is legal, false if not.
 			 */
-			OPENLIMA_DLL virtual bool isLegal(const std::string& name);
+			OPENLIMA_DLL virtual bool isLegal(const std::string& name) const;
 
 			/**
 			 * Reads a static mesh out of the given input stream.

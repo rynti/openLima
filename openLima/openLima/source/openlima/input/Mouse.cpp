@@ -28,7 +28,7 @@ namespace openlima {
 			// Empty
 		}
 
-		Vector2i Mouse::getPosition() {
+		const Vector2i Mouse::getPosition() const {
 			return position;
 		}
 
@@ -37,11 +37,11 @@ namespace openlima {
 			this->position = position;
 		}
 
-		Vector2i Mouse::getDelta() {
+		const Vector2i Mouse::getDelta() const {
 			return delta;
 		}
 
-		bool Mouse::isSticky() {
+		bool Mouse::isSticky() const {
 			return this->sticky;
 		}
 
@@ -49,7 +49,7 @@ namespace openlima {
 			this->sticky = sticky;
 		}
 
-		bool Mouse::isVisible() {
+		bool Mouse::isVisible() const {
 			return this->visible;
 		}
 
@@ -57,7 +57,7 @@ namespace openlima {
 			this->visible = visible;
 		}
 
-		bool Mouse::isPressed(MouseButton button) {
+		bool Mouse::isPressed(MouseButton button) const {
 			return (this->mouseButtonStates & (1 << (int)button)) != 0;
 		}
 

@@ -25,7 +25,7 @@ namespace openlima {
 			this->validCache = false;
 		}
 
-		bool CachingRenderNode::isValid() {
+		bool CachingRenderNode::isValid() const {
 			return this->validCache;
 		}
 

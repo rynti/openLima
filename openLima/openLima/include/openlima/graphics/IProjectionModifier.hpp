@@ -32,7 +32,8 @@ namespace openlima {
 			 *
 			 * @param dimensions	The screen dimensions
 			 */
-			OPENLIMA_DLL virtual void modifyProjection(openlima::util::Vector2i dimensions) = 0;
+			OPENLIMA_DLL virtual void modifyProjection(openlima::util::Vector2i dimensions) const
+				= 0;
 
 		};
 

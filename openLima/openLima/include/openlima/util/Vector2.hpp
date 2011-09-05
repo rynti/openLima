@@ -71,50 +71,119 @@ namespace openlima {
 			}
 
 			/**
-			 * Returns the sum of this vector and the given other vector.
+			 * Adds the given other vector to this vector.
 			 *
 			 * @param	other	The other vector.
 			 *
-			 * @return	The sum of this vector and the other vector.
+			 * @return	This vector.
 			 */
-			Vector2 operator +(const Vector2& other) const {
-				return Vector2(this->x + other.x, this->y + other.y);
+			Vector2<T>& operator +=(const Vector2<T>& other) {
+				this->x += other.x;
+				this->y += other.y;
+				return *this;
 			}
 
 			/**
-			 * Returns the difference between this vector and the given other vector.
+			 * Subtracts this vector by the given other vector.
 			 *
 			 * @param	other	The other vector.
 			 *
-			 * @return	The difference between this vector and the other vector.
+			 * @return	This vector.
 			 */
-			Vector2 operator -(const Vector2& other) const {
-				return Vector2(this->x - other.x, this->y - other.y);
+			Vector2<T>& operator -=(const Vector2<T>& other) {
+				this->x -= other.x;
+				this->y -= other.y;
+				return *this;
 			}
 
 			/**
-			 * Returns the product of this vector and the given other vector.
+			 * Multiplies this vector with the given other vector.
 			 *
 			 * @param	other	The other vector.
 			 *
-			 * @return	The product of this vector and the other vector.
+			 * @return	This vector.
 			 */
-			Vector2 operator *(const Vector2& other) const {
-				return Vector2(this->x * other.x, this->y * other.y);
+			Vector2<T>& operator *=(const Vector2<T>& other) {
+				this->x *= other.x;
+				this->y *= other.y;
+				return *this;
 			}
 
 			/**
-			 * Returns the quotient of this vector and the given other vector.
+			 * Divides this vector by the given other vector.
 			 *
 			 * @param	other	The other vector.
 			 *
-			 * @return	The quotient of this vector and the other vector.
+			 * @return	This vector.
 			 */
-			Vector2 operator /(const Vector2& other) const {
-				return Vector2(this->x / other.x, this->y / other.y);
+			Vector2<T>& operator /=(const Vector2<T>& other) {
+				this->x /= other.x;
+				this->y /= other.y;
+				return *this;
 			}
 
 		};
+
+		/**
+		 * Returns the sum of two vectors.
+		 *
+		 * @param	left	The first summand.
+		 * @param	right	The second summand.
+		 *
+		 * @return	The sum of the given vectors.
+		 */
+		template<typename T>
+		Vector2<T> operator +(const Vector2<T>& left, const Vector2<T>& right) {
+			Vector2<T> temp(left);
+			temp += right;
+			return temp;
+		}
+
+		/**
+		 * Returns the difference between two vectors.
+		 *
+		 * @param	left	The minuend.
+		 * @param	right	The subtrahend.
+		 *
+		 * @return	The difference between the given vectors.
+		 */
+		template<typename T>
+		Vector2<T> operator -(const Vector2<T>& left, const Vector2<T>& right) {
+			Vector2<T> temp(left);
+			temp -= right;
+			return temp;
+		}
+
+		/**
+		 * Returns the product of two vectors.
+		 *
+		 * @param	left	The first factor.
+		 * @param	right	The second factor.
+		 *
+		 * @return	The product of the given vectors.
+		 */
+		template<typename T>
+		Vector2<T> operator *(const Vector2<T>& left, const Vector2<T>& right) {
+			Vector2<T> temp(left);
+			temp *= right;
+			return temp;
+		}
+		
+		/**
+		 * Returns the quotient of two vectors.
+		 *
+		 * @param	left	The dividend.
+		 * @param	right	The divisor.
+		 *
+		 * @return	The quotient of the given vectors.
+		 */
+		template<typename T>
+		Vector2<T> operator /(const Vector2<T>& left, const Vector2<T>& right) {
+			Vector2<T> temp(left);
+			temp /= right;
+			return temp;
+		}
+
 
 		/**
 		 * A 2-dimensional vector of 32-bit integers.

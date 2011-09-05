@@ -12,16 +12,16 @@ using namespace openlima::util;
 namespace openlima {
 	namespace input {
 
-		MouseClickEvent::MouseClickEvent(MouseButton button, bool pressed) {
-			this->button = button;
-			this->pressed = pressed;
+		MouseClickEvent::MouseClickEvent(MouseButton button, bool pressed)
+				: button(button), pressed(pressed) {
+			// Empty
 		}
 
 		MouseClickEvent::~MouseClickEvent() {
 			// Empty
 		}
 
-		MouseButton MouseClickEvent::getButton() const {
+		const MouseButton MouseClickEvent::getButton() const {
 			return this->button;
 		}
 

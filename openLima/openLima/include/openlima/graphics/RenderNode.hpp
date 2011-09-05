@@ -28,7 +28,7 @@ namespace openlima {
 		protected:
 
 			/** The children of this node. */
-			std::vector<boost::shared_ptr<IRenderable>> children;
+			std::vector<boost::shared_ptr<IRenderable> > children;
 
 		public:
 

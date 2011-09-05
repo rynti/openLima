@@ -24,10 +24,10 @@ namespace openlima {
 		private:
 
 			/** The affected mouse button. */
-			MouseButton button;
+			const MouseButton button;
 
 			/** Determines if the affected mouse button is currently pressed. */
-			bool pressed;
+			const bool pressed;
 
 		public:
 
@@ -50,7 +50,7 @@ namespace openlima {
 			 *
 			 * @return	The affected mouse button.
 			 */
-			OPENLIMA_DLL MouseButton getButton() const;
+			OPENLIMA_DLL const MouseButton getButton() const;
 
 			/**
 			 * Determines if the affected mouse button is currently pressed.

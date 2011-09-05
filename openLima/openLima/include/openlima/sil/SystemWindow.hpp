@@ -204,14 +204,14 @@ namespace openlima {
 			 *
 			 * @return True if this window is still alive (= Not closed yet), false if not.
 			 */
-			OPENLIMA_DLL bool isAlive();
+			OPENLIMA_DLL bool isAlive() const;
 
 			/**
 			 * Returns a value that determines if this window is visible.
 			 *
 			 * @return True if this window is visible, false if not.
 			 */
-			OPENLIMA_DLL bool isVisible();
+			OPENLIMA_DLL bool isVisible() const;
 
 			/**
 			 * Swap buffers. (Needed for doublebuffering)
@@ -238,7 +238,7 @@ namespace openlima {
 			 *
 			 * @return	True if the mouse is visible, or false if not.
 			 */
-			OPENLIMA_DLL bool isMouseVisible();
+			OPENLIMA_DLL bool isMouseVisible() const;
 
 			/**
 			 * Sets the window size.
@@ -262,7 +262,7 @@ namespace openlima {
 			 *
 			 * @return The title of this window.
 			 */
-			OPENLIMA_DLL const char* getTitle();
+			OPENLIMA_DLL const char* getTitle() const;
 
 			/**
 			 * Makes this window resizable or unresizable, depending on the given value.
@@ -276,21 +276,21 @@ namespace openlima {
 			 *
 			 * @return True if this window is resizable, false if not.
 			 */
-			OPENLIMA_DLL bool isResizable();
+			OPENLIMA_DLL bool isResizable() const;
 
 			/**
 			 * Returns the window width.
 			 *
 			 * @return	The window width.
 			 */
-			OPENLIMA_DLL int getWidth();
+			OPENLIMA_DLL int getWidth() const;
 
 			/**
 			 * Returns the window height.
 			 *
 			 * @return	The window height.
 			 */
-			OPENLIMA_DLL int getHeight();
+			OPENLIMA_DLL int getHeight() const;
 
 		};
 

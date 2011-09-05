@@ -24,7 +24,7 @@ namespace openlima {
 		private:
 
 			/** The affected keyboard button. */
-			KeyboardButton button;
+			const KeyboardButton button;
 
 		public:
 
@@ -46,7 +46,7 @@ namespace openlima {
 			 *
 			 * @return	The affected keyboard button.
 			 */
-			OPENLIMA_DLL KeyboardButton getButton() const;
+			OPENLIMA_DLL const KeyboardButton getButton() const;
 
 		};
 

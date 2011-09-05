@@ -323,11 +323,11 @@ namespace openlima {
 			SetCursorPos(myPoint.x, myPoint.y);
 		}
 
-		int SystemWindow::getWidth() {
+		int SystemWindow::getWidth() const {
 			return this->width;
 		}
 
-		int SystemWindow::getHeight() {
+		int SystemWindow::getHeight() const {
 			return this->height;
 		}
 
@@ -501,11 +501,11 @@ namespace openlima {
 			XWarpPointer(display, window, window, 0, 0, 0, 0, x, y);
 		}
 
-		int SystemWindow::getWidth() {
+		int SystemWindow::getWidth() const {
 			return this->width;
 		}
 
-		int SystemWindow::getHeight() {
+		int SystemWindow::getHeight() const {
 			return this->height;
 		}
 
@@ -734,23 +734,23 @@ namespace openlima {
 
 #endif
 
-		bool SystemWindow::isAlive() {
+		bool SystemWindow::isAlive() const {
 			return this->alive;
 		}
 
-		bool SystemWindow::isVisible() {
+		bool SystemWindow::isVisible() const {
 			return this->visible;
 		}
 
-		bool SystemWindow::isMouseVisible() {
+		bool SystemWindow::isMouseVisible() const {
 			return this->cursorVisibility;
 		}
 
-		const char* SystemWindow::getTitle() {
+		const char* SystemWindow::getTitle() const {
 			return this->title;
 		}
 
-		bool SystemWindow::isResizable() {
+		bool SystemWindow::isResizable() const {
 			return this->resizable;
 		}
 

@@ -41,8 +41,8 @@ namespace openlima {
 		}
 
 		void StaticMesh::renderVertices() {
-			Vector3i* faceVertex;
-			Vector3f* vertex;
+			const Vector3i* faceVertex;
+			const Vector3f* vertex;
 			for(size_t i = 0; i < vertexIndices.size(); i++) {
 
 				faceVertex = &this->vertexIndices.at(i);
@@ -71,10 +71,10 @@ namespace openlima {
 		}
 
 		void StaticMesh::renderVerticesAndNormals() {
-			Vector3i* faceVertex;
-			Vector3i* faceNormal;
-			Vector3f* vertex;
-			Vector3f* normal;
+			const Vector3i* faceVertex;
+			const Vector3i* faceNormal;
+			const Vector3f* vertex;
+			const Vector3f* normal;
 			for(size_t i = 0; i < vertexIndices.size(); i++) {
 
 				faceVertex = &this->vertexIndices.at(i);

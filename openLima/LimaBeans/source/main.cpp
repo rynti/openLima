@@ -304,7 +304,7 @@ OPENLIMA_MAIN(int argc, char** argv) {
 	boost::shared_ptr<ResourceManager> resourceManager(
 		new FileResourceManager(resourcesDir.string()));
 
-	resourceManager->registerReader<StaticMesh>(new WavefrontObjReader);
+	resourceManager->registerReader<StaticMesh>(boost::make_shared<WavefrontObjReader>());
 	boost::shared_ptr<IRenderable> renderable =
 		resourceManager->getResource<StaticMesh>("sampleTerrain.obj");
 

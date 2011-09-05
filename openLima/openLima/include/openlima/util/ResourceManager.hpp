@@ -32,8 +32,8 @@ namespace openlima {
 		protected:
 
 			/** The registered readers. */
-			std::map<const std::type_info*, std::vector<boost::shared_ptr<IAnonymousResourceReader> > >
-				registeredReaders;
+			std::map<const std::type_info*,
+				std::vector<boost::shared_ptr<IAnonymousResourceReader> > > registeredReaders;
 
 			/** The cached resources. */
 			std::map<const std::string, boost::weak_ptr<void> > cachedResources;

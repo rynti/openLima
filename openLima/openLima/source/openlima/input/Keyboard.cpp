@@ -24,7 +24,7 @@ namespace openlima {
 			// Empty
 		}
 
-		bool Keyboard::isPressed(KeyboardButton button) {
+		bool Keyboard::isPressed(KeyboardButton button) const {
 			unsigned int key = (unsigned int)button;
 			if(key < KEYSTATES_LENGTH)
 				return keyStates[key];

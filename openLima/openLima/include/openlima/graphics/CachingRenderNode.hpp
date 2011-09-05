@@ -63,7 +63,7 @@ namespace openlima {
 			 *
 			 * @return True, if the cache of this render node is still valid, else false.
 			 */
-			OPENLIMA_DLL virtual bool isValid();
+			OPENLIMA_DLL virtual bool isValid() const;
 
 		};
 

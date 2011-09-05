@@ -38,7 +38,7 @@ namespace openlima {
 			 *
 			 * @return	true if the name is legal, false if not.
 			 */
-			OPENLIMA_DLL virtual bool isLegal(const std::string& name) = 0;
+			OPENLIMA_DLL virtual bool isLegal(const std::string& name) const = 0;
 
 			/**
 			 * Reads a resource out of the given input stream.

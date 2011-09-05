@@ -23,7 +23,7 @@ namespace openlima {
 		}
 
 
-		void PerspectiveCamera::modifyProjection(Vector2i dimensions) {
+		void PerspectiveCamera::modifyProjection(Vector2i dimensions) const {
 			gluPerspective(fov,
 				(double)dimensions.x / (double)dimensions.y,
 				0.01, 200.0);

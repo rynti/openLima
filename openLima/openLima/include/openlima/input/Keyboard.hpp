@@ -67,7 +67,7 @@ namespace openlima {
 			 *
 			 * @return	True if the given button is pressed, false if not.
 			 */
-			OPENLIMA_DLL bool isPressed(KeyboardButton button);
+			OPENLIMA_DLL bool isPressed(KeyboardButton button) const;
 
 		};
 

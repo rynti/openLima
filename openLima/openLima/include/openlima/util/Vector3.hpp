@@ -53,7 +53,7 @@ namespace openlima {
 
 
 			/**
-			 * Calculates the surface normal. Use computeNormalized() to normalize the surface normal.
+			 * Calculates the surface normal. Use computeNormal() to normalize the surface normal.
 			 *
 			 * @param	p1	The first vector of the surface.
 			 * @param	p2	The second vector of the surface.
@@ -61,7 +61,7 @@ namespace openlima {
 			 *
 			 * @return	The calculated surface normal.
 			 */
-			static Vector3<T> computeSurfaceNormal(const Vector3<T>& p1, const Vector3<T>& p2,
+			static Vector3<T> computeCrossProduct(const Vector3<T>& p1, const Vector3<T>& p2,
 					const Vector3<T>& p3) {
 				Vector3<T> v1 = (p2 - p1);
 				Vector3<T> v2 = (p3 - p1);
@@ -73,13 +73,27 @@ namespace openlima {
 				return n;
 			}
 
+			
+			/**
+			 * Normalizes this vector.
+			 */
+			void normalize() {
+				T nFactor = sqrt(
+					(this->x * this->x) +
+					(this->y * this->y) +
+					(this->z * this->z));
+
+				this->x /= nFactor;
+				this->y /= nFactor;
+				this->z /= nFactor;
+			}
 
 			/**
-			 * Gets the normalized version of this vector.
+			 * Computes the normalized version of this vector.
 			 *
 			 * @return	The normalized version of this vector.
 			 */
-			Vector3<T> computeNormalized() const {
+			Vector3<T> computeNormal() const {
 				T nFactor = sqrt(
 					(this->x * this->x) +
 					(this->y * this->y) +
@@ -90,6 +104,26 @@ namespace openlima {
 					this->y / nFactor,
 					this->z / nFactor);
 			}
+			
+			/**
+			 * Computes and returns the length of this vector.
+			 *
+			 * @return	The length of this vector.
+			 */
+			T length() const {
+				return sqrt(this->lengthSq());
+			}
+			
+			/**
+			 * Computes and returns the squared length of this vector.
+			 *
+			 * @return	The squared length of this vector.
+			 */
+			T lengthSq() const {
+				return	(this->x * this->x) +
+						(this->y * this->y) +
+						(this->z * this->z);
+			}
 
 			/**
 			 * Compares this vector with the given other vector.
@@ -98,7 +132,7 @@ namespace openlima {
 			 *
 			 * @return	True if this vector has the same coordinates as the other, else false.
 			 */
-			bool operator ==(const Vector3& other) const {
+			bool operator ==(const Vector3<T>& other) const {
 				return this->x == other.x && this->y == other.y && this->z == other.z;
 			}
 
@@ -109,55 +143,128 @@ namespace openlima {
 			 *
 			 * @return	True if this vector has different coordinates as the other, else false.
 			 */
-			bool operator !=(const Vector3& other) const {
+			bool operator !=(const Vector3<T>& other) const {
 				return this->x != other.x || this->y != other.y || this->z != other.z;
 			}
 
 			/**
-			 * Returns the sum of this vector and the given other vector.
+			 * Adds the given other vector to this vector.
 			 *
 			 * @param	other	The other vector.
 			 *
-			 * @return	The sum of this vector and the other vector.
+			 * @return	This vector.
 			 */
-			Vector3 operator +(const Vector3& other) const {
-				return Vector3(this->x + other.x, this->y + other.y, this->z + other.z);
+			Vector3<T>& operator +=(const Vector3<T>& other) {
+				this->x += other.x;
+				this->y += other.y;
+				this->z += other.z;
+				return *this;
 			}
 
 			/**
-			 * Returns the difference between this vector and the given other vector.
+			 * Subtracts this vector by the given other vector.
 			 *
 			 * @param	other	The other vector.
 			 *
-			 * @return	The difference between this vector and the other vector.
+			 * @return	This vector.
 			 */
-			Vector3 operator -(const Vector3& other) const {
-				return Vector3(this->x - other.x, this->y - other.y, this->z - other.z);
+			Vector3<T>& operator -=(const Vector3<T>& other) {
+				this->x -= other.x;
+				this->y -= other.y;
+				this->z -= other.z;
+				return *this;
 			}
 
 			/**
-			 * Returns the product of this vector and the given other vector.
+			 * Multiplies this vector with the given other vector.
 			 *
 			 * @param	other	The other vector.
 			 *
-			 * @return	The product of this vector and the other vector.
+			 * @return	This vector.
 			 */
-			Vector3 operator *(const Vector3& other) const {
-				return Vector3(this->x * other.x, this->y * other.y, this->z * other.z);
+			Vector3<T>& operator *=(const Vector3<T>& other) {
+				this->x *= other.x;
+				this->y *= other.y;
+				this->z *= other.z;
+				return *this;
 			}
 
 			/**
-			 * Returns the quotient of this vector and the given other vector.
+			 * Divides this vector by the given other vector.
 			 *
 			 * @param	other	The other vector.
 			 *
-			 * @return	The quotient of this vector and the other vector.
+			 * @return	This vector.
 			 */
-			Vector3 operator /(const Vector3& other) const {
-				return Vector3(this->x / other.x, this->y / other.y, this->z / other.y);
+			Vector3<T>& operator /=(const Vector3<T>& other) {
+				this->x /= other.x;
+				this->y /= other.y;
+				this->z /= other.z;
+				return *this;
 			}
 
 		};
+
+		/**
+		 * Returns the sum of two vectors.
+		 *
+		 * @param	left	The first summand.
+		 * @param	right	The second summand.
+		 *
+		 * @return	The sum of the given vectors.
+		 */
+		template<typename T>
+		Vector3<T> operator +(const Vector3<T>& left, const Vector3<T>& right) {
+			Vector3<T> temp(left);
+			temp += right;
+			return temp;
+		}
+
+		/**
+		 * Returns the difference between two vectors.
+		 *
+		 * @param	left	The minuend.
+		 * @param	right	The subtrahend.
+		 *
+		 * @return	The difference between the given vectors.
+		 */
+		template<typename T>
+		Vector3<T> operator -(const Vector3<T>& left, const Vector3<T>& right) {
+			Vector3<T> temp(left);
+			temp -= right;
+			return temp;
+		}
+
+		/**
+		 * Returns the product of two vectors.
+		 *
+		 * @param	left	The first factor.
+		 * @param	right	The second factor.
+		 *
+		 * @return	The product of the given vectors.
+		 */
+		template<typename T>
+		Vector3<T> operator *(const Vector3<T>& left, const Vector3<T>& right) {
+			Vector3<T> temp(left);
+			temp *= right;
+			return temp;
+		}
+		
+		/**
+		 * Returns the quotient of two vectors.
+		 *
+		 * @param	left	The dividend.
+		 * @param	right	The divisor.
+		 *
+		 * @return	The quotient of the given vectors.
+		 */
+		template<typename T>
+		Vector3<T> operator /(const Vector3<T>& left, const Vector3<T>& right) {
+			Vector3<T> temp(left);
+			temp /= right;
+			return temp;
+		}
+
 
 		/**
 		 * A 3-dimensional vector of 32-bit integers.
