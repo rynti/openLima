@@ -17,6 +17,8 @@
 #include <openlima/gui/LimaWindow.hpp>
 #include <openlima/input/MouseButton.hpp>
 #include <openlima/input/KeyboardButton.hpp>
+#include <openlima/graphics/Environment.hpp>
+#include <openlima/graphics/PerspectiveCamera.hpp>
 #include <openlima/graphics/WavefrontObjReader.hpp>
 #include <openlima/graphics/IRenderable.hpp>
 #include <openlima/graphics/CachingRenderNode.hpp>
@@ -40,12 +42,8 @@ void showHelp();
 
 class MyWindow : public LimaWindow {
 public:
-	boost::shared_ptr<IRenderable> myRenderable;
-	Real xPos;
-	Real yPos;
-	Real zPos;
-	Real yRot;
-	Real xRot;
+	boost::shared_ptr<PerspectiveCamera> camera;
+	Environment env;
 
 	dtime lastMessage;
 	dtime time;
@@ -56,22 +54,18 @@ public:
 	MyWindow* other;
 
 	MyWindow(boost::shared_ptr<IRenderable> renderable,
-			const char* title, GLfloat* lightColor) : LimaWindow(title, 640, 480) {
+			const char* title, GLfloat* lightColor)
+			: LimaWindow(title, 640, 480) {
+
+		camera = boost::make_shared<PerspectiveCamera>(OPENLIMA_REAL(75.0));
+		camera->position.z = -30;
+		env.setCamera(camera);
 
 		boost::shared_ptr<CachingRenderNode> node = boost::make_shared<CachingRenderNode>();
-		boost::shared_ptr<RotatingRenderNode> tNode = boost::make_shared<RotatingRenderNode>(
-			OPENLIMA_REAL(45.0), Vector3f(0, 0, 1));
-		
-		tNode->addChild(renderable);
-		node->addChild(tNode);
-		myRenderable = node;
+		node->addChild(renderable);
+		env.getRenderNode().addChild(node);
 
 		fpsMode = false;
-		xPos = 0;
-		yPos = 0;
-		zPos = -30.0f;
-		yRot = 0;
-		xRot = 0;
 		lastMessage = 5;
 		time = 0;
 		amount = 0;
@@ -108,17 +102,17 @@ public:
 
 	virtual void onMouseMove(Mouse& source, const MouseMoveEvent& e) {
 		if(fpsMode) {
-			yRot += e.getDelta().x / 10.0f;
-			xRot += e.getDelta().y / 10.0f;
-			while(yRot < 0)
-				yRot += 360;
-			while(yRot >= 360)
-				yRot -= 360;
+			camera->rotation.y += e.getDelta().x / 10.0f;
+			camera->rotation.x += e.getDelta().y / 10.0f;
+			while(camera->rotation.y < 0)
+				camera->rotation.y += 360;
+			while(camera->rotation.y >= 360)
+				camera->rotation.y -= 360;
 
-			if(xRot < -80)
-				xRot = -80;
-			if(xRot > 80)
-				xRot = 80;
+			if(camera->rotation.x < -80)
+				camera->rotation.x = -80;
+			if(camera->rotation.x > 80)
+				camera->rotation.x = 80;
 		}
 	}
 
@@ -146,12 +140,13 @@ public:
 	virtual void onKeyboardButtonPressed(Keyboard& source, const KeyboardEvent& e) {
 		if(e.getButton() == KeyboardButtonType::KEY_F1) {
 			std::cout << "Camera Position:" << std::endl <<
-						 "          X: " << xPos << std::endl <<
-						 "          Y: " << yPos << std::endl <<
-						 "          Z: " << zPos << std::endl <<
-						 " X Rotation: " << xRot << std::endl <<
-						 " Y Rotation: " << yRot << std::endl;
+						 "          X: " << camera->position.x << std::endl <<
+						 "          Y: " << camera->position.y << std::endl <<
+						 "          Z: " << camera->position.z << std::endl <<
+						 " X Rotation: " << camera->rotation.x << std::endl <<
+						 " Y Rotation: " << camera->rotation.y << std::endl;
 		}
+		
 
 		if(source.isPressed(KeyboardButtonType::KEY_CONTROL)) {
 			if(e.getButton() == KeyboardButtonType::KEY_ADD) {
@@ -241,20 +236,20 @@ public:
 				movementSpeed *= 5;
 
 
-			Real yRotRadian = yRot / 180 * OPENLIMA_REAL(3.14159265);
+			Real yRotRadian = camera->rotation.y / 180 * OPENLIMA_REAL(3.14159265);
 
 			if(forwardMovement != 0) {
-				zPos += cos(-yRotRadian) * movementSpeed * forwardMovement;
-				xPos += sin(-yRotRadian) * movementSpeed * forwardMovement;
+				camera->position.z += cos(-yRotRadian) * movementSpeed * forwardMovement;
+				camera->position.x += sin(-yRotRadian) * movementSpeed * forwardMovement;
 			}
 
 			if(sidewardMovement != 0) {
-				zPos += sin(yRotRadian) * movementSpeed * sidewardMovement;
-				xPos += cos(yRotRadian) * movementSpeed * sidewardMovement;
+				camera->position.z += sin(yRotRadian) * movementSpeed * sidewardMovement;
+				camera->position.x += cos(yRotRadian) * movementSpeed * sidewardMovement;
 			}
 
 			if(upwardMovement != 0) {
-				yPos += movementSpeed * upwardMovement;
+				camera->position.y += movementSpeed * upwardMovement;
 			}
 		}
 	}
@@ -272,36 +267,8 @@ public:
 
 		// You can skip the rendering if you neither call initializeRendering, nor finishRendering.
 		this->initializeRendering();
-
-#ifdef OPENLIMA_PRECISE_REAL
-		glRotated(xRot, 1.0, 0.0, 0.0);
-		glRotated(yRot, 0.0, 1.0, 0.0);
-		glTranslated(xPos, yPos, zPos);
-
-		glTranslated(-10.0, 0.0, 0.0);
-		for(size_t x = 0; x < 6; x++) {
-			glTranslated(0.0, 10.0, 0.0);
-			for(size_t y = 0; y < 6; y++) {
-				myRenderable->render();
-				glTranslated(0.0, -4.0, 0.0);
-			}
-			glTranslated(4.0, 14.0, 0.0);
-		}
-#else
-		glRotatef(xRot, 1.0f, 0.0f, 0.0f);
-		glRotatef(yRot, 0.0f, 1.0f, 0.0f);
-		glTranslatef(xPos, yPos, zPos);
-
-		glTranslatef(-10.0f, 0.0f, 0.0f);
-		for(size_t x = 0; x < 6; x++) {
-			glTranslatef(0.0f, 10.0f, 0.0f);
-			for(size_t y = 0; y < 6; y++) {
-				myRenderable->render();
-				glTranslatef(0.0f, -4.0f, 0.0f);
-			}
-			glTranslatef(4.0f, 14.0f, 0.0f);
-		}
-#endif
+		
+		env.render(Vector2i(this->getWidth(), this->getHeight()));
 
 		this->finishRendering();
 	}
@@ -339,10 +306,10 @@ OPENLIMA_MAIN(int argc, char** argv) {
 
 	resourceManager->registerReader<StaticMesh>(new WavefrontObjReader);
 	boost::shared_ptr<IRenderable> renderable =
-		resourceManager->getResource<StaticMesh>("monkey.obj");
+		resourceManager->getResource<StaticMesh>("sampleTerrain.obj");
 
 	if(!renderable) {
-		std::cout << "Failed to load resource: \"./resources/monkey.obj\"" << std::endl;
+		std::cout << "Failed to load resource: \"./resources/sampleTerrain.obj\"" << std::endl;
 		return 1;
 	}
 
