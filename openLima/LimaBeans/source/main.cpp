@@ -28,6 +28,9 @@
 #include <openlima/sil/KeyMapper.hpp>
 #include <openlima/util/ResourceManager.hpp>
 #include <openlima/util/FileResourceManager.hpp>
+#include <openlima/util/Color.hpp>
+#include <openlima/graphics/PointLight.hpp>
+#include <openlima/graphics/SpotLight.hpp>
 
 using namespace openlima::graphics;
 using namespace openlima::sil;
@@ -43,8 +46,8 @@ void showHelp();
 class MyWindow : public LimaWindow {
 public:
 	boost::shared_ptr<PerspectiveCamera> camera;
+	boost::shared_ptr<SpotLight> cameraLight;
 	Environment env;
-
 	dtime lastMessage;
 	dtime time;
 	dtime amount;
@@ -56,9 +59,9 @@ public:
 	MyWindow(boost::shared_ptr<IRenderable> renderable,
 			const char* title, GLfloat* lightColor)
 			: LimaWindow(title, 640, 480) {
-
-		camera = boost::make_shared<PerspectiveCamera>(OPENLIMA_REAL(75.0));
-		camera->position.z = -30;
+		
+		camera = boost::make_shared<PerspectiveCamera>(OPENLIMA_REAL(90.0));
+		camera->position.z = 30;
 		env.setCamera(camera);
 
 		boost::shared_ptr<CachingRenderNode> node = boost::make_shared<CachingRenderNode>();
@@ -70,25 +73,40 @@ public:
 		time = 0;
 		amount = 0;
 
-		// All gl-functions will be removed so users of openlima don't have to deal with them
-		// directly, instead they'll use abstractions.
 
-		// For instance, those flags will come to the LimaWindow-class and can be modified by
-		// different methods:
-		glEnable(GL_SMOOTH);
-		glEnable(GL_DEPTH_TEST);
-		glEnable(GL_NORMALIZE);
-		glEnable(GL_CULL_FACE);
-		glEnable(GL_LIGHTING);
+		glShadeModel(GL_SMOOTH);
 
-		// The lightning system will completely be extracted into openlima::graphics
-		GLfloat ambientColor[]= {0.2f, 0.2f, 0.2f, 1.0f};
-		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientColor);
+		env.setAmbientColor(Color(0.2f, 0.2f, 0.2f, 1.0f));
 
-		glEnable(GL_LIGHT0);
-		GLfloat lightPos[] = {0.0f, 0.0f, 0.0f, 1.0f};
-		glLightfv(GL_LIGHT0, GL_DIFFUSE, lightColor);
-		glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
+		cameraLight = boost::make_shared<SpotLight>(
+			Vector3f(0, 0, 30),
+			Vector3f(0, 0, -1),
+			OPENLIMA_REAL(0.0),
+			OPENLIMA_REAL(30.0),
+			Color(0, 0, 0, 1),
+			Color(1, 1, 1, 1),
+			Color(0, 0, 0, 1)
+		);
+
+		env.addLight(cameraLight);
+
+		env.addLight(
+			boost::make_shared<PointLight>(
+				Vector3f(10, 0, 0),
+				Color(0, 0, 0, 1),
+				Color(0.05f, 0.15f, 0.2f, 1),
+				Color(0, 0, 0, 1)
+			)
+		);
+
+		env.addLight(
+			boost::make_shared<PointLight>(
+				Vector3f(-10, 0, 0),
+				Color(0, 0, 0, 1),
+				Color(0.4f, 0.7f, 0.4f, 1),
+				Color(0, 0, 0, 1)
+			)
+		);
 
 		other = NULL;
 
@@ -113,6 +131,16 @@ public:
 				camera->rotation.x = -80;
 			if(camera->rotation.x > 80)
 				camera->rotation.x = 80;
+
+			Real rotX = (camera->rotation.x) / 180 * OPENLIMA_REAL(3.1415926535);
+			Real rotY = (camera->rotation.y + 180) / 180 * OPENLIMA_REAL(3.1415926535);
+
+			Real cy = -sin(rotX);
+			Real cz = cos(rotX);
+
+			Vector3f dir(cz * sin(-rotY), cy, cz * cos(-rotY));
+
+			cameraLight->direction = dir;
 		}
 	}
 
@@ -145,6 +173,14 @@ public:
 						 "          Z: " << camera->position.z << std::endl <<
 						 " X Rotation: " << camera->rotation.x << std::endl <<
 						 " Y Rotation: " << camera->rotation.y << std::endl;
+		}
+
+		if(e.getButton() == KeyboardButtonType::KEY_F) {
+			if(cameraLight->diffuse.r == 0) {
+				cameraLight->diffuse = Color(1, 1, 1, 1);
+			} else {
+				cameraLight->diffuse = Color(0, 0, 0, 0);
+			}
 		}
 		
 
@@ -212,22 +248,22 @@ public:
 			int upwardMovement = 0;
 
 			if(this->getKeyboard()->isPressed(KeyboardButtonType::KEY_W))
-				forwardMovement++;
-
-			if(this->getKeyboard()->isPressed(KeyboardButtonType::KEY_S))
 				forwardMovement--;
 
-			if(this->getKeyboard()->isPressed(KeyboardButtonType::KEY_A))
-				sidewardMovement++;
+			if(this->getKeyboard()->isPressed(KeyboardButtonType::KEY_S))
+				forwardMovement++;
 
-			if(this->getKeyboard()->isPressed(KeyboardButtonType::KEY_D))
+			if(this->getKeyboard()->isPressed(KeyboardButtonType::KEY_A))
 				sidewardMovement--;
 
+			if(this->getKeyboard()->isPressed(KeyboardButtonType::KEY_D))
+				sidewardMovement++;
+
 			if(this->getKeyboard()->isPressed(KeyboardButtonType::KEY_Q))
-				upwardMovement--;
+				upwardMovement++;
 
 			if(this->getKeyboard()->isPressed(KeyboardButtonType::KEY_E))
-				upwardMovement++;
+				upwardMovement--;
 
 			if(this->getKeyboard()->isPressed(KeyboardButtonType::KEY_SPACE))
 				movementSpeed /= 5;
@@ -251,6 +287,8 @@ public:
 			if(upwardMovement != 0) {
 				camera->position.y += movementSpeed * upwardMovement;
 			}
+
+			cameraLight->position = camera->position;
 		}
 	}
 
@@ -306,14 +344,14 @@ OPENLIMA_MAIN(int argc, char** argv) {
 
 	resourceManager->registerReader<StaticMesh>(boost::make_shared<WavefrontObjReader>());
 	boost::shared_ptr<IRenderable> renderable =
-		resourceManager->getResource<StaticMesh>("sampleTerrain.obj");
+		resourceManager->getResource<StaticMesh>("randomObject.obj");
 
 	if(!renderable) {
-		std::cout << "Failed to load resource: \"./resources/sampleTerrain.obj\"" << std::endl;
+		std::cout << "Failed to load resource: \"./resources/randomObject.obj\"" << std::endl;
 		return 1;
 	}
 
-	GLfloat lightColors1[] = {0.5f, 1.0f, 0.5f, 1.0f};
+	GLfloat lightColors1[] = {1.0f, 1.0f, 1.0f, 1.0f};
 	MyWindow window1(renderable, "Window 1", lightColors1);
 	//GLfloat lightColors2[] = {1.0f, 0.5f, 0.5f, 1.0f};
 	//MyWindow window2(renderable, "Window 2", lightColors2);

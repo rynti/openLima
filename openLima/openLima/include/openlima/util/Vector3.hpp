@@ -147,6 +147,10 @@ namespace openlima {
 				return this->x != other.x || this->y != other.y || this->z != other.z;
 			}
 
+			Vector3<T> operator -() const {
+				return Vector3(-this->x, -this->y, -this->z);
+			}
+
 			/**
 			 * Adds the given other vector to this vector.
 			 *
@@ -269,7 +273,7 @@ namespace openlima {
 		/**
 		 * A 3-dimensional vector of 32-bit integers.
 		 */
-		typedef Vector3<int> Vector3i;
+		typedef Vector3<i32> Vector3i;
 
 		/**
 		 * A 3-dimensional vector of floating point numbers.

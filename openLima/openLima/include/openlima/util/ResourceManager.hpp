@@ -29,14 +29,20 @@ namespace openlima {
 		 * @sa	FileResourceManager
 		 */
 		class ResourceManager {
+		private:
+
+			typedef std::map<const std::type_info*,
+				std::vector<boost::shared_ptr<IAnonymousResourceReader> > > ReaderMapType;
+			
+			typedef std::map<const std::string, boost::weak_ptr<void> > CacheMapType;
+
 		protected:
 
 			/** The registered readers. */
-			std::map<const std::type_info*,
-				std::vector<boost::shared_ptr<IAnonymousResourceReader> > > registeredReaders;
+			ReaderMapType registeredReaders;
 
 			/** The cached resources. */
-			std::map<const std::string, boost::weak_ptr<void> > cachedResources;
+			CacheMapType cachedResources;
 
 
 			/**
@@ -116,8 +122,11 @@ namespace openlima {
 			OPENLIMA_DLL boost::shared_ptr<T>
 					getResource(const std::string& name) {
 
-				if(cachedResources.count(name) > 0 && !cachedResources[name].expired()) {
-					return boost::static_pointer_cast<T>(cachedResources[name].lock());
+				const CacheMapType::iterator i = cachedResources.find(name);
+				if(i != cachedResources.end()) {
+					boost::shared_ptr<void> ptr = i->second.lock();
+					if(ptr)
+						return boost::static_pointer_cast<T>(ptr);
 				}
 
 				return getRefreshedResource<T>(name);
@@ -134,9 +143,12 @@ namespace openlima {
 			template <typename ResourceType, typename ReaderType>
 			OPENLIMA_DLL boost::shared_ptr<ResourceType>
 					getResource(const std::string& name) {
-
-				if(cachedResources.count(name) > 0 && !cachedResources[name].expired()) {
-					return boost::static_pointer_cast<ResourceType>(cachedResources[name].lock());
+				
+				const CacheMapType::iterator i = cachedResources.find(name);
+				if(i != cachedResources.end()) {
+					boost::shared_ptr<void> ptr = i->second.lock();
+					if(ptr)
+						return boost::static_pointer_cast<T>(ptr);
 				}
 
 				return getRefreshedResource<ResourceType, ReaderType>(name);

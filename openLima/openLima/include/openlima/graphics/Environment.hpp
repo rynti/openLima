@@ -7,12 +7,16 @@
 #ifndef OPENLIMA_GRAPHICS_ENVIRONMENT_HPP
 #define OPENLIMA_GRAPHICS_ENVIRONMENT_HPP
 
+#include <vector>
+
 #include <boost/smart_ptr.hpp>
 
 #include <openlima/util/macros.hpp>
 #include <openlima/util/Vector2.hpp>
+#include <openlima/util/Color.hpp>
 #include <openlima/graphics/RenderNode.hpp>
 #include <openlima/graphics/ICamera.hpp>
+#include <openlima/graphics/ILight.hpp>
 #include <openlima/graphics/IRenderable.hpp>
 #include <openlima/graphics/IProjectionModifier.hpp>
 
@@ -35,6 +39,12 @@ namespace openlima {
 
 			/** A projection modifier, that sets up the projection matrix. */
 			boost::shared_ptr<IProjectionModifier> projectionModifier;
+
+			/** The lights in this environment. */
+			std::vector<boost::shared_ptr<ILight> > lights;
+			
+			/** The color of the ambience in this environment. */
+			openlima::util::Color ambientColor;
 
 		public:
 			
@@ -92,6 +102,39 @@ namespace openlima {
 			 * @return The root render node of this environment.
 			 */
 			OPENLIMA_DLL RenderNode& getRenderNode();
+			
+			/**
+			 * Returns the color of the ambient light of this environment.
+			 *
+			 * @return	The color of the ambient light of this environment.
+			 */
+			OPENLIMA_DLL openlima::util::Color getAmbientColor() const;
+			
+			/**
+			 * Sets the color of the ambient light for this environment.
+			 *
+			 * @param ambientColor	The color for the ambient light.
+			 */
+			OPENLIMA_DLL void setAmbientColor(const openlima::util::Color ambientColor);
+			
+			/**
+			 * Adds the given light to this environment.
+			 *
+			 * @param light	The light.
+			 */
+			OPENLIMA_DLL void addLight(boost::shared_ptr<ILight> light);
+			
+			/**
+			 * Removes the given light from this environment.
+			 *
+			 * @param light	The light.
+			 */
+			OPENLIMA_DLL void removeLight(boost::shared_ptr<ILight> light);
+			
+			/**
+			 * Removes all lights from this environment.
+			 */
+			OPENLIMA_DLL void clearLights();
 			
 			/**
 			 * Renders this environment.

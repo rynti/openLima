@@ -34,12 +34,12 @@ namespace openlima {
 			glRotated(rotation.x, 1.0, 0.0, 0.0);
 			glRotated(rotation.z, 0.0, 0.0, 1.0);
 			glRotated(rotation.y, 0.0, 1.0, 0.0);
-			glTranslated(position.x, position.y, position.z);
+			glTranslated(-position.x, -position.y, -position.z);
 #else
 			glRotatef(rotation.x, 1.0f, 0.0f, 0.0f);
 			glRotatef(rotation.z, 0.0f, 0.0f, 1.0f);
 			glRotatef(rotation.y, 0.0f, 1.0f, 0.0f);
-			glTranslatef(position.x, position.y, position.z);
+			glTranslatef(-position.x, -position.y, -position.z);
 #endif
 		}
 
