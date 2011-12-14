@@ -1,22 +1,22 @@
 // Copyright (C) 2011 Robert Boehm
-// This file is part of OpenLima.
+// This file is part of openLima.
 // 
 // You should have received a copy of the GNU Lesser General Public License
-// along with OpenLima. If not, see: <http://www.gnu.org/licenses/>.
+// along with openLima. If not, see: <http://www.gnu.org/licenses/>.
 
 #ifndef OPENLIMA_DOCS_HPP
 #define OPENLIMA_DOCS_HPP
 
 
 /**
- * @mainpage OpenLima
+ * @mainpage openLima
  * 			 
- * 			 <p>OpenLima is a powerful engine for games and is licensed under the terms of the GNU
+ * 			 <p>openLima is a powerful engine for games and is licensed under the terms of the GNU
  * 			 Lesser General Public License (LGPL).</p>
  * 			 
  * 			 <h2>Can I have more information about the license?</h2>
  * 			 
- * 			 <p>The LGPL, under which this project is licensed, makes OpenLima free to use in your
+ * 			 <p>The LGPL, under which this project is licensed, makes openLima free to use in your
  * 			 project, even if they may be with commercial purposes.</p>
  * 			 
  * 			 <p>You may ask, why the engine uses LGPL instead of GPL, well the reason is very
@@ -62,7 +62,7 @@ namespace openlima {
 	namespace util {}
 
 	/**
-	 * The SIL namespace is the interface between the operating system and openlima.
+	 * The SIL namespace is the interface between the operating system and openLima.
 	 * 
 	 * SIL stands for "System independency layer" and it does exactly what the name says:
 	 * It provides classes that are for the outside system-independent, but inside they work
