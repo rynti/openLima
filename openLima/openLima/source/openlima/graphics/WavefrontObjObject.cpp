@@ -11,7 +11,7 @@ namespace openlima {
 	namespace graphics {
 
 		void WavefrontObjObject::render() {
-			this->material->render(this->mesh);
+			//this->material->render(this->mesh);
 		}
 
 	}

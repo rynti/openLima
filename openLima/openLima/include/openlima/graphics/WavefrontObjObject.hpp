@@ -10,6 +10,8 @@
 #include <openlima/util/macros.hpp>
 #include <boost/smart_ptr.hpp>
 #include <openlima/graphics/IRenderable.hpp>
+#include <openlima/graphics/StaticMesh.hpp>
+#include <openlima/graphics/WavefrontObjMaterial.hpp>
 
 
 namespace openlima {
