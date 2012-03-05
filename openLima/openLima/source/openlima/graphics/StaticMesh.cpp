@@ -17,11 +17,10 @@ namespace openlima {
 		StaticMesh::StaticMesh(vector<openlima::util::Vector3f> vertices,
 			vector<openlima::util::Vector3f> normals,
 			vector<openlima::util::Vector3i> vertexIndices,
-			vector<openlima::util::Vector3i> normalIndices) {
-			this->vertices = vertices;
-			this->normals = normals;
-			this->vertexIndices = vertexIndices;
-			this->normalIndices = normalIndices;
+			vector<openlima::util::Vector3i> normalIndices,
+			bool smoothShading/* = true*/)
+			: vertices(vertices), normals(normals), vertexIndices(vertexIndices),
+			  normalIndices(normalIndices), smoothShading(smoothShading) {
 		}
 
 		void StaticMesh::render() {

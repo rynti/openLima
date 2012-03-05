@@ -76,6 +76,7 @@ namespace openlima {
 			glEnable(GL_NORMALIZE);
 			glEnable(GL_CULL_FACE);
 			glEnable(GL_LIGHTING);
+			//glEnable(GL_COLOR_MATERIAL);
 
 
 			glMatrixMode(GL_PROJECTION);
@@ -92,7 +93,7 @@ namespace openlima {
 				ambientColor.b,
 				ambientColor.a,
 			};
-			glLightModelfv(GL_AMBIENT, ambientColorFv);
+			glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientColorFv);
 
 			for(size_t i = 0; i < 8; i++) {
 				if(i < lights.size()) {

@@ -41,6 +41,8 @@ namespace openlima {
 
 		public:
 
+			bool smoothShading;
+
 			/** The vertices. */
 			std::vector<openlima::util::Vector3f> vertices;
 
@@ -60,11 +62,13 @@ namespace openlima {
 			 * @param	normals		 	The normals.
 			 * @param	vertexIndices	The vertex indices.
 			 * @param	normalIndices	The normal indices.
+			 * @param	smoothShading	Determines if this mesh should be drawn with smooth shading.
 			 */
 			OPENLIMA_DLL StaticMesh(std::vector<openlima::util::Vector3f> vertices,
 				std::vector<openlima::util::Vector3f> normals,
 				std::vector<openlima::util::Vector3i> vertexIndices,
-				std::vector<openlima::util::Vector3i> normalIndices);
+				std::vector<openlima::util::Vector3i> normalIndices,
+				bool smoothShading = true);
 
 			/**
 			 * Renders this static mesh.

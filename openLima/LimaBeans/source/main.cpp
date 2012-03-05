@@ -31,6 +31,7 @@
 #include <openlima/util/Color.hpp>
 #include <openlima/graphics/PointLight.hpp>
 #include <openlima/graphics/SpotLight.hpp>
+#include "openlima/graphics/SimplePass.hpp"
 
 using namespace openlima::graphics;
 using namespace openlima::sil;
@@ -51,6 +52,7 @@ public:
 	dtime lastMessage;
 	dtime time;
 	dtime amount;
+	SimplePass pass;
 
 	bool fpsMode;
 
@@ -58,15 +60,18 @@ public:
 
 	MyWindow(boost::shared_ptr<IRenderable> renderable,
 			const char* title, GLfloat* lightColor)
-			: LimaWindow(title, 640, 480) {
+			: LimaWindow(title, 640, 480),
+			  pass(Color(0.0f, 0.0f, 0.0f, 1.0f),
+				Color(0.0f, 0.0f, 0.8f, 1.0f),
+				Color(1.0f, 1.0f, 1.0f, 1.0f),
+				Color(0.0f, 0.0f, 0.0f, 1.0f),
+				96.0f) {
 		
 		camera = boost::make_shared<PerspectiveCamera>(OPENLIMA_REAL(90.0));
 		camera->position.z = 30;
 		env.setCamera(camera);
 
-		boost::shared_ptr<CachingRenderNode> node = boost::make_shared<CachingRenderNode>();
-		node->addChild(renderable);
-		env.getRenderNode().addChild(node);
+		env.getRenderNode().addChild(renderable);
 
 		fpsMode = false;
 		lastMessage = 5;
@@ -74,7 +79,6 @@ public:
 		amount = 0;
 
 
-		glShadeModel(GL_SMOOTH);
 
 		env.setAmbientColor(Color(0.2f, 0.2f, 0.2f, 1.0f));
 
@@ -83,14 +87,14 @@ public:
 			Vector3f(0, 0, -1),
 			OPENLIMA_REAL(0.0),
 			OPENLIMA_REAL(30.0),
-			Color(0, 0, 0, 1),
-			Color(1, 1, 1, 1),
-			Color(0, 0, 0, 1)
+			Color(0.2f, 0.2f, 0.2f, 1),
+			Color(1.0f, 1.0f, 1.0f, 1),
+			Color(1.0f, 1.0f, 1.0f, 1)
 		);
 
 		env.addLight(cameraLight);
 
-		env.addLight(
+		/*env.addLight(
 			boost::make_shared<PointLight>(
 				Vector3f(10, 0, 0),
 				Color(0, 0, 0, 1),
@@ -106,7 +110,7 @@ public:
 				Color(0.4f, 0.7f, 0.4f, 1),
 				Color(0, 0, 0, 1)
 			)
-		);
+		);*/
 
 		other = NULL;
 
@@ -306,7 +310,9 @@ public:
 		// You can skip the rendering if you neither call initializeRendering, nor finishRendering.
 		this->initializeRendering();
 		
+		pass.setProperties();
 		env.render(Vector2i(this->getWidth(), this->getHeight()));
+		pass.unsetProperties();
 
 		this->finishRendering();
 	}
@@ -343,9 +349,16 @@ OPENLIMA_MAIN(int argc, char** argv) {
 		new FileResourceManager(resourcesDir.string()));
 
 	resourceManager->registerReader<StaticMesh>(boost::make_shared<WavefrontObjReader>());
-	boost::shared_ptr<IRenderable> renderable =
+	boost::shared_ptr<RenderNode> renderable = boost::make_shared<CachingRenderNode>();
+	boost::shared_ptr<IRenderable> randomObject =
 		resourceManager->getResource<StaticMesh>("randomObject.obj");
-
+	boost::shared_ptr<IRenderable> monkey =
+		resourceManager->getResource<StaticMesh>("monkey.obj");
+	boost::shared_ptr<RenderNode> monkeyTransfromer = boost::make_shared<TranslatingRenderNode>(Vector3f(5, 0, 0));
+	monkeyTransfromer->addChild(monkey);
+	renderable->addChild(randomObject);
+	renderable->addChild(monkeyTransfromer);
+	
 	if(!renderable) {
 		std::cout << "Failed to load resource: \"./resources/randomObject.obj\"" << std::endl;
 		return 1;

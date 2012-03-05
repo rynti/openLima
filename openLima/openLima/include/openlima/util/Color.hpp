@@ -21,16 +21,16 @@ namespace openlima {
 		public:
 
 			/** The red component. */
-			Real r;
+			float r;
 
 			/** The green component. */
-			Real g;
+			float g;
 
 			/** The blue component. */
-			Real b;
+			float b;
 
 			/** The alpha component. */
-			Real a;
+			float a;
 
 
 			/**
@@ -42,7 +42,7 @@ namespace openlima {
 			 * @param	b	The blue component.
 			 * @param	a	The alpha component.
 			 */
-			OPENLIMA_DLL Color(Real r, Real g, Real b, Real a);
+			OPENLIMA_DLL Color(float r, float g, float b, float a);
 
 			/**
 			 * Copies the given color.
@@ -102,6 +102,13 @@ namespace openlima {
 			 * 1.0 equals 255 and 0.0 equals 0.
 			 */
 			OPENLIMA_DLL u8 getIntA() const;
+
+			/**
+			 * Fills the given vector with the color data.
+			 *
+			 * @param	vector	The vector that should get the color data.
+			 */
+			OPENLIMA_DLL void fill(float* vector) const;
 
 			/**
 			 * Compares this color with the given other color.

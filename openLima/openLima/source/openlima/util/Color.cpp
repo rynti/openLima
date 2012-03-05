@@ -10,7 +10,7 @@
 namespace openlima {
 	namespace util {
 		
-		Color::Color(Real r, Real g, Real b, Real a) : r(r), g(g), b(b), a(a) {
+		Color::Color(float r, float g, float b, float a) : r(r), g(g), b(b), a(a) {
 			// Empty
 		}
 
@@ -42,19 +42,26 @@ namespace openlima {
 		}
 
 		u8 Color::getIntR() const {
-			return static_cast<u8>(this->r * OPENLIMA_REAL(255.0));
+			return static_cast<u8>(this->r * 255.0f);
 		}
 
 		u8 Color::getIntG() const {
-			return static_cast<u8>(this->g * OPENLIMA_REAL(255.0));
+			return static_cast<u8>(this->g * 255.0f);
 		}
 
 		u8 Color::getIntB() const {
-			return static_cast<u8>(this->b * OPENLIMA_REAL(255.0));
+			return static_cast<u8>(this->b * 255.0f);
 		}
 
 		u8 Color::getIntA() const {
-			return static_cast<u8>(this->a * OPENLIMA_REAL(255.0));
+			return static_cast<u8>(this->a * 255.0f);
+		}
+
+		void Color::fill(float* vector) const {
+			vector[0] = this->r;
+			vector[1] = this->g;
+			vector[2] = this->b;
+			vector[3] = this->a;
 		}
 
 		bool Color::operator ==(const Color& other) const {
